@@ -14,16 +14,13 @@
 Route::group(['middleware' => ['web']], function () {
 
     Route::get('/', function () {
-        return view('welcome');
+        return view('login');
     });
 
-    Route::get('login', function () {
-        return View::make('login');
-    });
+  	Route::post('/login', 'UserController@login');
+  	Route::get('/dashboard', 'UserController@dashboard');
+  	Route::get('/logout', 'UserController@logout');
 
-    Route::get('dashboard', function () {
-        return View::make('dashboard');
-    });
 });
 
 

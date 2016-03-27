@@ -1,30 +1,31 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>Login</title>
-		<link rel="stylesheet" href="./css/styles.css">
+<?php
+require("header.php");
+?>
 
-		<script>
-			function httpGet(theUrl){
-				var xmlHttp = new XMLHttpRequest();
-				xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
-				xmlHttp.send( null );
-				var string = JSON.stringify(xmlHttp.responseText);
-				console.log(string);
-				return xmlHttp.responseText;
-			}
-		</script>
-	</head>
+<div class="container">
+	<div class="col-md-6 well" style="margin:20px auto; float:none;">
+		<form action="/login" method="post">
+			<?php echo csrf_field(); ?>
+			<?php if (session('loginErrors')) : ?>
+				<div class="alert alert-danger">
+					<p>Email or password is incorrect. Please try again.</p>
+				</div>
+			<?php endif ?>
+			<div class="form-group">
+				<label class="control-label" for="email">Email: </label>
+				<input class="form-control" type="text" name="email">
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="password">Password: </label>
+				<input class="form-control" type="password" name="password">
+			</div>
+			<button class="btn btn-success" type="submit">Login</button>
+		</form>
+		<br>
+		<a href="forgot_password.php">Forgot your password? Click here</a>
+	</div>
+</div>
 
-   	<body>
-		<div class = "widget" id="login">
-			<h1>Welcome to BudgetMe!</h1><br>
-			<h2>Login</h2> <br>
-			<form action="loginScript.php" method = "POST">
-				Username:<input type="text" id = "loginUserField" name = "user" required><br><br>
-				Password:<input type="password" id = "loginPasswordField" name = "password" required><br><br>
-				<input type="submit" id = "loginSubmitButton" value="Login">
-			</form>
-		</div>
-	</body>
-</html>	
+
+</body>
+</html>
