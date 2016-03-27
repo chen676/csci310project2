@@ -17,21 +17,10 @@ Route::group(['middleware' => ['web']], function () {
         return view('login');
     });
 
-<<<<<<< HEAD
   	Route::post('/login', 'UserController@login');
   	Route::get('/dashboard', 'UserController@dashboard');
   	Route::get('/logout', 'UserController@logout');
 
-
-=======
-    Route::get('login', function () {
-        return View::make('login');
-    });
-
-    Route::get('dashboard', function () {
-        return View::make('dashboard');
-    });
->>>>>>> master
 });
 
 
