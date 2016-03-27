@@ -11,16 +11,19 @@ class UserController extends Controller
 {
     public function login(Request $request)
     {
-    	$user = User::where('email', '=', $request->input('email'))
-    	->where('password', '=', $request->input('password')
+    	$user = User::with('accounts', 'budgets')
+    	->where('email', '=', $request->input('email'))
+    	->where('password', '=', $request->input('password'))
     	->get();
 
-    	if ($user)
+    	if (count($user) == 1)
     	{
-    		return view('dashboard');
+    		return view('dashboard', [
+    			'user' => $user
+    		]);
     	}
 
     	//user info is incorrect, display errors
-    	return redirect('login')->with('success', false);
+    	return redirect('/')->with('loginErrors', true);
     }
 }
