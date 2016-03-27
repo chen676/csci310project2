@@ -17,7 +17,9 @@ Route::group(['middleware' => ['web']], function () {
         return view('login');
     });
 
-  	Route::post('/dashboard', 'UserController@login');
+  	Route::post('/login', 'UserController@login');
+  	Route::get('/dashboard', 'UserController@dashboard');
+  	Route::get('/logout', 'UserController@logout');
 
 
 });

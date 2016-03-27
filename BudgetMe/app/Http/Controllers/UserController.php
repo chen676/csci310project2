@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Models\User;
+use Session;
 
 class UserController extends Controller
 {
@@ -18,12 +19,29 @@ class UserController extends Controller
 
     	if (count($user) == 1)
     	{
-    		return view('dashboard', [
-    			'user' => $user
-    		]);
+    		Session::put('user', $user);
+    		return redirect('/dashboard');
     	}
 
     	//user info is incorrect, display errors
     	return redirect('/')->with('loginErrors', true);
+    }
+
+    public function dashboard()
+    {
+    	if (is_null(Session::get('user')))
+    	{
+    		return redirect('/');
+    	}
+
+    	return view('dashboard', [
+    		'user' => Session::get('user')
+    	]);
+    }
+
+    public function logout(Request $request)
+    {
+    	Session::forget('user');
+    	return redirect('/');
     }
 }

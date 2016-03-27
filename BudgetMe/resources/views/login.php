@@ -4,7 +4,7 @@ require("header.php");
 
 <div class="container">
 	<div class="col-md-6 well" style="margin:20px auto; float:none;">
-		<form action="/dashboard" method="post">
+		<form action="/login" method="post">
 			<?php echo csrf_field(); ?>
 			<?php if (session('loginErrors')) : ?>
 				<div class="alert alert-danger">
