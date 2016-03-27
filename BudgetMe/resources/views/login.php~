@@ -21,7 +21,7 @@
 			<h1>Welcome to BudgetMe!</h1><br>
 			<h2>Login</h2> <br>
 			<form action="loginScript.php" method = "POST">
-				Username:<input type="text" id = "loginUserField" name = "user" required><br><br>
+				Username:<input type="text" id = "loginserField" name = "user" required><br><br>
 				Password:<input type="password" id = "loginPasswordField" name = "password" required><br><br>
 				<input type="submit" id = "loginSubmitButton" value="Login">
 			</form>
