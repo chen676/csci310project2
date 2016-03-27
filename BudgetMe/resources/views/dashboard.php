@@ -154,7 +154,7 @@ JQuery Plugin for idle timeout
 			<div class="widget" id="budget">
 				<h2>Budget</h2>
 				<div id="budgetContent">
-					<table width="100%">
+					<table width="100%" id="BudgetTable">
 						<tr>
 							<td>Name1</td>
 							<td><input type="text" id="name1input"></td>
