@@ -29,7 +29,7 @@ JQuery Plugin for idle timeout
 
 		<title>Your Dashboard</title>
 		<link rel="icon" href="images/favicon.png">
-		<link rel="stylesheet" href="loginPageStyle.css">
+		<link rel="stylesheet" href="./css/styles.css">
 
 		<script>
 			function startTime() {
