@@ -20,6 +20,7 @@ Route::group(['middleware' => ['web']], function () {
   	Route::post('/login', 'UserController@login');
   	Route::get('/dashboard', 'UserController@dashboard');
   	Route::get('/logout', 'UserController@logout');
+  	Route::post('clickBudgetButton','BudgetController@getBudgets');
 
 });
 
