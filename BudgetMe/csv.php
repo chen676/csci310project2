@@ -1,23 +1,22 @@
 <?php
- 
-	//session_start();
-	
-	uploadCSVToServer();
-​
-	function uploadCSVToServer(){
+
+	function uploadCSV(){
 
 		// FILEPATH BELOW TO CHANGE
-		readfile("http://localhost/Frontend/dashboard.html");
+		//readfile("http://localhost/Frontend/dashboard.html");
 		//modified code from http://www.w3schools.com/php/php_file_upload.asp
 		$target_dir = "";
+		$target_name = "test.csv";
+		$target_file = $target_dir . $target_name;
 
-		// FILENAME MIGHT CHANGE BELOW
-		$target_file = $target_dir . "temp.csv";
+		/* allow these comments once the html form is created
+
+
 		$uploadOk = 1;
-		$imageFileType = pathinfo(basename($_FILES["fileToUpload"]["name"]),PATHINFO_EXTENSION);
+		$imageFileType = pathinfo(basename($_FILES[$target_name]["name"]),PATHINFO_EXTENSION);
 		
 		// Check file size
-		if ($_FILES["fileToUpload"]["size"] > 500000) {
+		if ($_FILES[$target_name]["size"] > 500000) {
 			//echo "Sorry, your file is too large.";
 			$message =  "Sorry, your file is too large.";
 			echo "<script type='text/javascript'>alert('$message');</script>";
@@ -36,7 +35,7 @@
 			
 		// if everything is ok, try to upload file
 		} else {
-			if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+			if (move_uploaded_file($_FILES[$target_name]["tmp_name"], $target_file)) {
 				//echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
 				$message =  "Portfolio imported sucessfully!";
 				echo "<script type='text/javascript'>alert('$message');</script>";
@@ -46,10 +45,13 @@
 				echo "<script type='text/javascript'>alert('$message');</script>";
 			}
 		}
+		*/
+
+		return parseCSV($target_file);
 		
 	}
 	// parse the csv file for values
-	function parseCSVToArrays($target_file){
+	function parseCSV($target_file){
 
 		$transactions = array();
 
@@ -63,18 +65,20 @@
 		}
 		fclose($file);
 
+		/* debugging echos
 		foreach($transactions as $single){
 			echo "CATEGORY=" . $single[0] . ", AMOUNT=" . $single[1] . ", MERCHANT=" . $single[2] . ", DATE=" . $single[3];
 			echo "<br>";
 		}
+		*/
 
 		/* OVERALL FORMAT OF TRANSACTIONS MULTIDIMENSIONAL ARRAY
 
-			FOOD | 300 | RALPHS | 11/12/1996
-			BILLS | 1000 | USC | 12/03/2005
+			Food | 300 | Ralph's | 11/12/1996
+			Bills | 1000 | USC | 12/03/2005
 
 			transactions[0] would return the entire first array
-			transactions[0][2] would return "RALPHS"
+			transactions[0][2] would return "Ralph's"
 			transactions[1][1] would return 1000
 
 		*/
