@@ -57,7 +57,7 @@ class UserController extends Controller
 		$transactionSet = array_merge($transactionSet, $transaction);
 	}
 
-	return redirect('/sortTransactionSetByDate'); //default sort by date, and redirect to main page
+	sortTransactionSetByDate(); //default sort by date, and redirect to main page
     }
 
     public function sortTransactionSetByDate()	

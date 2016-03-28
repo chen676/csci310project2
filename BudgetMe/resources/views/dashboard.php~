@@ -70,13 +70,39 @@ require("navbar.php");
          <div id="accountPanel">
 			   <div class="widget" id="transactionHistory">
 				   <h2>Transaction History</h2><br>
-				   <form action="http://localhost/Frontend/buySellStock.php" method = "POST">
-				   <input type="text" placeholder="Ticker" name = "ticker" size = "2" required>
-				   <input type="text" placeholder="Company Name" name = "compName" size = "6" required><br><br>
-				   <input type="text" placeholder="Quantity" name = "quantity" size = "10" required><br><br>
-				   <input type="submit" name = "action" value="Buy" id="buybutton">
-				   <input type="submit" name = "action" value="Sell" id="sellbutton">
-				   </form>
+				   <table>	
+					<tr>
+						<th>Category</th>
+						<th>Amount</th>
+						<th>Merchant</th>
+						<th>Date</th>
+						<th>Account</th>
+					</tr>
+
+					<?php
+						foreach($transactionSet as $trans)
+						{
+							echo "<tr>";
+							echo "<td>";
+							echo $trans['category'];
+							echo "</td>";
+							echo "<td>";
+							echo $trans['amount'];
+							echo "</td>";
+							echo "<td>";
+							echo $trans['merchant'];
+							echo "</td>";
+							echo "<td>";
+							echo $trans['date'];
+							echo "</td>";
+							echo "<td>";
+							echo $trans['account_id'];
+							echo "</td>";
+							echo "<tr>";
+						}
+					?>
+				   </table>
+
 			   </div>
 
 			   <div class="widget" id="accountList">
@@ -89,10 +115,8 @@ require("navbar.php");
 					<button class="btn btn-success" id="addAccountSubmitButton" type="submit">Add Account</button>
 				</form>
 				   <?php
-					use App\Models\Account;
-					$accounts = Account::with('user')
-					->where('user_id', '=', 1)	
-					->get();
+
+					$accounts = $user->accounts;
 	
 					$accounts = $accounts->toArray();
 					usort($accounts, function($lhs, $rhs)

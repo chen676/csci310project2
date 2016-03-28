@@ -70,6 +70,38 @@ require("navbar.php");
          <div id="accountPanel">
 			   <div class="widget" id="transactionHistory">
 				   <h2>Transaction History</h2><br>
+				   <table>	
+					<tr>
+						<th><a href="/sortTransactionSetByCategory">Category</a></th>
+						<th><a href="/sortTransactionSetByAmount">Amount</a></th>
+						<th>Merchant</th>
+						<th><a href="/sortTransactionSetByDate">Date</th>
+						<th>Account</th>
+					</tr>
+
+					<?php
+						foreach($transactionSet as $trans)
+						{
+							echo "<tr>";
+							echo "<td>";
+							echo $trans['category'];
+							echo "</td>";
+							echo "<td>";
+							echo $trans['amount'];
+							echo "</td>";
+							echo "<td>";
+							echo $trans['merchant'];
+							echo "</td>";
+							echo "<td>";
+							echo $trans['date'];
+							echo "</td>";
+							echo "<td>";
+							echo $trans['account_id'];
+							echo "</td>";
+							echo "<tr>";
+						}
+					?>
+				   </table>
 
 			   </div>
 
@@ -83,10 +115,8 @@ require("navbar.php");
 					<button class="btn btn-success" id="addAccountSubmitButton" type="submit">Add Account</button>
 				</form>
 				   <?php
-					use App\Models\Account;
-					$accounts = Account::with('user')
-					->where('user_id', '=', 1)	
-					->get();
+
+					$accounts = $user->accounts;
 	
 					$accounts = $accounts->toArray();
 					usort($accounts, function($lhs, $rhs)
