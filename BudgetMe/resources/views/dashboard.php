@@ -1,5 +1,10 @@
-<!doctype html>
+<?php
+require("header.php");
+require("navbar.php");
+require("budgetWidget.php");
+?>
 
+<<<<<<< HEAD
 <!-- JQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <link href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="Stylesheet"></link>
@@ -256,3 +261,5 @@ JQuery Plugin for idle timeout
 	</body>
 
 </html>	
+=======
+>>>>>>> e9689b737b516098d9400847aa1d15215f0558c2
