@@ -1,37 +1,13 @@
-<!doctype html>
-
-<!-- JQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<link href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="Stylesheet"></link>
-<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js" ></script>
-
-<!-- 
-https://github.com/marcuswestin/store.js 
-JQuery Plugin for cross browser local storage, for synchronizing idle timeout across tabs
--->
-<script src="plugins/store.min.js"></script>
-
-<!--
-https://github.com/JillElaine/jquery-idleTimeout
-JQuery Plugin for idle timeout
--->
-<script src="plugins/jquery-idleTimeout.min.js"></script>
-
-<!-- Load google chart's source -->
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-	    
-<!-- Load our chart javascript functions -->
-<script type="text/javascript" src="graphFunctions.js"></script>
+<?php
+require("header.php");
+require("navbar.php");
+?>
 
 <html>
 
 	<head>
-
-		<title>Your Dashboard</title>
-		<link rel="icon" href="images/favicon.png">
-		<link rel="stylesheet" href="loginPageStyle.css">
-
-		<script>
+		<link rel="stylesheet" href="./css/styles.css">
+    <script>
 			function startTime() {
 				var today = convertToEasternStandardTimeZone(new Date());
 				var date = today.toDateString();
@@ -42,19 +18,6 @@ JQuery Plugin for idle timeout
 				min = checkTime(min);
 				sec = checkTime(sec);
 				document.getElementById('clock').innerHTML = date + ",\n" + hour + ":" + min + ":" + sec + " EST";
-				disableBuySell(false);
-				if(hour == 9 && min < 30){
-					document.getElementById('marketstatus').innerHTML = "The stock market is closed"
-					//disableBuySell(true);
-				}
-				else if (hour <= 9){
-					document.getElementById('marketstatus').innerHTML = "The stock market is closed"
-					//disableBuySell(true);
-				}
-				else if (hour >= 16){
-					document.getElementById('marketstatus').innerHTML = "The stock market is closed"
-					//disableBuySell(true);
-				}
 				var t = setTimeout(startTime, 500);
 			}
 			function checkTime(i) {
@@ -62,10 +25,6 @@ JQuery Plugin for idle timeout
 					i = "0" + i;
 				}
 				return i;
-			}
-			function disableBuySell(allow) {
-				document.getElementById("buybutton").disabled = allow;
-				document.getElementById("sellbutton").disabled = allow;
 			}
 			function convertToEasternStandardTimeZone(date) {
 				//EST
@@ -75,66 +34,10 @@ JQuery Plugin for idle timeout
 				ESTDate = new Date(utc + (3600000*offset));
 				return ESTDate;
 			}
-			function populateBalance() {
-				var xhttp1 = new XMLHttpRequest();
-				xhttp1.onreadystatechange = function() {
-						if (xhttp1.readyState == 4 && xhttp1.status == 200) {
-						document.getElementById("balances").innerHTML = xhttp1.responseText;
-					}
-				};
-				xhttp1.open("GET", "http://localhost/Frontend/populateBalanceValue.php", true);
-				xhttp1.send();
-			}
-			function populatePortfolio() {
-				var xhttp = new XMLHttpRequest();
-				xhttp.onreadystatechange = function() {
-						if (xhttp.readyState == 4 && xhttp.status == 200) {
-						document.getElementById("portfoliocontent").innerHTML = xhttp.responseText;
-					}
-				};
-				xhttp.open("GET", "http://localhost/Frontend/retrievePortfolioYahoo.php", true);
-				xhttp.send();
-				$(document).ready(function(){
-					$("#portfolio").css('overflow-y', 'top');
-				});
-			}
-			function populateWatchlist() {
-				var xhttp1 = new XMLHttpRequest();
-				xhttp1.onreadystatechange = function() {
-						if (xhttp1.readyState == 4 && xhttp1.status == 200) {
-						document.getElementById("watchlistcontent").innerHTML = xhttp1.responseText;
-					}
-				};
-				xhttp1.open("GET", "http://localhost/Frontend/retrieveWatchlistYahoo.php", true);
-				xhttp1.send();
-				$(function(){
-					$("#watchlist").css('overflow-y', 'top');
-				});
-			}
-			// http://stackoverflow.com/questions/10943544/how-to-parse-an-rss-feed-using-javascript
-			// RSS feed of stock market news from MarketPulse
-			function populateNewsWidget() {
-				var xhttp1 = new XMLHttpRequest();
-				xhttp1.onreadystatechange = function() {
-						if (xhttp1.readyState == 4 && xhttp1.status == 200) {
-						document.getElementById("newscontent").innerHTML = xhttp1.responseText;
-					}
-				};
-				xhttp1.open("GET", "http://localhost/Frontend/retrieveNewsMarketpulse.php", true);
-				xhttp1.send();
-				$(function(){
-					$("#news").css('overflow-y', 'top');
-				});
-			}
 			function onLoad() {
 				startTime();
-				populateBalance();
-				populatePortfolio();
-				populateWatchlist();
-				populateNewsWidget();
 			}
-		</script>
-
+    </script>
 	</head>
 
 	<body onload="onLoad()">
@@ -145,7 +48,7 @@ JQuery Plugin for idle timeout
 
 			<div class="widget" id="account">
 				<h2>Your Account</h2>
-				<div id="clock">Sun Feb 21 2016<br>05:49:08</div>
+				<div id="clock"></div>
 				<span id="balances"></span>
 				<button type="button" id="logoutbutton">Logout</button><br><br>
 				<a class="button" href="manual.html">User Manual</a>
@@ -185,46 +88,7 @@ JQuery Plugin for idle timeout
          </div>
 		</div>
 
-		<script>
-			<!-- JQuery Autocomplete Tutorial
-			http://www.tutorialspoint.com/jqueryui/jqueryui_autocomplete.htm#autocomplete_methods -->
-			document.getElementById('tickersearchbar').oninput = function ()
-			{
-				$(function()
-				{
-					var searchVal = document.getElementById('tickersearchbar').value;
-					var url = 'http://d.yimg.com/aq/autoc?query=';
-					url += searchVal;
-					url += '&region=US&lang=en-US&callback=?'
-					var stocks = [];
-					$.getJSON(url, function(json)
-					{
-						var results = json.ResultSet.Result;
-						results.forEach(function(stock)
-						{
-							stocks.push(stock.symbol + " (" +stock.name + ")");
-						});
-					});
-		            $( "#tickersearchbar" ).autocomplete({
-		            	select:function(event, ui){
-		            		var ticker = ui.item.label.split(" ")[0];
-		            		$("#tickersearchbar").val(ticker);
-		            		return false;
-					    },
-					    source: stocks
-		            });
-		        });
-			}
-			function logout() {
-				window.location.href = "http://localhost/Frontend/logout.php";
-			}
-			document.getElementById("logoutbutton").onclick = function() {
-				// https://github.com/JillElaine/jquery-idleTimeout
-				// logs out of all Stock Portfolio Tracker tabs
-				$.fn.idleTimeout().logout();
-				logout();
-			}
-			// https://github.com/JillElaine/jquery-idleTimeout
+    <script>
 			// idle time-out
 			$(document).ready(function () {
 			    $(document).idleTimeout({
@@ -240,5 +104,4 @@ JQuery Plugin for idle timeout
 			});
 		</script>
 	</body>
-
 </html>	
