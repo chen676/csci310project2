@@ -70,22 +70,18 @@ require("navbar.php");
          <div id="accountPanel">
 			   <div class="widget" id="transactionHistory">
 				   <h2>Transaction History</h2><br>
-				   <form action="http://localhost/Frontend/buySellStock.php" method = "POST">
-				   <input type="text" placeholder="Ticker" name = "ticker" size = "2" required>
-				   <input type="text" placeholder="Company Name" name = "compName" size = "6" required><br><br>
-				   <input type="text" placeholder="Quantity" name = "quantity" size = "10" required><br><br>
-				   <input type="submit" name = "action" value="Buy" id="buybutton">
-				   <input type="submit" name = "action" value="Sell" id="sellbutton">
-				   </form>
+
 			   </div>
 
 			   <div class="widget" id="accountList">
 				   <h2>Your Accounts</h2>
-				   <form method = "POST" action="/add_account">
-				      <input type="text" id="addAcountNameField" required>
-				      <input type="submit" value="Add Account" id="addAcountSubmitButton">
-				   </form>
-
+				<form action="/create_account" method="post">
+					<?php echo csrf_field(); ?>
+					<div class="form-group">
+						<input class="form-control" type="text" id="addAccountField">
+					</div>
+					<button class="btn btn-success" id="addAccountSubmitButton" type="submit">Add Account</button>
+				</form>
 				   <?php
 					use App\Models\Account;
 					$accounts = Account::with('user')
@@ -126,25 +122,6 @@ require("navbar.php");
 		</script>
 	</body>
 </html>	
-
-<div class="container">
-	<div class="row" style="margin-top: 100px;">
-		<div class="col-md-4">
-			<h1>Accounts</h1>
-			<form action="/create_account" method="post">
-				<?php echo csrf_field(); ?>
-				<div class="form-group">
-					<label class="control-label" for="name">Account Type: </label>
-					<input class="form-control" type="text" name="name">
-				</div>
-				<button class="btn btn-success" type="submit">Add Account</button>
-			</form>
-			<?php foreach ($user->accounts as $account) : ?>
-				<h3><?php echo $account->name ?></h3>
-			<?php endforeach ?>
-		</div>
-	</div>
-</div>
 
 </body>
 </html>

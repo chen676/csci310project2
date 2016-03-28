@@ -35,7 +35,6 @@ require("navbar.php");
 			}
 			function onLoad() {
 				startTime();
-				
 			}
     </script>
 	</head>
@@ -82,11 +81,13 @@ require("navbar.php");
 
 			   <div class="widget" id="accountList">
 				   <h2>Your Accounts</h2>
-				   <form method = "POST" action="/add_account">
-				      <input type="text" id="addAcountNameField" required>
-				      <input type="submit" value="Add Account" id="addAcountSubmitButton">
-				   </form>
-
+				<form action="/create_account" method="post">
+					<?php echo csrf_field(); ?>
+					<div class="form-group">
+						<input class="form-control" type="text" id="addAccountField">
+					</div>
+					<button class="btn btn-success" id="addAccountSubmitButton" type="submit">Add Account</button>
+				</form>
 				   <?php
 					use App\Models\Account;
 					$accounts = Account::with('user')
@@ -127,3 +128,8 @@ require("navbar.php");
 		</script>
 	</body>
 </html>	
+
+</body>
+</html>
+
+

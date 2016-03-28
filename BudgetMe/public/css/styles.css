@@ -115,3 +115,7 @@ h2{
 	overflow-y: scroll;
 }
 
+.form-group{
+	width: 50%;
+}
+
