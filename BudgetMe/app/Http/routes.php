@@ -20,12 +20,7 @@ Route::group(['middleware' => ['web']], function () {
   	Route::post('/login', 'UserController@login');
   	Route::get('/dashboard', 'UserController@dashboard');
   	Route::get('/logout', 'UserController@logout');
-  	Route::get('/add_account', function()
-  	{
-  		return view('add_account');
-  	});
   	Route::post('/create_account', 'AccountController@addAccount');
-
 
 	Route::get('/sort', 'AccountController@sortAccounts');
 	Route::get('/viewT', 'UserController@getTransactionSet');
