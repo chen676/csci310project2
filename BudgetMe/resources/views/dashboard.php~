@@ -35,6 +35,7 @@ require("navbar.php");
 			}
 			function onLoad() {
 				startTime();
+				
 			}
     </script>
 	</head>
