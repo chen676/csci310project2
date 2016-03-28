@@ -12,7 +12,7 @@
 		<div class="collapse navbar-collapse" id="navbar">
 			<ul class="nav navbar-nav">
 				<li><a href="/dashboard">Dashboard</a></li>
-				<li><a href="user_manual.php">User Manual</a></li>
+				<li><a href="/add_account">Add Account</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right" style="margin-right:20px;">
 				<li><a href="/logout">Logout</a></li>
