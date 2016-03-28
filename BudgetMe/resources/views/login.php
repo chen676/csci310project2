@@ -13,13 +13,13 @@ require("header.php");
 			<?php endif ?>
 			<div class="form-group">
 				<label class="control-label" for="email">Email: </label>
-				<input class="form-control" id="loginUsernameField" type="text" name="email">
+				<input class="form-control" id="loginUserField" type="text" name="email">
 			</div>
 			<div class="form-group">
 				<label class="control-label" for="password">Password: </label>
 				<input class="form-control" id="loginPasswordField" type="password" name="password">
 			</div>
-			<button class="btn btn-success" id="loginSubmitButtton" type="submit">Login</button>
+			<button class="btn btn-success" id="loginSubmitButton" type="submit">Login</button>
 		</form>
 	</div>
 </div>

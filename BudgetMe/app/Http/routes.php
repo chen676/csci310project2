@@ -21,6 +21,8 @@ Route::group(['middleware' => ['web']], function () {
   	Route::get('/dashboard', 'UserController@dashboard');
   	Route::get('/logout', 'UserController@logout');
 
+	Route::get('/sort', 'AccountController@sortAccounts');
+
 });
 
 
