@@ -18,7 +18,8 @@ class AccountController extends Controller
     		'name' => $request->input('name'),
     	]);
     	$user->accounts()->save($account);
-    	Session::put('user', $user);
+    	$u = User::find($user->id);
+    	Session::put('user', $u);
 
     	return redirect('/dashboard');
 

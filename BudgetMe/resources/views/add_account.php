@@ -9,11 +9,7 @@ require("navbar.php");
 			<?php echo csrf_field(); ?>
 			<div class="form-group">
 				<label class="control-label" for="name">Account Type: </label>
-				<select class="form-control" name="name">
-					<option value="credit card">Credit Card</option>
-					<option value="savings">Savings</option>
-					<option value="loans">Loans</option>
-				</select>
+				<input class="form-control" type="text" name="name">
 			</div>
 			<button class="btn btn-success" type="submit">Add Account</button>
 		</form>
