@@ -21,8 +21,6 @@ require("header.php");
 			</div>
 			<button class="btn btn-success" type="submit">Login</button>
 		</form>
-		<br>
-		<a href="forgot_password.php">Forgot your password? Click here</a>
 	</div>
 </div>
 

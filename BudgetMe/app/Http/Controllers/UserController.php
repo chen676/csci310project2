@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Models\User;
+use App\Models\Account;
+use App\Models\Budget;
 use Session;
 
 class UserController extends Controller
@@ -15,7 +17,7 @@ class UserController extends Controller
     	$user = User::with('accounts', 'budgets')
     	->where('email', '=', $request->input('email'))
     	->where('password', '=', $request->input('password'))
-    	->get();
+    	->first();
 
     	if (count($user) == 1)
     	{
