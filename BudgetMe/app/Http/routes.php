@@ -21,7 +21,12 @@ Route::group(['middleware' => ['web']], function () {
   	Route::get('/dashboard', 'UserController@dashboard');
   	Route::get('/logout', 'UserController@logout');
 
+  	Route::get('/test', function(){
+  		return "test";
+  	});
+
 	Route::get('/sort', 'AccountController@sortAccounts');
+	Route::get('parseCSV/{target_file}', 'AccountController@parseCSV');
 	Route::get('/viewT', 'UserController@getTransactionSet');
 });
 

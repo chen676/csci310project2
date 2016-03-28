@@ -4,7 +4,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-require_once 'csv.php';
+require_once 'app/Http/Controllers/AccountController.php';
 
 class CSVImportTest extends TestCase
 {
@@ -16,9 +16,15 @@ class CSVImportTest extends TestCase
     public function testParseCSVOnTest1CSV()
     {
     	// Arrange
-    	// Act
-    	$transactions = parseCSV("tests_resources/test1.csv");
 
+    	
+    	$response = $this->action('GET', 'AccountController@parseCSV', ["parameter" => "tests_resources/test1.csv"]);
+		
+		//$response = $this->call('GET', '/test');
+    	// Act
+    	echo $response->getContent();
+
+    	/*
     	// Assert
     	// row 1
     	$this->assertEquals("Food", $transactions[0][0]);
@@ -30,6 +36,7 @@ class CSVImportTest extends TestCase
     	$this->assertEquals(100, $transactions[1][1]);
     	$this->assertEquals("USC", $transactions[1][2]);
     	$this->assertEquals("11/11/2015", $transactions[1][3]);
+    	*/
     }
 
 }
