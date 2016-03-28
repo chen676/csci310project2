@@ -21,6 +21,7 @@ class AccountController extends Controller
 		return strcmp($lhs['name'], $rhs['name']);
 	});
 
+
 	foreach($accounts as $acc)
 	{
 		var_dump($acc['name']);

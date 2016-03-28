@@ -48,7 +48,6 @@ class UserController extends Controller
 	foreach($transaction as $acc)
 	{
 		var_dump($acc->merchant);
-		var_dump($acc->date);
 		echo "<br>";
 	}
     }
