@@ -6,9 +6,12 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Models\User;
+<<<<<<< HEAD
 use App\Models\Transaction;
+=======
 use App\Models\Account;
 use App\Models\Budget;
+>>>>>>> 008bba1f6cf167eaf54e9f12c8dbf6440052c179
 use Session;
 
 class UserController extends Controller

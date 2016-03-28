@@ -30,7 +30,7 @@ class AccountController extends Controller
 		echo "<br>";
 	}
 
-}
+	}
     public function addAccount(Request $request)
     {
     	$user = Session::get('user');
@@ -38,8 +38,7 @@ class AccountController extends Controller
     		'name' => $request->input('name'),
     	]);
     	$user->accounts()->save($account);
-    	$u = User::find($user->id);
-    	Session::put('user', $u);
+    	Session::put('user', $user);
 
     	return redirect('/dashboard');
 
