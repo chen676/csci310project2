@@ -15,17 +15,22 @@ require("navbar.php");
 				</div>
 				<button class="btn btn-success" type="submit">Add Account</button>
 			</form>
+			<?php foreach ($user->accounts as $account) : ?>
+				<h3><a href="/account/<?php echo $account->id ?>"><?php echo $account->name ?></a><h3>
+			<?php endforeach ?>
+		</div>
+		<div class="col-xs-6">
+			<h1>Transactions</h1>
 			<form action="/transactions" method="get">
 				<?php foreach ($user->accounts as $account) : ?>
-					<div class="checkbox">	
-						<label class="control-label">	<input type="checkbox" value="">
+					<div class="checkbox-inline">	
+						<label class="control-label" for="account_name">
+							<input type="checkbox" name="account_name" value="<?php echo $account->name ?>">
 							<?php echo $account->name ?>
 						</label>
 					</div>
 				<?php endforeach ?>
-		</div>
-		<div class="col-xs-6">
-			<h1>Transactions</h1>
+			</form>
 		</div>
 	</div>
 </div>

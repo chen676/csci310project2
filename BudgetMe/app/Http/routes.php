@@ -22,6 +22,13 @@ Route::group(['middleware' => ['web']], function () {
   	Route::get('/logout', 'UserController@logout');
   	Route::post('/create_account', 'AccountController@addAccount');
 
+  	Route::get('/account/{id}', 'AccountController@display_account');
+
+  	Route::get('/new_transaction/{id}', 'AccountController@transaction');
+
+  	Route::post('/add_transaction', 'AccountController@addTransaction');
+
+
 	Route::get('/sort', 'AccountController@sortAccounts');
 	Route::get('/viewT', 'UserController@getTransactionSet');
 });

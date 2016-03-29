@@ -14,7 +14,7 @@ class Account extends Model
     	return $this->belongsTo('App\Models\User');
     }
 
-    public function transaction()
+    public function transactions()
     {
     	return $this->hasMany('App\Models\Transaction');
     }
