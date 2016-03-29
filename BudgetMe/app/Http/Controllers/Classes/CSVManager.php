@@ -1,6 +1,13 @@
 <?php
 
-	function uploadCSV(){
+class CSVManager{
+
+	public function __construct(){
+
+	}
+	// call whenever a user uploads a new CSV file of transactions to a specific account
+    // ATM THIS FUNCTION IS UNUSABLE UNTIL HTML FORM EXISTS
+    public function uploadCSV(){
 
 		// FILEPATH BELOW TO CHANGE
 		//readfile("http://localhost/Frontend/dashboard.html");
@@ -9,9 +16,7 @@
 		$target_name = "test.csv";
 		$target_file = $target_dir . $target_name;
 
-		/* allow these comments once the html form is created
-
-
+		/*
 		$uploadOk = 1;
 		$imageFileType = pathinfo(basename($_FILES[$target_name]["name"]),PATHINFO_EXTENSION);
 		
@@ -51,7 +56,9 @@
 		
 	}
 	// parse the csv file for values
-	function parseCSV($target_file){
+	public function parseCSV($target_file){
+
+		//echo $target_file;
 
 		$transactions = array();
 
@@ -60,7 +67,7 @@
 		while($row = fgetcsv($file)){
 
 			// format: CATEGORY (STRING), AMOUNT (INT), MERCHANT (STRING), DATE (STRING)
-			$single_transaction = array($row[0], intval($row[1]), $row[2], $row[3]);
+			$single_transaction = array($row[0], floatval($row[1]), $row[2], $row[3]);
 			$transactions[] = $single_transaction;
 		}
 		fclose($file);
@@ -82,8 +89,8 @@
 			transactions[1][1] would return 1000
 
 		*/
-
+		//return "test";
 		return $transactions;
 	}
-	
+}
 ?>

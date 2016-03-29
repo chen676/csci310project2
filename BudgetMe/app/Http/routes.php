@@ -26,13 +26,8 @@ Route::group(['middleware' => ['web']], function () {
   	});
   	Route::post('/create_account', 'AccountController@addAccount');
 
-
-  	Route::get('/test', function(){
-  		return "test";
-  	});
-
 	Route::get('/sort', 'AccountController@sortAccounts');
-	Route::get('parseCSV/{target_file}', 'AccountController@parseCSV');
+	Route::get('uploadCSV', 'AccountController@uploadCSV');
 	Route::get('/viewT', 'UserController@getTransactionSet');
 });
 
