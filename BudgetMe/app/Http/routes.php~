@@ -27,7 +27,7 @@ Route::group(['middleware' => ['web']], function () {
   	});
   	Route::post('/create_account', 'AccountController@addAccount');
 
-  	Route::get('/budgetWidget',function()
+  	Route::post('/budgetWidget',function()
 	{
 		return view('budgetWidget');
 	});

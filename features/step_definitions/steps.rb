@@ -3,7 +3,7 @@ require 'selenium-webdriver'
 browser = Selenium::WebDriver.for(:firefox)
 
 Given(/^I am on the login page$/) do
-   browser.get('http://localhost/login')
+   browser.get('http://localhost')
 end
 
 Then(/^the loginUserField exists$/) do

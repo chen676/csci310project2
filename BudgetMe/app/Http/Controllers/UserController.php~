@@ -78,6 +78,19 @@ class UserController extends Controller
     		Session::put('transactionSet', $transactionSet);
 		return $transactionSet;
 	}
+
+	$selections = Session::get('selected_accounts');
+	$transactionSet = array();
+
+	foreach($selections as $acc_id)
+	{
+		$transaction = Transaction::where('account_id', '=', $acc_id)
+		->get();
+		$transaction = $transaction->toArray();
+		$transactionSet = array_merge($transactionSet, $transaction);
+	}
+
+	return redirect('/sortTransactionSetByDate'); //default sort by date, and redirect to main page
     }
 
     public function sortTransactionSetByDate()	
