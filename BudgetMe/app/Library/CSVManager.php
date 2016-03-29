@@ -89,7 +89,6 @@ class CSVManager{
 			transactions[1][1] would return 1000
 
 		*/
-		//return "test";
 		return $transactions;
 	}
 }
