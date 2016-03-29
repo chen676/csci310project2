@@ -1,12 +1,36 @@
-<?php
-require("header.php");
-require("navbar.php");
-?>
+<nav class="navbar navbar-inverse navbar-fixed-top" style="padding:3px 0px 7px 0px">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+	            <span class="sr-only">Toggle navigation</span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+          	</button>
+			<a class="navbar-brand" href="">BudgetMe</a>
+		</div>
+		<div class="collapse navbar-collapse" id="navbar">
+			<ul class="nav navbar-nav">
+				<li><a href="/dashboard">Dashboard</a></li>
+				<li><a href="/add_account">Add Account</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right" style="margin-right:20px;">
+				<li><a href="/logout">Logout</a></li>
+			</ul>
+		</div>
+	</div>
+</nav>
 
 <html>
 	<head>
+		<meta charset="UTF-8">
+		<title>Budget Me</title>
+		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+		
+		<meta name="csrf-token" content="{{ csrf_token() }}">
 		<link rel="stylesheet" href="./css/styles.css">
-    <script>
+		<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+   		<script>
 			function startTime() {
 				var today = convertToEasternStandardTimeZone(new Date());
 				var date = today.toDateString();
@@ -36,7 +60,8 @@ require("navbar.php");
 			function onLoad() {
 				startTime();
 			}
-    </script>
+    		</script>
+
 	</head>
 
 	<body onload="onLoad()">
@@ -80,25 +105,28 @@ require("navbar.php");
 					</tr>
 
 					<?php
-						foreach($transactionSet as $trans)
+						if(!is_null($transactionSet))
 						{
-							echo "<tr>";
-							echo "<td>";
-							echo $trans['category'];
-							echo "</td>";
-							echo "<td>";
-							echo $trans['amount'];
-							echo "</td>";
-							echo "<td>";
-							echo $trans['merchant'];
-							echo "</td>";
-							echo "<td>";
-							echo $trans['date'];
-							echo "</td>";
-							echo "<td>";
-							echo $trans['account_id'];
-							echo "</td>";
-							echo "<tr>";
+							foreach($transactionSet as $trans)
+							{
+								echo "<tr>";
+								echo "<td>";
+								echo $trans['category'];
+								echo "</td>";
+								echo "<td>";
+								echo $trans['amount'];
+								echo "</td>";
+								echo "<td>";
+								echo $trans['merchant'];
+								echo "</td>";
+								echo "<td>";
+								echo $trans['date'];
+								echo "</td>";
+								echo "<td>";
+								echo $trans['account_id'];
+								echo "</td>";
+								echo "<tr>";
+							}
 						}
 					?>
 				   </table>
@@ -127,15 +155,47 @@ require("navbar.php");
 					foreach($accounts as $acc)
 					{
 						echo "<br>";
-						echo '<input type="checkbox" id="'. $acc['name'] .'checkbox">';
-						var_dump($acc['name']);
+						echo '<input type="checkbox" name="visibility" value="'. $acc['name'] . '"';
+						if(!is_null($checkedAccounts)){
+							if (in_array($acc['name'], $checkedAccounts)) 
+								echo " checked='checked'"; 	}					
+ 						echo ">";
+						echo $acc['name'];
 					}
 				   ?>
 			   </div>
          </div>
 		</div>
 
-    <script>
+    		<script>
+			//checkbox functionality
+			$.ajaxSetup({
+			  headers: {
+			    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			  }
+			});
+			$("input[name=visibility]").click( function()
+			{
+				var checked = $("input[type=checkbox]:checked").map( function() 
+				{
+					return $(this).val();
+				}).get();
+				
+				$.ajax({
+				   type: "POST",
+				   data: {accountSet:checked, length:checked.length},
+				   dataType: "json",
+				   url: "/display_transactions",
+				   success: function(msg){
+					window.location.reload(true); 
+				   },
+			       	   error:function(exception){
+					alert(exception); 
+				   }
+				});
+			});
+
+
 			// idle time-out
 			$(document).ready(function () {
 			    $(document).idleTimeout({

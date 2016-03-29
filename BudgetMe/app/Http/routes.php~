@@ -26,9 +26,16 @@ Route::group(['middleware' => ['web']], function () {
   	});
   	Route::post('/create_account', 'AccountController@addAccount');
 
-	Route::get('/display_transactions', 'UserController@getTransactionSet');
+	Route::post('/display_transactions', 'UserController@getTransactionSet');
 	Route::get('/sort', 'AccountController@sortAccounts');
 	Route::get('/viewT', 'UserController@getTransactionSet');
+
+	Route::get('/sortTransactionSetByDate', 'UserController@sortTransactionSetByDate');
+	Route::get('/sortTransactionSetByAmount', 'UserController@sortTransactionSetByAmount');
+	Route::get('/sortTransactionSetByCategory', 'UserController@sortTransactionSetByCategory');
+Route::get('/csrf', function() {
+    return Session::token();
+});
 });
 
 

@@ -39,84 +39,116 @@ class UserController extends Controller
 
     	return view('dashboard', [
     		'user' => Session::get('user'),
-		'transactionSet' => Session::get('transactionSet')
+		'transactionSet' => Session::get('transactionSet'),
+		'checkedAccounts' => Session::get('checkedAccounts')
     	]);
     }
 
-    public function getTransactionSet()
+    public function getTransactionSet(Request $request)
+    {
+	if($request->ajax())
 	{
-	$selections = array(1, 2);
-	$transactionSet = array();
+		if($_POST['length'] == 0)
+		{
+			Session::put('checkedAccounts', array());
+    			Session::put('transactionSet', array());
+			return;
+		}
 
-	foreach($selections as $acc_id)
-	{
-		$transaction = Transaction::with('account')
-		->where('account_id', '=', $acc_id)
-		->get();
-		$transaction = $transaction->toArray();
-		$transactionSet = array_merge($transactionSet, $transaction);
+		$accountNames = $_POST['accountSet'];
+
+		//need to create an array based on id, not name
+		$accountIDs = array();
+		foreach($accountNames as $name)
+		{
+			$account = Account::where('name', '=', $name)
+			->get()->first();
+			array_push($accountIDs, $account->id);
+		}
+		Session::put('checkedAccounts', $accountNames);
+
+		$transactionSet = array();
+		foreach($accountIDs as $acc_id)
+		{
+			$transaction = Transaction::where('account_id', '=', $acc_id)
+			->get();
+			$transaction = $transaction->toArray();
+			$transactionSet = array_merge($transactionSet, $transaction);
+		}
+    		Session::put('transactionSet', $transactionSet);
+		return $transactionSet;
 	}
-
-	return redirect('/sortTransactionSetByDate'); //default sort by date, and redirect to main page
     }
 
     public function sortTransactionSetByDate()	
     {
 	$transactionSet = Session::get('transactionSet');
-	usort($transactionSet, function($lhs, $rhs)
+	if(!is_null($transactionSet))
 	{
-		//indeces of date MM/DD/YYYY
-		$m = 0;
-		$d = 1;
-		$y = 2; 
+		usort($transactionSet, function($lhs, $rhs)
+		{
+			//indeces of date MM/DD/YYYY
+			$m = 0;
+			$d = 1;
+			$y = 2; 
 
-		$ldate = explode('/', $lhs['date']);
-		$rdate = explode('/', $rhs['date']);
-		if(strcmp($ldate[$y], $rdate[$y]) > 0) //if left is chronologically more recent
-			return -1;
-		if(strcmp($ldate[$y], $rdate[$y]) < 0) //if right is more recent
-			return 1;
-		//the years must be equal
-		if(strcmp($ldate[$m], $rdate[$m]) > 0) //if left is chronologically more recent
-			return -1;
-		if(strcmp($ldate[$m], $rdate[$m]) < 0) //if right is more recent
-			return 1;	
-		if(strcmp($ldate[$d], $rdate[$d]) > 0) //if left is chronologically more recent
-			return -1;
-		if(strcmp($ldate[$d], $rdate[$d]) < 0) //if right is more recent
-			return 1;
-		return 0; //equal dates	
-	});
+			$ldate = explode('/', $lhs['date']);
+			$rdate = explode('/', $rhs['date']);
+			if(strcmp($ldate[$y], $rdate[$y]) > 0) //if left is chronologically more recent
+				return -1;
+			if(strcmp($ldate[$y], $rdate[$y]) < 0) //if right is more recent
+				return 1;
+			//the years must be equal
+			if(strcmp($ldate[$m], $rdate[$m]) > 0) //if left is chronologically more recent
+				return -1;
+			if(strcmp($ldate[$m], $rdate[$m]) < 0) //if right is more recent
+				return 1;	
+			if(strcmp($ldate[$d], $rdate[$d]) > 0) //if left is chronologically more recent
+				return -1;
+			if(strcmp($ldate[$d], $rdate[$d]) < 0) //if right is more recent
+				return 1;
+			return 0; //equal dates	
+		});
+    		Session::put('transactionSet', $transactionSet);
+	}
 
-    	Session::put('transactionSet', $transactionSet);
     	return redirect('/dashboard');
     }
 
     public function sortTransactionSetByCategory()
     {
 	$transactionSet = Session::get('transactionSet');
-	usort($transactionSet, function($lhs, $rhs)
+	if(!is_null($transactionSet))
 	{
-		return strcmp($lhs['category'], $rhs['category']);
-	});
-    	Session::put('transactionSet', $transactionSet);
-    	return redirect('/dashboard');
+		usort($transactionSet, function($lhs, $rhs)
+		{
+			return strcmp($lhs['category'], $rhs['category']);
+		});
+	    	Session::put('transactionSet', $transactionSet);
+	}
+	return redirect('/dashboard');
     }
 
     public function sortTransactionSetByAmount()
     {	
 	$transactionSet = Session::get('transactionSet');
-	usort($transactionSet, function($lhs, $rhs)
+	if(!is_null($transactionSet))
 	{
-		return $lhs['amount'] < $rhs['amount'];
-	});
-    	Session::put('transactionSet', $transactionSet);
+		usort($transactionSet, function($lhs, $rhs)
+		{
+			return $lhs['amount'] < $rhs['amount'];
+		});
+	    	Session::put('transactionSet', $transactionSet);
+	}
     	return redirect('/dashboard');
     }
  
     public function logout(Request $request)
     {
     	Session::forget('user');
+    	Session::forget('transactionSet');
+    	Session::forget('selected_accounts');
+    	Session::forget('checkedAccounts');
     	return redirect('/');
     }
 }
