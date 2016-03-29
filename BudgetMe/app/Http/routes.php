@@ -20,11 +20,18 @@ Route::group(['middleware' => ['web']], function () {
   	Route::post('/login', 'UserController@login');
   	Route::get('/dashboard', 'UserController@dashboard');
   	Route::get('/logout', 'UserController@logout');
+
   	Route::get('/add_account', function()
   	{
   		return view('add_account');
   	});
   	Route::post('/create_account', 'AccountController@addAccount');
+
+  	Route::get('/budgetWidget',function()
+	{
+		return view('budgetWidget');
+	});
+  	Route::post('/clickBudgetButton','BudgetController@getBudgets');
 
 	Route::post('/display_transactions', 'UserController@getTransactionSet');
 	Route::get('/sort', 'AccountController@sortAccounts');
