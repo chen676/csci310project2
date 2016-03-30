@@ -9,7 +9,7 @@ use App\Models\Account;
 use App\Models\User;
 use Session;
 
-include '../../Library/CSVManager.php';
+use App\Library\CSVManager;
 
 class AccountController extends Controller
 {

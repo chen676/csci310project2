@@ -9,29 +9,10 @@ use App\Models\Account;
 use App\Models\User;
 use Session;
 
-include '../../Library/CSVManager.php';
+use App\Library\CSVManager;
 
 class AccountController extends Controller
 {
-    public function sortAccounts()
-    {
-	$accounts = Account::with('user')
-	->where('user_id', '=', 1)	
-	->get();
-	
-	$accounts = $accounts->toArray();
-	usort($accounts, function($lhs, $rhs)
-	{
-		return strcmp($lhs['name'], $rhs['name']);
-	});
-
-	foreach($accounts as $acc)
-	{
-		var_dump($acc['name']);
-		echo "<br>";
-	}
-
-	}
     public function addAccount(Request $request)
     {
     	$user = Session::get('user');
@@ -50,7 +31,7 @@ class AccountController extends Controller
     {
       $accToDelete = $_POST['accountToRemove'];
       //please implement this ajax call to delete an accoun'=t
-      return reditect('/dashboard');
+      return redirect('/dashboard');
     }
     
     public function uploadCSV()
