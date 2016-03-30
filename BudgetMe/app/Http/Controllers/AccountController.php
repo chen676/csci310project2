@@ -56,6 +56,6 @@ class AccountController extends Controller
     public function uploadCSV()
     {
     	$csvmanager = new CSVManager();
-    	return;
+    	return redirect('/dashboard');
     }
 }

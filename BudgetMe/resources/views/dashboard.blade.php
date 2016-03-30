@@ -176,7 +176,11 @@
 					<!--upload -->
 
 					   <td style=''>
-                  <input id="csvUpload" name="input4[]" type="file" multiple class="file-loading">
+					   <form action="" method="post" enctype="multipart/form-data">
+					   <?php AccountController::uploadCSV() ?>
+                  <input id="csvUpload" name="csv" value="" type="file" accept=".csv" multiple class="file-loading" />
+                  <button id="uploadButton" type="submit">Upload</button>
+                  </form>
 				      </td>
 					<?php
                   //name of account
