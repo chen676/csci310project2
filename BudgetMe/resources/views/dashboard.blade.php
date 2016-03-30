@@ -12,7 +12,7 @@
 		<div class="collapse navbar-collapse" id="navbar">
 			<ul class="nav navbar-nav">
 				<li><a href="/dashboard">Dashboard</a></li>
-				<li><a href="/add_account">Add Account</a></li>
+				
 			</ul>
 			<ul class="nav navbar-nav navbar-right" style="margin-right:20px;">
 				<li><a href="/logout">Logout</a></li>
@@ -97,11 +97,11 @@
 				   <h2>Transaction History</h2><br>
 				   <table>	
 					<tr>
-						<th><a href="/sortTransactionSetByCategory">Category</a></th>
-						<th><a href="/sortTransactionSetByAmount">Amount</a></th>
-						<th>Merchant</th>
-						<th><a href="/sortTransactionSetByDate">Date</th>
-						<th>Account</th>
+						<th style = "padding-right:50px; padding-left:20px">Account</th>
+						<th style = "padding-right:50px"><a href="/sortTransactionSetByDate">Date</th>
+						<th style = "padding-right:50px">Merchant</th>
+						<th style = "padding-right:50px"> <a href="/sortTransactionSetByCategory">Category</a></th>
+						<th style = "padding-right:50px"><a href="/sortTransactionSetByAmount">Amount</a></th>		
 					</tr>
 
 					<?php
@@ -110,22 +110,28 @@
 							foreach($transactionSet as $trans)
 							{
 								echo "<tr>";
-								echo "<td>";
-								echo $trans['category'];
+								echo "<td style = 'padding-right:50px; padding-left:20px; padding-bottom:10px' >";
+								$accounts = $user->accounts;
+								foreach($accounts as $acc)
+								{
+									if($acc['id'] == $trans['account_id'])
+										echo $acc['name'];
+								}
 								echo "</td>";
-								echo "<td>";
-								echo $trans['amount'];
-								echo "</td>";
-								echo "<td>";
-								echo $trans['merchant'];
-								echo "</td>";
-								echo "<td>";
+								echo "<td style = 'padding-right:50px; padding-bottom:10px'>";
 								echo $trans['date'];
 								echo "</td>";
-								echo "<td>";
-								echo $trans['account_id'];
+								echo "<td style = 'padding-right:50px; padding-bottom:10px'>";
+								echo $trans['merchant'];
 								echo "</td>";
-								echo "<tr>";
+								echo "<td style = 'padding-right:50px; padding-bottom:10px'>";
+								echo $trans['category'];
+								echo "</td>";
+								echo "<td style = 'padding-right:50px; padding-bottom:10px'>";
+								echo $trans['amount'];
+								echo "</td>";
+								echo "<td style = 'padding-right:50px; padding-bottom:10px'>";
+
 							}
 						}
 					?>
