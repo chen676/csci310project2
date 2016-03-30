@@ -65,6 +65,7 @@ class UserController extends Controller
 			->get()->first();
 			array_push($accountIDs, $account->id);
 		}
+
 		Session::put('checkedAccounts', $accountNames);
 
 		$transactionSet = array();

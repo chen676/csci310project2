@@ -110,22 +110,27 @@
 							foreach($transactionSet as $trans)
 							{
 								echo "<tr>";
-								echo "<td style = 'padding-right:50px; padding-left:20px' >";
-								echo $trans['account_id'];
+								echo "<td style = 'padding-right:50px; padding-left:20px; padding-bottom:10px' >";
+								$accounts = $user->accounts;
+								foreach($accounts as $acc)
+								{
+									if($acc['id'] == $trans['account_id'])
+										echo $acc['name'];
+								}
 								echo "</td>";
-								echo "<td style = 'padding-right:50px'>";
+								echo "<td style = 'padding-right:50px; padding-bottom:10px'>";
 								echo $trans['date'];
 								echo "</td>";
-								echo "<td style = 'padding-right:50px'>";
+								echo "<td style = 'padding-right:50px; padding-bottom:10px'>";
 								echo $trans['merchant'];
 								echo "</td>";
-								echo "<td style = 'padding-right:50px'>";
+								echo "<td style = 'padding-right:50px; padding-bottom:10px'>";
 								echo $trans['category'];
 								echo "</td>";
-								echo "<td style = 'padding-right:50px'>";
+								echo "<td style = 'padding-right:50px; padding-bottom:10px'>";
 								echo $trans['amount'];
 								echo "</td>";
-								echo "<td style = 'padding-right:50px'>";
+								echo "<td style = 'padding-right:50px; padding-bottom:10px'>";
 
 							}
 						}
