@@ -144,7 +144,7 @@
 				<form action="/create_account" method="post">
 					<?php echo csrf_field(); ?>
 					<div class="form-group">
-						<input class="form-control" type="text" id="addAccountField">
+						<input class="form-control" type="text" id="addAccountField" name="name">
 					</div>
 					<button class="btn btn-success" id="addAccountSubmitButton" type="submit">Add Account</button>
 				</form>
