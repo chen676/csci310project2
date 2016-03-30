@@ -34,7 +34,9 @@ Route::group(['middleware' => ['web']], function () {
   	Route::post('/clickBudgetButton','BudgetController@getBudgets');
 
 	Route::post('/display_transactions', 'UserController@getTransactionSet');
+
 	Route::get('/sort', 'AccountController@sortAccounts');
+	Route::get('uploadCSV', 'AccountController@uploadCSV');
 	Route::get('/viewT', 'UserController@getTransactionSet');
 
 	Route::get('/sortTransactionSetByDate', 'UserController@sortTransactionSetByDate');

@@ -9,6 +9,7 @@ use App\Models\Account;
 use App\Models\User;
 use Session;
 
+include '../../Library/CSVManager.php';
 
 class AccountController extends Controller
 {
@@ -30,7 +31,7 @@ class AccountController extends Controller
 		echo "<br>";
 	}
 
-}
+	}
     public function addAccount(Request $request)
     {
     	$user = Session::get('user');
@@ -43,5 +44,11 @@ class AccountController extends Controller
 
     	return redirect('/dashboard');
 
+    }
+
+    public function uploadCSV()
+    {
+    	$csvmanager = new CSVManager();
+    	return;
     }
 }

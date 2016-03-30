@@ -27,14 +27,18 @@ Route::group(['middleware' => ['web']], function () {
   	});
   	Route::post('/create_account', 'AccountController@addAccount');
 
-  	Route::post('/budgetWidget',function()
+<<<<<<< HEAD
+  	Route::get('/budgetWidget',function()
 	{
 		return view('budgetWidget');
 	});
   	Route::post('/clickBudgetButton','BudgetController@getBudgets');
 
 	Route::post('/display_transactions', 'UserController@getTransactionSet');
+=======
+>>>>>>> master
 	Route::get('/sort', 'AccountController@sortAccounts');
+	Route::get('uploadCSV', 'AccountController@uploadCSV');
 	Route::get('/viewT', 'UserController@getTransactionSet');
 
 	Route::get('/sortTransactionSetByDate', 'UserController@sortTransactionSetByDate');
