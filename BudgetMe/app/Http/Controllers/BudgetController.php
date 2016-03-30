@@ -13,13 +13,14 @@ class BudgetController extends Controller
     public function getBudgets(Request $request){
 	if($request->ajax())
 	{
-		$users = DB::select('select * from users');
+	   $user = Session::get('user');
+		//$users = DB::select('select * from users');
     		
     	//echo ($request['data']);
 
     	//return $users;
 
-    	echo json_encode($users);	
+      return $user;
     }
 
     }
