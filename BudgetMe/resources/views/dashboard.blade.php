@@ -127,8 +127,11 @@
                       					url: '/clickBudgetButton',
                       					data:inputBudget,
                       					success: function(data) {
-                      						//var model = JSON.parse(data);
+
                       						console.log(data);
+                      						
+                      						/*console.log("ID " + data.id);
+                      						console.log("Budgets" + data.budgets )*/
                       					}
                       				})
 

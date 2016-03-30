@@ -15,13 +15,17 @@ class BudgetController extends Controller
 	   if($request->ajax())
 	   {
 	      $user = Session::get('user');
-		   //$users = DB::select('select * from users');
+
+          $user_id = $user -> id;
+
+          $user_budgets = DB::select('select * from budgets where user_id = :user_id', ['user_id' => $user_id]);
+		  $user_list = DB::select('select * from users');
        		
        	//echo ($request['data']);
 
        	//return $users;
 
-         return "hi";
+         return json_encode($user_budgets);
        }
 
     }
