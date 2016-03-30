@@ -80,8 +80,65 @@
 
 			<div class="widget" id="budget">
 				<h2>Budget</h2>
-				<div id="budgetContent">
-				</div>
+		         <div id="BudgetDiv"> 
+			         <table width="100%">
+				         <tr>
+					         <td>Name1</td>
+				         </tr>
+				         <tr>
+					         <td>Name1</td>
+				         </tr>
+				         <tr>
+					         <td>Name1</td>
+				         </tr>
+				         <tr>
+					         <td>Name1</td>
+				         </tr>
+				         <tr>
+					         <td>Name1</td>
+				         </tr>
+				         <tr>
+					         <td>Name1</td>
+				         </tr>
+				         <tr>
+					         <td>Name1</td>
+				         </tr>
+				         <tr>
+					         <td>Name1</td>
+					         <td><input type="text" id="name1input"></td>
+					         <td><button id="name1button">Button1</button></td>
+
+					         <script type="text/javascript">
+					         $.ajaxSetup({
+					           headers: {
+					             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					           }
+					         });
+						         $("#name1button").click(function()
+                    				{
+
+                    					var inputBudget = $('#name1input').val();
+
+                    					if(!$(inputBudget) || !$.isNumeric(inputBudget)) return;
+
+
+                      				$.ajax({
+                      					type: "POST",
+                      					url: '/clickBudgetButton',
+                      					data:inputBudget,
+                      					success: function(data) {
+                      						//var model = JSON.parse(data);
+                      						console.log(data);
+                      					}
+                      				})
+
+
+                   				 }
+               				);
+					         </script>
+				         </tr>
+			         </table>
+		         </div>
 			</div>
 			
 			<div class="widget" id="graph">
