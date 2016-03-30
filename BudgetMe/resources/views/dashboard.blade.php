@@ -87,9 +87,9 @@
 			<div class="widget" id="graph">
 				<h2>Main Line Graph</h2>
 				<div id="graph_here">
-					<br><br><br><img src="images/ajax-loader.gif" alt="loading...">
+					Will implement in Sprint 2
 				</div>
-				<input type="text" id="ticker_text"><button id="graph_stock" onclick="addStock(getElementById('ticker_text').value);">Graph Stock</button>
+
 			</div>
 
          <div id="accountPanel">

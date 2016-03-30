@@ -87,9 +87,9 @@
 			<div class="widget" id="graph">
 				<h2>Main Line Graph</h2>
 				<div id="graph_here">
-					<br><br><br><img src="images/ajax-loader.gif" alt="loading...">
+
 				</div>
-				<input type="text" id="ticker_text"><button id="graph_stock" onclick="addStock(getElementById('ticker_text').value);">Graph Stock</button>
+
 			</div>
 
          <div id="accountPanel">
@@ -183,7 +183,7 @@
 				
 				$.ajax({
 				   type: "POST",
-				   data: {accountSet:checked},
+				   data: {accountSet:checked, length:checked.length},
 				   dataType: "json",
 				   url: "/display_transactions",
 				   success: function(msg){
