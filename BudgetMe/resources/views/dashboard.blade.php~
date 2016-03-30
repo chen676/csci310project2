@@ -87,7 +87,7 @@
 			<div class="widget" id="graph">
 				<h2>Main Line Graph</h2>
 				<div id="graph_here">
-
+					Will implement in Sprint 2
 				</div>
 
 			</div>
@@ -151,18 +151,34 @@
 					{
 						return strcmp($lhs['name'], $rhs['name']);
 					});
-
+               ?>
+               <table>
+               <?php
 					foreach($accounts as $acc)
 					{
-						echo "<br>";
-						echo '<input type="checkbox" name="visibility" value="'. $acc['name'] . '"';
+					?>
+					<tr>
+					   <td style='padding-right:10px'>
+					   <form action="/importCSV" method="post" enctype="multipart/form-data">
+					      <input type="file" name="fileToUpload" id="fileToUpload" value= "">
+					      <input type="submit" value="Upload" name="submit">
+				      </form>
+				      </td>
+					<?php
+						echo '<td><input type="checkbox" name="visibility" style="margin-left:10px" value="'. $acc['name'] . '"';
 						if(!is_null($checkedAccounts)){
 							if (in_array($acc['name'], $checkedAccounts)) 
 								echo " checked='checked'"; 	}					
- 						echo ">";
-						echo $acc['name'];
+ 						echo "></td>";
+						echo "<td><button class='close' id='removeAccount' style='float:left' value='". $acc['name'] . "'";
+						echo ">&times;</button></td>";
+						echo "<td>".$acc['name']."</td>";						
+					?>
+					</tr>
+					<?php	
 					}
 				   ?>
+				   </table>
 			   </div>
          </div>
 		</div>
@@ -191,6 +207,21 @@
 				   },
 			       	   error:function(exception){
 					alert(exception); 
+				   }
+				});
+			});
+			$("button[id=removeAccount]").click( function()
+			{				
+				$.ajax({
+				   type: "POST",
+				   data: {accountToRemove:$(this).val},
+				   dataType: "json",
+				   url: "/remove_account",
+				   success: function(msg){
+				      alert(msg);
+				   },
+			       	   error:function(exception){
+					   alert(exception); 
 				   }
 				});
 			});

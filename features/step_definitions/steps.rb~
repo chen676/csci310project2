@@ -27,7 +27,7 @@ When(/^I successfully login$/) do
 end
 
 Then(/^I am taken to the dashboard page$/) do
-   expect(browser.page_source.include?('Dashboard')).to eq(true)
+   assert browser.current_path == "localhost/dashboard"
 end
 
 When(/^I do not provide valid credentials$/) do

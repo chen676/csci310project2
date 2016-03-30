@@ -21,13 +21,9 @@ Route::group(['middleware' => ['web']], function () {
   	Route::get('/dashboard', 'UserController@dashboard');
   	Route::get('/logout', 'UserController@logout');
 
-  	Route::get('/add_account', function()
-  	{
-  		return view('add_account');
-  	});
+  	Route::get('/remove_account', 'AccountController@removeAccount');
   	Route::post('/create_account', 'AccountController@addAccount');
 
-<<<<<<< HEAD
   	Route::get('/budgetWidget',function()
 	{
 		return view('budgetWidget');
@@ -35,8 +31,7 @@ Route::group(['middleware' => ['web']], function () {
   	Route::post('/clickBudgetButton','BudgetController@getBudgets');
 
 	Route::post('/display_transactions', 'UserController@getTransactionSet');
-=======
->>>>>>> master
+
 	Route::get('/sort', 'AccountController@sortAccounts');
 	Route::get('uploadCSV', 'AccountController@uploadCSV');
 	Route::get('/viewT', 'UserController@getTransactionSet');

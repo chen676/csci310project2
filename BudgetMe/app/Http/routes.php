@@ -21,10 +21,7 @@ Route::group(['middleware' => ['web']], function () {
   	Route::get('/dashboard', 'UserController@dashboard');
   	Route::get('/logout', 'UserController@logout');
 
-  	Route::get('/add_account', function()
-  	{
-  		return view('add_account');
-  	});
+  	Route::get('/remove_account', 'AccountController@removeAccount');
   	Route::post('/create_account', 'AccountController@addAccount');
 
   	Route::get('/budgetWidget',function()

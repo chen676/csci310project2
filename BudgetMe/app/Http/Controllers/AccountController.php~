@@ -50,7 +50,7 @@ class AccountController extends Controller
     {
       $accToDelete = $_POST['accountToRemove'];
       //please implement this ajax call to delete an accoun'=t
-      return redirect('/dashboard');
+      return reditect('/dashboard');
     }
     
     public function uploadCSV()
