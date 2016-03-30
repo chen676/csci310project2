@@ -9,7 +9,9 @@ use App\Models\Account;
 use App\Models\User;
 use Session;
 
-include '../../Library/CSVManager.php';
+use App\Library\CSVManager;
+use App\Library\AccountManager;
+
 
 class AccountController extends Controller
 {
@@ -19,18 +21,20 @@ class AccountController extends Controller
 	->where('user_id', '=', 1)	
 	->get();
 	
-	$accounts = $accounts->toArray();
-	usort($accounts, function($lhs, $rhs)
-	{
-		return strcmp($lhs['name'], $rhs['name']);
-	});
+    $accounts = $accounts->toArray();
 
-	foreach($accounts as $acc)
-	{
-		var_dump($acc['name']);
-		echo "<br>";
-	}
+    // usort($accounts, function($lhs, $rhs)
+    //     {
+    //         return strcmp($lhs['name'], $rhs['name']);
+    //     });
 
+    //     foreach($accounts as $acc)
+    //     {
+    //         var_dump($acc['name']);
+    //         echo "<br>";
+    //     }
+    $accountManager = new AccountManager();
+    $accountManager->sortAccountsByNames();
 	}
     public function addAccount(Request $request)
     {
