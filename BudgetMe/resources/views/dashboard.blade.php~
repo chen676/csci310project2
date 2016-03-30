@@ -12,7 +12,7 @@
 		<div class="collapse navbar-collapse" id="navbar">
 			<ul class="nav navbar-nav">
 				<li><a href="/dashboard">Dashboard</a></li>
-				<li><a href="/add_account">Add Account</a></li>
+				
 			</ul>
 			<ul class="nav navbar-nav navbar-right" style="margin-right:20px;">
 				<li><a href="/logout">Logout</a></li>
@@ -97,11 +97,11 @@
 				   <h2>Transaction History</h2><br>
 				   <table>	
 					<tr>
-						<th><a href="/sortTransactionSetByCategory">Category</a></th>
-						<th><a href="/sortTransactionSetByAmount">Amount</a></th>
-						<th>Merchant</th>
-						<th><a href="/sortTransactionSetByDate">Date</th>
-						<th>Account</th>
+						<th style = "padding-right:50px; padding-left:20px">Account</th>
+						<th style = "padding-right:50px"><a href="/sortTransactionSetByDate">Date</th>
+						<th style = "padding-right:50px">Merchant</th>
+						<th style = "padding-right:50px"> <a href="/sortTransactionSetByCategory">Category</a></th>
+						<th style = "padding-right:50px"><a href="/sortTransactionSetByAmount">Amount</a></th>		
 					</tr>
 
 					<?php
@@ -110,22 +110,28 @@
 							foreach($transactionSet as $trans)
 							{
 								echo "<tr>";
-								echo "<td>";
-								echo $trans['category'];
+								echo "<td style = 'padding-right:50px; padding-left:20px; padding-bottom:10px' >";
+								$accounts = $user->accounts;
+								foreach($accounts as $acc)
+								{
+									if($acc['id'] == $trans['account_id'])
+										echo $acc['name'];
+								}
 								echo "</td>";
-								echo "<td>";
-								echo $trans['amount'];
-								echo "</td>";
-								echo "<td>";
-								echo $trans['merchant'];
-								echo "</td>";
-								echo "<td>";
+								echo "<td style = 'padding-right:50px; padding-bottom:10px'>";
 								echo $trans['date'];
 								echo "</td>";
-								echo "<td>";
-								echo $trans['account_id'];
+								echo "<td style = 'padding-right:50px; padding-bottom:10px'>";
+								echo $trans['merchant'];
 								echo "</td>";
-								echo "<tr>";
+								echo "<td style = 'padding-right:50px; padding-bottom:10px'>";
+								echo $trans['category'];
+								echo "</td>";
+								echo "<td style = 'padding-right:50px; padding-bottom:10px'>";
+								echo $trans['amount'];
+								echo "</td>";
+								echo "<td style = 'padding-right:50px; padding-bottom:10px'>";
+
 							}
 						}
 					?>
@@ -153,25 +159,27 @@
 					});
                ?>
                <table>
+               <tr>
                <?php
 					foreach($accounts as $acc)
 					{
-					?>
-					<tr>
-					   <td style='padding-right:10px'>
-					   <form action="/importCSV" method="post" enctype="multipart/form-data">
-					      <input type="file" name="fileToUpload" id="fileToUpload" value= "">
-					      <input type="submit" value="Upload" name="submit">
-				      </form>
-				      </td>
-					<?php
-						echo '<td><input type="checkbox" name="visibility" style="margin-left:10px" value="'. $acc['name'] . '"';
+					   //close button
+						echo "<td><button class='close' id='removeAccount' style='float:left' value='". $acc['name'] . "'";
+						echo ">&times;</button></td>";	
+						//checkbox				   
+					   echo '<td><input type="checkbox" name="visibility" style="margin-left:10px" value="'. $acc['name'] . '"';
 						if(!is_null($checkedAccounts)){
 							if (in_array($acc['name'], $checkedAccounts)) 
 								echo " checked='checked'"; 	}					
  						echo "></td>";
-						echo "<td><button class='close' id='removeAccount' style='float:left' value='". $acc['name'] . "'";
-						echo ">&times;</button></td>";
+					?>
+					<!--upload -->
+
+					   <td style=''>
+                  <input id="csvUpload" name="input4[]" type="file" multiple class="file-loading">
+				      </td>
+					<?php
+                  //name of account
 						echo "<td>".$acc['name']."</td>";						
 					?>
 					</tr>
@@ -184,6 +192,11 @@
 		</div>
 
     		<script>
+    		//initialize file upload
+    		$(document).on('ready', function() {
+           $("#csvUpload").fileinput({showCaption: false});
+         });
+
 			//checkbox functionality
 			$.ajaxSetup({
 			  headers: {
@@ -210,6 +223,7 @@
 				   }
 				});
 			});
+			//remove button functionality
 			$("button[id=removeAccount]").click( function()
 			{				
 				$.ajax({

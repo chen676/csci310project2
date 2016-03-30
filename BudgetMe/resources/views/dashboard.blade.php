@@ -159,25 +159,27 @@
 					});
                ?>
                <table>
+               <tr>
                <?php
 					foreach($accounts as $acc)
 					{
-					?>
-					<tr>
-					   <td style=''>
-					   <form action="/importCSV" method="post" enctype="multipart/form-data">
-					      <input type="file" name="fileToUpload" id="fileToUpload" value= "">
-					      <input type="submit" value="Upload" name="submit">
-				      </form>
-				      </td>
-					<?php
-						echo '<td><input type="checkbox" name="visibility" style="margin-left:10px" value="'. $acc['name'] . '"';
+					   //close button
+						echo "<td><button class='close' id='removeAccount' style='float:left' value='". $acc['name'] . "'";
+						echo ">&times;</button></td>";	
+						//checkbox				   
+					   echo '<td><input type="checkbox" name="visibility" style="margin-left:10px" value="'. $acc['name'] . '"';
 						if(!is_null($checkedAccounts)){
 							if (in_array($acc['name'], $checkedAccounts)) 
 								echo " checked='checked'"; 	}					
  						echo "></td>";
-						echo "<td><button class='close' id='removeAccount' style='float:left' value='". $acc['name'] . "'";
-						echo ">&times;</button></td>";
+					?>
+					<!--upload -->
+
+					   <td style=''>
+                  <input id="csvUpload" name="input4[]" type="file" multiple class="file-loading">
+				      </td>
+					<?php
+                  //name of account
 						echo "<td>".$acc['name']."</td>";						
 					?>
 					</tr>
@@ -190,6 +192,11 @@
 		</div>
 
     		<script>
+    		//initialize file upload
+    		$(document).on('ready', function() {
+           $("#csvUpload").fileinput({showCaption: false});
+         });
+
 			//checkbox functionality
 			$.ajaxSetup({
 			  headers: {
@@ -216,6 +223,7 @@
 				   }
 				});
 			});
+			//remove button functionality
 			$("button[id=removeAccount]").click( function()
 			{				
 				$.ajax({

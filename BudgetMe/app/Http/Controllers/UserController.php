@@ -83,36 +83,35 @@ class UserController extends Controller
 
     public function sortTransactionSetByDate()	
     {
-	$transactionSet = Session::get('transactionSet');
-	if(!is_null($transactionSet))
-	{
-		usort($transactionSet, function($lhs, $rhs)
-		{
-			//indeces of date MM/DD/YYYY
-			$m = 0;
-			$d = 1;
-			$y = 2; 
+	   $transactionSet = Session::get('transactionSet');
+	   if(!is_null($transactionSet))
+	   {
+		   usort($transactionSet, function($lhs, $rhs)
+		   {
+			   //indeces of date MM/DD/YYYY
+			   $m = 0;
+			   $d = 1;
+			   $y = 2; 
 
-			$ldate = explode('/', $lhs['date']);
-			$rdate = explode('/', $rhs['date']);
-			if(strcmp($ldate[$y], $rdate[$y]) > 0) //if left is chronologically more recent
-				return -1;
-			if(strcmp($ldate[$y], $rdate[$y]) < 0) //if right is more recent
-				return 1;
-			//the years must be equal
-			if(strcmp($ldate[$m], $rdate[$m]) > 0) //if left is chronologically more recent
-				return -1;
-			if(strcmp($ldate[$m], $rdate[$m]) < 0) //if right is more recent
-				return 1;	
-			if(strcmp($ldate[$d], $rdate[$d]) > 0) //if left is chronologically more recent
-				return -1;
-			if(strcmp($ldate[$d], $rdate[$d]) < 0) //if right is more recent
-				return 1;
-			return 0; //equal dates	
-		});
-    		Session::put('transactionSet', $transactionSet);
-	}
-
+			   $ldate = explode('/', $lhs['date']);
+			   $rdate = explode('/', $rhs['date']);
+			   if(strcmp($ldate[$y], $rdate[$y]) > 0) //if left is chronologically more recent
+				   return -1;
+			   if(strcmp($ldate[$y], $rdate[$y]) < 0) //if right is more recent
+				   return 1;
+			   //the years must be equal
+			   if(strcmp($ldate[$m], $rdate[$m]) > 0) //if left is chronologically more recent
+				   return -1;
+			   if(strcmp($ldate[$m], $rdate[$m]) < 0) //if right is more recent
+				   return 1;	
+			   if(strcmp($ldate[$d], $rdate[$d]) > 0) //if left is chronologically more recent
+				   return -1;
+			   if(strcmp($ldate[$d], $rdate[$d]) < 0) //if right is more recent
+				   return 1;
+			   return 0; //equal dates	
+		   });
+       	Session::put('transactionSet', $transactionSet);
+	   }
     	return redirect('/dashboard');
     }
 
