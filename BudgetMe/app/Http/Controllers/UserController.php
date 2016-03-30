@@ -11,8 +11,11 @@ use App\Models\Account;
 use App\Models\Budget;
 use Session;
 
+
+
 class UserController extends Controller
 {
+	
     public function login(Request $request)
     {
     	$user = User::with('accounts', 'budgets')
