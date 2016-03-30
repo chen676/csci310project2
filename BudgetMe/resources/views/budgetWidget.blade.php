@@ -37,12 +37,18 @@
 						$("#name1button").click(function()
            				{
 
+           					var inputBudget = $('#name1input').val();
+
+           					if(!$(inputBudget) || !$.isNumeric(inputBudget)) return;
+
+
              				$.ajax({
              					type: "POST",
              					url: '/clickBudgetButton',
-             					data:"",
-             					success: function() {
-             						alert("button clicked");
+             					data:inputBudget,
+             					success: function(data) {
+             						//var model = JSON.parse(data);
+             						console.log(data);
              					}
              				})
 
