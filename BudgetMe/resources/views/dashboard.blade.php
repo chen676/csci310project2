@@ -81,39 +81,57 @@
 			<div class="widget" id="budget">
 				<h2>Budget</h2>
 		         <div id="BudgetDiv"> 
-			         <table width="100%">
+			         <table id = "budgetTable" width="100%">
 				         <tr>
-					         <td>Name1</td>
+					         <td>Category</td>
+					         <td>Budget</td>
 				         </tr>
-				         <tr>
-					         <td>Name1</td>
-				         </tr>
-				         <tr>
-					         <td>Name1</td>
-				         </tr>
-				         <tr>
-					         <td>Name1</td>
-				         </tr>
-				         <tr>
-					         <td>Name1</td>
-				         </tr>
-				         <tr>
-					         <td>Name1</td>
-				         </tr>
-				         <tr>
-					         <td>Name1</td>
-				         </tr>
-				         <tr>
-					         <td>Name1</td>
-					         <td><input type="text" id="name1input"></td>
-					         <td><button id="name1button">Button1</button></td>
-
+				         
 					         <script type="text/javascript">
 					         $.ajaxSetup({
 					           headers: {
 					             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 					           }
 					         });
+
+					         
+
+					         //load when page loaded	
+					         $(document).ready(function(){
+
+					         	table = document.getElementById("budgetTable");
+
+								$.ajax({ type: "POST",
+                      					url: '/loadBudgets',
+                      					data:"",
+        						success: function(data){
+           							//console.log(data);
+           							var resultset = JSON.parse(data);
+           							//console.log(obj[0]);
+           							$.each( resultset, function (i, row){
+
+           								console.log(resultset[i].category);
+           								//insert rows after headers
+           								var row = table.insertRow(1);
+           								var cell1 = row.insertCell(0);
+           								var cell2 = row.insertCell(1);
+           								var currentCategory = row.category;
+           								var cell3 = row.insertCell(2);
+           								var cell4 = row.insertCell(3); 
+
+           								//console.log(resultset[i].category);
+           								
+           								cell1.innerHTML = resultset[i].category;
+           								cell2.innerHTML = "$" + resultset[i].amount;
+           								cell3.innerHTML = '<input type="text" id="updateBtn"> '
+           								cell4.innerHTML = '<input id = "updateBtn" type = "button" value = "Update">'
+
+           							});
+        						}});
+        						console.log("doc ready");
+							});
+
+
 						         $("#name1button").click(function()
                     				{
 

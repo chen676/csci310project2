@@ -33,6 +33,8 @@ Route::group(['middleware' => ['web']], function () {
 	});
   	Route::post('/clickBudgetButton','BudgetController@getBudgets');
 
+    Route::post('/loadBudgets','BudgetController@getBudgets');
+
 	Route::post('/display_transactions', 'UserController@getTransactionSet');
 	Route::get('/sort', 'AccountController@sortAccounts');
 	Route::get('/viewT', 'UserController@getTransactionSet');
