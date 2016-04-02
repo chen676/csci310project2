@@ -84,8 +84,8 @@ Then(/^there are accounts in sorted alphabetical order$/) do
 end
 
 When(/^all visibility boxes are unchecked$/) do
-   browser.find_elements('input[type=checkbox]').each do |checkbox|
-      expect(checkbox.checked?).to eq(false)
+   browser.all(:css, 'input[type=checkbox]').each do |checkbox|
+      expect(checkbox['checked']).to eq('')
    end
 end
 

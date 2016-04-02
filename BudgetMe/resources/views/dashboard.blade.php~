@@ -242,7 +242,7 @@
                   <form action="/remove_account" method="post">
                   	{{csrf_field()}}
                   	<input type="hidden" name="account_id" value="<?php echo $acc['id'] ?>">
-                  	<button type="submit">Delete Account</button>
+                  	<button type="submit" id="removeAccount">Delete Account</button>
                   </form>
                   </td>
 
