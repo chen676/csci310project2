@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'selenium-webdriver'
-browser = selenium-webdriver::Webdriver.for(:firefox)
+browser = Selenium::WebDriver.for(:firefox)
 
 Given(/^ a user is logged in with username $username and password $password$/) do |username, password|
 	visit('http://localhost')
@@ -26,14 +26,31 @@ When(/^the user presses the update button of $category$/) do |category|
 	browser.find_element(:id, category + '_button').click
 end
 
-Then(/^the budget for that category should not be updated$/) do
-	#pending
+Then(/^the budget for $category should still be $amount$/) do |category, amount|
+	has_no_change = false
+	all ('tr').each do |tr|
+		if tr.has_content?(category) && tr.has_content?(amount)
+			has_no_change = true
+		end
+	end
+	assert has_change
 end
 
 When(/^the user inserts $input into the budget widget's textfield$/) do |input|
-	#find(#budgetWidgetTextfield).set(input)
+	find(budgetWidgetTextfield).set(input)
 end
 
-Then(/^the budget for that category should be updated$/) do
-	#pending
+Then(/^the budget for $category should be updated to $amount$/) do |category, amount|
+	has_change = false
+	all ('tr').each do |tr|
+		if tr.has_content?(category) && tr.has_content?(amount)
+			has_change = true
+		end
+	end
+	assert has_change
+end
+
+Given(/^the $category budget is set to $amount$/) do |category, amount|
+	find(budgetWidgetTextfield).set(amount)
+	browser.find_element(:id, category + '_button').click
 end

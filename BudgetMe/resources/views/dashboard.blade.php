@@ -86,7 +86,7 @@
 					         <td>Category</td>
 					         <td>Budget</td>
 				         </tr>
-				         <input type = "button" id = "something" class = "updateBtn"/>
+				         <input type = "text" id = "budgetWidgetTextfield"/>
 				         
 					         <script type="text/javascript">
 					         $.ajaxSetup({
@@ -99,7 +99,6 @@
 
 					         //load when page loaded	
 					         $(document).ready(function(){
-
 					         	table = document.getElementById("budgetTable");
 
 								$.ajax({ type: "POST",
@@ -117,8 +116,8 @@
            								var cell1 = row.insertCell(0);
            								var cell2 = row.insertCell(1);
            								var currentCategory = row.category;
-           								var cell3 = row.insertCell(2);
-           								var cell4 = row.insertCell(3); 
+           								//var cell3 = row.insertCell(2);
+           								var cell3 = row.insertCell(2); 
 
            								//console.log(resultset[i].category);
            								
@@ -126,27 +125,42 @@
            								cell1.id = cell1.innerHTML + "_label";
            								cell2.innerHTML = "$" + resultset[i].amount;
            								cell2.id = cell1.innerHTML + "_amount";
-           								cell3.innerHTML = '<input type="text" class = "updatedBudget"> ';
-           								cell4.id = cell1.innerHTML + "_button";
-           								cell4.innerHTML = '<input class = "updateBtn" type = "button" value = "Update">';
-
+           								//cell3.innerHTML = '<input type="text" class = "updatedBudget"> ';
+           								
+           								var innerHTML = '<input class = "updateBtn" type = "button" value = "Update" id = ' + cell1.innerHTML + "_button >";
+           								cell3.innerHTML = innerHTML
            							});
         						}});
         						
-        						//update button clicked
-        						$(document).on('click', '.updateBtn', function(e) { 
-        								console.log("clicked this!!");
 
-        								/*
-        								$('#budgetTable').find('tr').click( function(){
-        									var category = $(this).find('td:first').text();
-        									var updatedBudget = $(this).find('td').eq(3).val();
-        									console.log(category);
-        									console.log(updatedBudget);
-        								});*/
+        						//update button clicked
+        						$(document).on('click', '.updateBtn', function(e) {
+        								var target = e.target.id;
+        								console.log( target);
+        								var updated_amount = document.getElementById("budgetWidgetTextfield").value;
+        								if(!$(updated_amount) || !$.isNumeric(updated_amount) || updated_amount.indexOf('-') != -1){
+        									console.log("invalid input: "+updated_amount)
+        									return;
+        								}
+        								var category = target.substr(0, target.indexOf('_'));
+        								$.ajax({ type: "POST",
+                      					url: '/updateBudget',
+                      					data: {'updated_amount':updated_amount, 'category' : category},
+        								success: function(data){
+        									console.log("success")
+        									document.getElementById("budgetWidgetTextfield").value = "";
+        									var amount = JSON.parse(data);
+        									console.log("amount:" +amount);
+        									var element =category + "_amount";
+        									console.log("element:" + element);
+        									document.getElementById(element).innerHTML = "$" + amount;
+        								}
+
+        								
         							});
 									
-							});
+								});
+        					});
 					         /*
 
 						         $('.updateBtn').bind('click',(function()
@@ -173,6 +187,7 @@
 
 
                    				 }
+        					}
                				)
 						         );*/
 
