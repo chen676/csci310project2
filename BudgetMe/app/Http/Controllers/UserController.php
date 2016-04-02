@@ -47,41 +47,70 @@ class UserController extends Controller
     	]);
     }
 
+     function dateComparator($lhs, $rhs) //compare two transactions by date
+      {
+	      //indeces of date MM/DD/YYYY
+	      $m = 0;
+	      $d = 1;
+	      $y = 2; 
+
+	      $ldate = explode('/', $lhs['date']);
+	      $rdate = explode('/', $rhs['date']);
+	      if(strcmp($ldate[$y], $rdate[$y]) > 0) //if left is chronologically more recent
+		      return -1;
+	      if(strcmp($ldate[$y], $rdate[$y]) < 0) //if right is more recent
+		      return 1;
+	      //the years must be equal
+	      if(strcmp($ldate[$m], $rdate[$m]) > 0) //if left is chronologically more recent
+		      return -1;
+	      if(strcmp($ldate[$m], $rdate[$m]) < 0) //if right is more recent
+		      return 1;	
+	      if(strcmp($ldate[$d], $rdate[$d]) > 0) //if left is chronologically more recent
+		      return -1;
+	      if(strcmp($ldate[$d], $rdate[$d]) < 0) //if right is more recent
+		      return 1;
+	      return 0; //equal dates	
+      }
+      
     public function getTransactionSet(Request $request)
     {
-	if($request->ajax())
-	{
-		if($_POST['length'] == 0)
-		{
-			Session::put('checkedAccounts', array());
-    			Session::put('transactionSet', array());
-			return;
-		}
+      if($request->ajax())
+      {
+	      if($_POST['length'] == 0)
+	      {
+		      Session::put('checkedAccounts', array());
+       			Session::put('transactionSet', array());
+		      return;
+	      }
 
-		$accountNames = $_POST['accountSet'];
+	      $accountNames = $_POST['accountSet'];
 
-		//need to create an array based on id, not name
-		$accountIDs = array();
-		foreach($accountNames as $name)
-		{
-			$account = Account::where('name', '=', $name)
-			->get()->first();
-			array_push($accountIDs, $account->id);
-		}
+	      //need to create an array based on id, not name
+	      $accountIDs = array();
+	      foreach($accountNames as $name)
+	      {
+		      $account = Account::where('name', '=', $name)
+		      ->get()->first();
+		      array_push($accountIDs, $account->id);
+	      }
 
-		Session::put('checkedAccounts', $accountNames);
+	      Session::put('checkedAccounts', $accountNames);
 
-		$transactionSet = array();
-		foreach($accountIDs as $acc_id)
-		{
-			$transaction = Transaction::where('account_id', '=', $acc_id)
-			->get();
-			$transaction = $transaction->toArray();
-			$transactionSet = array_merge($transactionSet, $transaction);
-		}
-    		Session::put('transactionSet', $transactionSet);
-		return $transactionSet;
-	}
+	      $transactionSet = array();
+	      foreach($accountIDs as $acc_id)
+	      {
+		      $transaction = Transaction::where('account_id', '=', $acc_id)
+		      ->get();
+		      $transaction = $transaction->toArray();
+		      $transactionSet = array_merge($transactionSet, $transaction);
+	      }
+       	
+       	//sort by date default
+         usort($transactionSet, array($this, "dateComparator"));
+       	
+       	Session::put('transactionSet', $transactionSet);
+	      return $transactionSet;
+      }
     }
 
     public function sortTransactionSetByDate()	
@@ -89,35 +118,14 @@ class UserController extends Controller
 	   $transactionSet = Session::get('transactionSet');
 	   if(!is_null($transactionSet))
 	   {
-		   usort($transactionSet, function($lhs, $rhs)
-		   {
-			   //indeces of date MM/DD/YYYY
-			   $m = 0;
-			   $d = 1;
-			   $y = 2; 
-
-			   $ldate = explode('/', $lhs['date']);
-			   $rdate = explode('/', $rhs['date']);
-			   if(strcmp($ldate[$y], $rdate[$y]) > 0) //if left is chronologically more recent
-				   return -1;
-			   if(strcmp($ldate[$y], $rdate[$y]) < 0) //if right is more recent
-				   return 1;
-			   //the years must be equal
-			   if(strcmp($ldate[$m], $rdate[$m]) > 0) //if left is chronologically more recent
-				   return -1;
-			   if(strcmp($ldate[$m], $rdate[$m]) < 0) //if right is more recent
-				   return 1;	
-			   if(strcmp($ldate[$d], $rdate[$d]) > 0) //if left is chronologically more recent
-				   return -1;
-			   if(strcmp($ldate[$d], $rdate[$d]) < 0) //if right is more recent
-				   return 1;
-			   return 0; //equal dates	
-		   });
+		   usort($transactionSet, array($this, "dateComparator"));
        	Session::put('transactionSet', $transactionSet);
 	   }
     	return redirect('/dashboard');
     }
 
+
+      
     public function sortTransactionSetByCategory()
     {
 	$transactionSet = Session::get('transactionSet');
