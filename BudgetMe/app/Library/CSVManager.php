@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Library;
+
 class CSVManager{
 
 	public function __construct(){
@@ -9,12 +11,18 @@ class CSVManager{
     // ATM THIS FUNCTION IS UNUSABLE UNTIL HTML FORM EXISTS
     public function uploadCSV(){
 
+    	if (!isset($_FILES["csv"])) {
+    		return;
+    	}
+
 		// FILEPATH BELOW TO CHANGE
 		//readfile("http://localhost/Frontend/dashboard.html");
 		//modified code from http://www.w3schools.com/php/php_file_upload.asp
-		$target_dir = "";
-		$target_name = "test.csv";
-		$target_file = $target_dir . $target_name;
+		$target_name = $_FILES["csv"]["name"];
+
+		//move_uploaded_file($_FILES["csv"]["tmp_name"], app_path() . "/storage/app/public/uploads/" . $target_name);
+
+		//$transactions = $parseCSV("/uploads/" . $target_name);
 
 		/*
 		$uploadOk = 1;
@@ -52,13 +60,13 @@ class CSVManager{
 		}
 		*/
 
-		return parseCSV($target_file);
+		//return parseCSV($target_file);
 		
 	}
 	// parse the csv file for values
 	public function parseCSV($target_file){
 
-		//echo $target_file;
+		
 
 		$transactions = array();
 

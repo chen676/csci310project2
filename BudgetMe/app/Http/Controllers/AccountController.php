@@ -47,6 +47,7 @@ class AccountController extends Controller
     	$u = User::find($user->id);
     	Session::put('user', $u);
 
+
     	return redirect('/dashboard');
 
     }
@@ -58,10 +59,21 @@ class AccountController extends Controller
       return redirect('/dashboard');
     }
     
-    public function uploadCSV()
+    public function uploadCSV(Request $request)
     {
-    	//$csvmanager = new CSVManager();
-    	//echo "test";
+    	
+    	if (!$request->hasFile('csv')){
+    		return redirect('/dashboard');
+    	}
+    	$file = $request->file('csv');
+    	$path = base_path() . '/upload';
+    	$file->move($path, $file->getClientOriginalName());
+    	$target_file = $path . '/' . $file->getClientOriginalName();
+    	$csvm = new CSVManager();
+    	$transactions = $csvm -> parseCSV($target_file);
+
+    	
+    	
     	return redirect('/dashboard');
     }
 }
