@@ -27,13 +27,11 @@ Route::group(['middleware' => ['web']], function () {
   	});
   	Route::post('/create_account', 'AccountController@addAccount');
 
-  	Route::get('/budgetWidget',function()
+  	Route::post('/budgetWidget',function()
 	{
 		return view('budgetWidget');
 	});
   	Route::post('/clickBudgetButton','BudgetController@getBudgets');
-
-    Route::post('/loadBudgets','BudgetController@getBudgets');
 
 	Route::post('/display_transactions', 'UserController@getTransactionSet');
 	Route::get('/sort', 'AccountController@sortAccounts');
