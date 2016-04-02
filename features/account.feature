@@ -3,8 +3,6 @@ Feature: This feature makes sure the implementation of the Account Listing on th
                                     Accounts are in sorted order
                                     There are elements to add an account, delete, upload csv, and make an account visible
 
-Background: I am signed into admin account                                    
-
 Scenario: Accounts are displayed when I am on the dashboard
    Given I am on the dashboard
    Then there are accounts in sorted alphabetical order

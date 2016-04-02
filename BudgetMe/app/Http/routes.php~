@@ -21,7 +21,7 @@ Route::group(['middleware' => ['web']], function () {
   	Route::get('/dashboard', 'UserController@dashboard');
   	Route::get('/logout', 'UserController@logout');
 
-  	Route::get('/remove_account', 'AccountController@removeAccount');
+  	Route::post('/remove_account', 'AccountController@removeAccount');
   	Route::post('/create_account', 'AccountController@addAccount');
 
   	Route::get('/budgetWidget',function()
@@ -33,7 +33,7 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('/display_transactions', 'UserController@getTransactionSet');
 
 	Route::get('/sort', 'AccountController@sortAccounts');
-	Route::get('uploadCSV', 'AccountController@uploadCSV');
+	Route::post('/uploadCSV', 'AccountController@uploadCSV');
 	Route::get('/viewT', 'UserController@getTransactionSet');
 
 	Route::get('/sortTransactionSetByDate', 'UserController@sortTransactionSetByDate');

@@ -153,7 +153,7 @@
          <div id="accountPanel">
 			   <div class="widget" id="transactionHistory">
 				   <h2>Transaction History</h2><br>
-				   <table>	
+				   <table id="transactionTable">	
 					<tr>
 						<th style = "padding-right:50px; padding-left:20px">Account</th>
 						<th style = "padding-right:50px"><a href="/sortTransactionSetByDate">Date</th>
@@ -216,7 +216,7 @@
 						return strcmp($lhs['name'], $rhs['name']);
 					});
                ?>
-               <table>
+               <table id='accountTable'>
                <tr>
                <?php
 					foreach($accounts as $acc)
@@ -296,7 +296,7 @@
 				   success: function(msg){
 				      alert(msg);
 				   },
-			       	   error:function(exception){
+			      error:function(exception){
 					   alert(exception); 
 				   }
 				});
