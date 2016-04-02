@@ -123,8 +123,11 @@
            								//console.log(resultset[i].category);
            								
            								cell1.innerHTML = resultset[i].category;
+           								cell1.id = cell1.innerHTML + "_label";
            								cell2.innerHTML = "$" + resultset[i].amount;
+           								cell2.id = cell1.innerHTML + "_amount";
            								cell3.innerHTML = '<input type="text" class = "updatedBudget"> ';
+           								cell4.id = cell1.innerHTML + "_button";
            								cell4.innerHTML = '<input class = "updateBtn" type = "button" value = "Update">';
 
            							});
