@@ -79,41 +79,91 @@
 			<div class="widget" id="budget">
 				<h2>Budget</h2>
 		         <div id="BudgetDiv"> 
-			         <table width="100%">
+			         <table id = "budgetTable" width="100%">
 				         <tr>
-					         <td>Name1</td>
+					         <td>Category</td>
+					         <td>Budget</td>
 				         </tr>
-				         <tr>
-					         <td>Name1</td>
-				         </tr>
-				         <tr>
-					         <td>Name1</td>
-				         </tr>
-				         <tr>
-					         <td>Name1</td>
-				         </tr>
-				         <tr>
-					         <td>Name1</td>
-				         </tr>
-				         <tr>
-					         <td>Name1</td>
-				         </tr>
-				         <tr>
-					         <td>Name1</td>
-				         </tr>
-				         <tr>
-					         <td>Name1</td>
-					         <td><input type="text" id="name1input"></td>
-					         <td><button id="name1button">Button1</button></td>
-
+				         <input type = "text" id = "budgetWidgetTextfield"/>
+				         
 					         <script type="text/javascript">
 					         $.ajaxSetup({
 					           headers: {
 					             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 					           }
 					         });
-						         $("#name1button").click(function()
+
+					         
+
+					         //load when page loaded	
+					         $(document).ready(function(){
+					         	table = document.getElementById("budgetTable");
+
+								$.ajax({ type: "POST",
+                      					url: '/loadBudgets',
+                      					data:"",
+        						success: function(data){
+           							//console.log(data);
+           							var resultset = JSON.parse(data);
+           							//console.log(obj[0]);
+           							$.each( resultset, function (i, row){
+
+           								console.log(resultset[i].category);
+           								//insert rows after headers
+           								var row = table.insertRow(1);
+           								var cell1 = row.insertCell(0);
+           								var cell2 = row.insertCell(1);
+           								var currentCategory = row.category;
+           								//var cell3 = row.insertCell(2);
+           								var cell3 = row.insertCell(2); 
+
+           								//console.log(resultset[i].category);
+           								
+           								cell1.innerHTML = resultset[i].category;
+           								cell1.id = cell1.innerHTML + "_label";
+           								cell2.innerHTML = "$" + resultset[i].amount;
+           								cell2.id = cell1.innerHTML + "_amount";
+           								//cell3.innerHTML = '<input type="text" class = "updatedBudget"> ';
+           								
+           								var innerHTML = '<input class = "updateBtn" type = "button" value = "Update" id = ' + cell1.innerHTML + "_button >";
+           								cell3.innerHTML = innerHTML
+           							});
+        						}});
+        						
+
+        						//update button clicked
+        						$(document).on('click', '.updateBtn', function(e) {
+        								var target = e.target.id;
+        								console.log( target);
+        								var updated_amount = document.getElementById("budgetWidgetTextfield").value;
+        								if(!$(updated_amount) || !$.isNumeric(updated_amount) || updated_amount.indexOf('-') != -1){
+        									console.log("invalid input: "+updated_amount)
+        									return;
+        								}
+        								var category = target.substr(0, target.indexOf('_'));
+        								$.ajax({ type: "POST",
+                      					url: '/updateBudget',
+                      					data: {'updated_amount':updated_amount, 'category' : category},
+        								success: function(data){
+        									console.log("success")
+        									document.getElementById("budgetWidgetTextfield").value = "";
+        									var amount = JSON.parse(data);
+        									console.log("amount:" +amount);
+        									var element =category + "_amount";
+        									console.log("element:" + element);
+        									document.getElementById(element).innerHTML = "$" + amount;
+        								}
+
+        								
+        							});
+									
+								});
+        					});
+					         /*
+
+						         $('.updateBtn').bind('click',(function()
                     				{
+                    					console.log("BTN click");
 
                     					var inputBudget = $('#name1input').val();
 
@@ -128,14 +178,17 @@
 
                       						console.log(data);
                       						
-                      						/*console.log("ID " + data.id);
-                      						console.log("Budgets" + data.budgets )*/
+                      						console.log("ID " + data.id);
+                      						console.log("Budgets" + data.budgets )
                       					}
                       				})
 
 
                    				 }
-               				);
+        					}
+               				)
+						         );*/
+
 					         </script>
 				         </tr>
 			         </table>
