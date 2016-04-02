@@ -234,8 +234,8 @@
 					<!--upload -->
 
 					   <td style=''>
-					   <form action="" method="post" enctype="multipart/form-data">
-					   <?php AccountController::uploadCSV() ?>
+					   	<form action="/uploadCSV" method="post" enctype="multipart/form-data">
+					   	<?php echo csrf_field(); ?>
                   <input id="csvUpload" name="csv" value="" type="file" accept=".csv" multiple class="file-loading" />
                   <button id="uploadButton" type="submit">Upload</button>
                   </form>
