@@ -19,24 +19,20 @@ class AccountController extends Controller
 {
     public function sortAccounts()
     {
-	$accounts = Account::with('user')
-	->where('user_id', '=', 1)	
-	->get();
-	
-    $accounts = $accounts->toArray();
+    	$accounts = Account::with('user')
+    	->where('user_id', '=', 1)	
+    	->get();
+    	
+        $accounts = $accounts->toArray();
 
-    // usort($accounts, function($lhs, $rhs)
-    //     {
-    //         return strcmp($lhs['name'], $rhs['name']);
-    //     });
+        $accountManager = new AccountManager();
+        $accountList = $accountManager->sortAccountsByNames();
 
-    //     foreach($accounts as $acc)
-    //     {
-    //         var_dump($acc['name']);
-    //         echo "<br>";
-    //     }
-    $accountManager = new AccountManager();
-    $accountManager->sortAccountsByNames();
+        foreach($accountList as $acc)
+        {
+            var_dump($acc['name']);
+            echo "<br>";
+        }
 	}
     public function addAccount(Request $request)
     {
@@ -84,22 +80,9 @@ class AccountController extends Controller
     		$single->date = $t[3];
     		$single->account_id = 1;
 
-    		//$single->id = 2;
     		$single->save();
 
-    		    		/*
-    		$single = new Transaction([
-    			'category' => $t[0],
-    			'amount' => $t[1],
-    			'merchant' => $t[2],
-    			'date' => $t[3],
-    			'account_id' => 1
-    		]);
-    		*/
-    		//$single->save();
     		
-
-
     	}
     	
     	return redirect('/dashboard');
