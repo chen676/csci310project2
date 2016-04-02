@@ -153,7 +153,7 @@
          <div id="accountPanel">
 			   <div class="widget" id="transactionHistory">
 				   <h2>Transaction History</h2><br>
-				   <table>	
+				   <table id="transactionTable">	
 					<tr>
 						<th style = "padding-right:50px; padding-left:20px">Account</th>
 						<th style = "padding-right:50px"><a href="/sortTransactionSetByDate">Date</th>
@@ -216,14 +216,12 @@
 						return strcmp($lhs['name'], $rhs['name']);
 					});
                ?>
-               <table>
+               <table id='accountTable'>
                <tr>
                <?php
 					foreach($accounts as $acc)
 					{
-					   //close button
-						echo "<td><button class='close' id='removeAccount' style='float:left' value='". $acc['name'] . "'";
-						echo ">&times;</button></td>";	
+					   
 						//checkbox				   
 					   echo '<td><input type="checkbox" id="accountVisible" name="visibility" style="margin-left:10px" value="'. $acc['name'] . '"';
 						if(!is_null($checkedAccounts)){
@@ -239,7 +237,15 @@
                   <input id="csvUpload" name="csv" value="" type="file" accept=".csv" multiple class="file-loading" />
                   <button id="uploadButton" type="submit">Upload</button>
                   </form>
-				      </td>
+                  
+
+                  <form action="/remove_account" method="post">
+                  	{{csrf_field()}}
+                  	<input type="hidden" name="account_id" value="<?php echo $acc['id'] ?>">
+                  	<button type="submit">Delete Account</button>
+                  </form>
+                  </td>
+
 					<?php
                   //name of account
 						echo "<td>".$acc['name']."</td>";						
@@ -285,6 +291,7 @@
 				   }
 				});
 			});
+
 			//remove button functionality
 			$("button[id=removeAccount]").click( function()
 			{				
@@ -296,12 +303,11 @@
 				   success: function(msg){
 				      alert(msg);
 				   },
-			       	   error:function(exception){
+			      error:function(exception){
 					   alert(exception); 
 				   }
 				});
 			});
-
 
 			// idle time-out
 			$(document).ready(function () {
