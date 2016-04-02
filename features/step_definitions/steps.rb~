@@ -18,6 +18,10 @@ Then(/^the loginSubmitButton exists$/) do
    browser.find_element(:id, 'loginSubmitButton').displayed?
 end
 
+Then(/^the (.*) exists$/) do |element|
+   browser.find_element(:id, element).displayed?
+end
+
 When(/^I successfully login$/) do
    input = browser.find_element(:id, 'loginUserField')
    input.send_keys('admin@usc.edu')
@@ -27,7 +31,7 @@ When(/^I successfully login$/) do
 end
 
 Then(/^I am taken to the dashboard page$/) do
-   assert browser.current_path == "localhost/dashboard"
+   expect(browser.page_source.include?('Dashboard')).to eq(true)
 end
 
 When(/^I do not provide valid credentials$/) do

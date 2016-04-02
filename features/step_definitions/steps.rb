@@ -6,16 +6,8 @@ Given(/^I am on the login page$/) do
    browser.get('http://localhost')
 end
 
-Then(/^the loginUserField exists$/) do
-   browser.find_element(:id, 'loginUserField').displayed?
-end
-
-Then(/^the loginPasswordField exists$/) do
-   browser.find_element(:id, 'loginPasswordField').displayed?
-end
-
-Then(/^the loginSubmitButton exists$/) do
-   browser.find_element(:id, 'loginSubmitButton').displayed?
+Then(/^the (.*) exists$/) do |element|
+   browser.find_element(:id, element).displayed?
 end
 
 When(/^I successfully login$/) do

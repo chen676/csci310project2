@@ -1,0 +1,3 @@
+Feature: These tests will show that the Transaction List on the dashboard fully satisfies stakeholder requirements
+   Full Implementation includes: Sorting correctly by Category, Date, or Amount
+                                 Displayed based on the accounts selected by the user

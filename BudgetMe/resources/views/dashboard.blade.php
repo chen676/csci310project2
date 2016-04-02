@@ -225,7 +225,7 @@
 						echo "<td><button class='close' id='removeAccount' style='float:left' value='". $acc['name'] . "'";
 						echo ">&times;</button></td>";	
 						//checkbox				   
-					   echo '<td><input type="checkbox" name="visibility" style="margin-left:10px" value="'. $acc['name'] . '"';
+					   echo '<td><input type="checkbox" id="accountVisible" name="visibility" style="margin-left:10px" value="'. $acc['name'] . '"';
 						if(!is_null($checkedAccounts)){
 							if (in_array($acc['name'], $checkedAccounts)) 
 								echo " checked='checked'"; 	}					
