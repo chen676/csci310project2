@@ -55,9 +55,15 @@ class AccountController extends Controller
 
     public function removeAccount(Request $request)
     {
-      $accToDelete = $_POST['accountToRemove'];
-      //please implement this ajax call to delete an accoun'=t
-      return redirect('/dashboard');
+		$id = $request->input('account_id');
+		$account = Account::find($id);
+		$account->delete();
+
+		$user = Session::get('user');
+		$u = User::find($user->id);
+		Session::put('user', $u);
+
+		return redirect('/dashboard');
     }
     
     public function uploadCSV(Request $request)
