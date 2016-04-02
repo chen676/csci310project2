@@ -1,6 +1,8 @@
 <?php
 
 
+namespace App\Library;
+
 class AccountManager{
 
 	//
@@ -10,12 +12,8 @@ class AccountManager{
 			return strcmp($lhs['name'], $rhs['name']);
 		});
 
-		foreach($accounts as $acc)
-		{
-			var_dump($acc['name']);
-			echo "<br>";
-		}
 			
+		return $accounts;
 	}
 }
 ?>

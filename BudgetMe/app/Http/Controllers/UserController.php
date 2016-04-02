@@ -11,7 +11,7 @@ use App\Models\Account;
 use App\Models\Budget;
 use Session;
 
-
+use App\Library\TransactionManager;
 
 class UserController extends Controller
 {
@@ -47,30 +47,7 @@ class UserController extends Controller
     	]);
     }
 
-     function dateComparator($lhs, $rhs) //compare two transactions by date
-      {
-	      //indeces of date MM/DD/YYYY
-	      $m = 0;
-	      $d = 1;
-	      $y = 2; 
-
-	      $ldate = explode('/', $lhs['date']);
-	      $rdate = explode('/', $rhs['date']);
-	      if(strcmp($ldate[$y], $rdate[$y]) > 0) //if left is chronologically more recent
-		      return -1;
-	      if(strcmp($ldate[$y], $rdate[$y]) < 0) //if right is more recent
-		      return 1;
-	      //the years must be equal
-	      if(strcmp($ldate[$m], $rdate[$m]) > 0) //if left is chronologically more recent
-		      return -1;
-	      if(strcmp($ldate[$m], $rdate[$m]) < 0) //if right is more recent
-		      return 1;	
-	      if(strcmp($ldate[$d], $rdate[$d]) > 0) //if left is chronologically more recent
-		      return -1;
-	      if(strcmp($ldate[$d], $rdate[$d]) < 0) //if right is more recent
-		      return 1;
-	      return 0; //equal dates	
-      }
+ 
       
     public function getTransactionSet(Request $request)
     {
@@ -106,9 +83,9 @@ class UserController extends Controller
 	      }
        	
        	//sort by date default
-         usort($transactionSet, array($this, "dateComparator"));
-       	
-       	Session::put('transactionSet', $transactionSet);
+	    $transactionManager = new TransactionManager();
+	    $newTransactionSet = $transactionManager -> sortTransactionsByDates($transactionSet);
+       	Session::put('transactionSet', $newTransactionSet);
 	      return $transactionSet;
       }
     }
@@ -118,8 +95,9 @@ class UserController extends Controller
 	   $transactionSet = Session::get('transactionSet');
 	   if(!is_null($transactionSet))
 	   {
-		   usort($transactionSet, array($this, "dateComparator"));
-       	Session::put('transactionSet', $transactionSet);
+       		$transactionManager = new TransactionManager();
+       		$newTransactionSet = $transactionManager -> sortTransactionsByDates($transactionSet);
+       		Session::put('transactionSet', $newTransactionSet);
 	   }
     	return redirect('/dashboard');
     }
@@ -128,30 +106,26 @@ class UserController extends Controller
       
     public function sortTransactionSetByCategory()
     {
-	$transactionSet = Session::get('transactionSet');
-	if(!is_null($transactionSet))
-	{
-		usort($transactionSet, function($lhs, $rhs)
+		$transactionSet = Session::get('transactionSet');
+		if(!is_null($transactionSet))
 		{
-			return strcmp($lhs['category'], $rhs['category']);
-		});
-	    	Session::put('transactionSet', $transactionSet);
-	}
-	return redirect('/dashboard');
+	       	$transactionManager = new TransactionManager();
+	       	$newTransactionSet = $transactionManager -> sortTransactionsByCategory($transactionSet);
+		    Session::put('transactionSet', $newTransactionSet);
+		}
+		return redirect('/dashboard');
     }
 
     public function sortTransactionSetByAmount()
     {	
-	$transactionSet = Session::get('transactionSet');
-	if(!is_null($transactionSet))
-	{
-		usort($transactionSet, function($lhs, $rhs)
+		$transactionSet = Session::get('transactionSet');
+		if(!is_null($transactionSet))
 		{
-			return $lhs['amount'] < $rhs['amount'];
-		});
-	    	Session::put('transactionSet', $transactionSet);
-	}
-    	return redirect('/dashboard');
+			$transactionManager = new TransactionManager();
+	       	$newTransactionSet = $transactionManager -> sortTransactionsByAmount($transactionSet);
+		    Session::put('transactionSet', $newTransactionSet);
+		}
+	    return redirect('/dashboard');
     }
  
     public function logout(Request $request)
