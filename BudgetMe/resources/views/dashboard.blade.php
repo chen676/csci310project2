@@ -86,6 +86,7 @@
 					         <td>Category</td>
 					         <td>Budget</td>
 				         </tr>
+				         <input type = "button" id = "something" class = "updateBtn"/>
 				         
 					         <script type="text/javascript">
 					         $.ajaxSetup({
@@ -123,17 +124,31 @@
            								
            								cell1.innerHTML = resultset[i].category;
            								cell2.innerHTML = "$" + resultset[i].amount;
-           								cell3.innerHTML = '<input type="text" id="updateBtn"> '
-           								cell4.innerHTML = '<input id = "updateBtn" type = "button" value = "Update">'
+           								cell3.innerHTML = '<input type="text" class = "updatedBudget"> ';
+           								cell4.innerHTML = '<input class = "updateBtn" type = "button" value = "Update">';
 
            							});
         						}});
-        						console.log("doc ready");
+        						
+        						//update button clicked
+        						$(document).on('click', '.updateBtn', function(e) { 
+        								console.log("clicked this!!");
+
+        								/*
+        								$('#budgetTable').find('tr').click( function(){
+        									var category = $(this).find('td:first').text();
+        									var updatedBudget = $(this).find('td').eq(3).val();
+        									console.log(category);
+        									console.log(updatedBudget);
+        								});*/
+        							});
+									
 							});
+					         /*
 
-
-						         $("#name1button").click(function()
+						         $('.updateBtn').bind('click',(function()
                     				{
+                    					console.log("BTN click");
 
                     					var inputBudget = $('#name1input').val();
 
@@ -148,14 +163,16 @@
 
                       						console.log(data);
                       						
-                      						/*console.log("ID " + data.id);
-                      						console.log("Budgets" + data.budgets )*/
+                      						console.log("ID " + data.id);
+                      						console.log("Budgets" + data.budgets )
                       					}
                       				})
 
 
                    				 }
-               				);
+               				)
+						         );*/
+
 					         </script>
 				         </tr>
 			         </table>
