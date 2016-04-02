@@ -6,6 +6,10 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 require_once 'app/Library/CSVManager.php';
 
+use App\Library\CSVManager;
+
+
+
 class CSVImportTest extends TestCase
 {
     /**

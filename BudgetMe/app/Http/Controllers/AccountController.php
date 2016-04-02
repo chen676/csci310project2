@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Models\Account;
 use App\Models\User;
+use App\Models\Transaction;
 use Session;
 
 use App\Library\CSVManager;
@@ -72,7 +73,34 @@ class AccountController extends Controller
     	$csvm = new CSVManager();
     	$transactions = $csvm -> parseCSV($target_file);
 
-    	
+    	foreach ($transactions as $t){
+
+
+    		$single = new Transaction;
+
+    		$single->category = $t[0];
+    		$single->amount = $t[1];
+    		$single->merchant = $t[2];
+    		$single->date = $t[3];
+    		$single->account_id = 1;
+
+    		//$single->id = 2;
+    		$single->save();
+
+    		    		/*
+    		$single = new Transaction([
+    			'category' => $t[0],
+    			'amount' => $t[1],
+    			'merchant' => $t[2],
+    			'date' => $t[3],
+    			'account_id' => 1
+    		]);
+    		*/
+    		//$single->save();
+    		
+
+
+    	}
     	
     	return redirect('/dashboard');
     }
