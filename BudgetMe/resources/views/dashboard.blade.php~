@@ -76,15 +76,6 @@
 		<h1>Your Dashboard</h1>
 
 		<div id = "dashboard">
-
-			<div class="widget" id="home">
-				<h2>Home</h2>
-
-				<span id="balances"></span>
-				<button type="button" id="logoutbutton">Logout</button><br><br>
-				<a class="button" href="manual.html">User Manual</a>
-			</div>
-
 			<div class="widget" id="budget">
 				<h2>Budget</h2>
 		         <div id="BudgetDiv"> 
@@ -211,7 +202,7 @@
 				<form action="/create_account" method="post">
 					<?php echo csrf_field(); ?>
 					<div class="form-group">
-						<input class="form-control" type="text" id="addAccountField">
+						<input class="form-control" type="text" id="addAccountField" val="name">
 					</div>
 					<button class="btn btn-success" id="addAccountSubmitButton" type="submit">Add Account</button>
 				</form>
