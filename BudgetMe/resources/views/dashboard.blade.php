@@ -345,22 +345,6 @@
 				});
 			});
 
-			//remove button functionality
-			$("button[id=removeAccount]").click( function()
-			{				
-				$.ajax({
-				   type: "POST",
-				   data: {accountToRemove:$(this).val},
-				   dataType: "json",
-				   url: "/remove_account",
-				   success: function(msg){
-				      alert(msg);
-				   },
-			      error:function(exception){
-					   alert(exception); 
-				   }
-				});
-			});
 
 			// idle time-out
 			$(document).ready(function () {
