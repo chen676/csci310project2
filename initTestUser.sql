@@ -21,6 +21,7 @@ CREATE TABLE `accounts` (
 CREATE TABLE `budgets` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `category` varchar(45) NOT NULL,
+  `amount` float(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_budgets_users1_idx` (`user_id`),
