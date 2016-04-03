@@ -19,6 +19,9 @@ Then(/^his (.*) budget should be displayed$/) do |budget_cat|
 	browser.find_element(:id, budget_cat + '_button').displayed?
 end
 
+When(/^the user inserts nothing into the budget widget's textfield$/) do
+end
+
 When(/^the user presses the update button of (.*)$/) do |category|
 	browser.find_element(:id, category + '_button').click
 end

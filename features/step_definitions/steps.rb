@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'selenium-webdriver'
 browser = Selenium::WebDriver.for(:firefox)
+wait = Selenium::WebDriver::Wait.new(:timeout => 10)
 
 Given(/^I am on the login page$/) do
    browser.get('http://localhost')
@@ -38,8 +39,8 @@ Given(/^I wait (\d+) minute$/) do |arg1|
   pending # Write code here that turns the phrase above into concrete actions
 end
 
-When(/^I do not successfully login (\d+) times$/) do |arg1|
-   for i in 0..arg1
+When(/^I do not successfully login 4 times$/) do
+   for i in 0..4
       input = browser.find_element(:id, 'loginUserField')
       input.send_keys('eafea')
       input = browser.find_element(:id, 'loginPasswordField')
@@ -80,7 +81,7 @@ end
 Then(/^there are accounts in sorted alphabetical order$/) do
    table = browser.find_element(:id, "accountTable")
    expect(table.text).to eq(
-     "×\nUpload\nAmazon Money Card\n×\nUpload\nCredit Card\n×\nUpload\nDebit Card\n×\nUpload\nEBT\n×\nUpload\nPrepaid")
+     "Upload\nDelete Account\nAmazon Money Card\nUpload\nDelete Account\nCredit Card\nUpload\nDelete Account\nDebit Card\nUpload\nDelete Account\nEBT\nUpload\nDelete Account\nPrepaid")
 end
 
 When(/^all visibility boxes are unchecked$/) do
@@ -90,39 +91,50 @@ When(/^all visibility boxes are unchecked$/) do
 end
 
 Then(/^no transactions are displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+   table = browser.find_element(:id, "transactionTable")
+   expect(table.text).to eq("Account Date Merchant Category Amount")
 end
 
 When(/^two visibility boxes are checked$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+   box = wait.until {browser.find_element(:id, 'accountVisibleAmazon Money Card')}
+   box.click
+   box = wait.until {browser.find_element(:id, 'accountVisibleCredit Card')}
+   box.click
 end
 
 Then(/^the union of those transactions are displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+   table = browser.find_element(:id, "transactionTable")
+   expect(table.text).to eq("Account Date Merchant Category Amount\nAmazon Money Card 04/01/2016 Landlord Entertainment 80.11\nAmazon Money Card 03/28/2016 Landlord Rent 30.21\nCredit Card 03/26/2016 Costco Food 200.54")
 end
 
 When(/^I click the Category button$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+   button = wait.until {browser.find_element(:id, 'categorySort')}
+   button.click   
 end
 
 Then(/^the transactions are sorted in category order$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+   table = wait.until {browser.find_element(:id, "transactionTable")}
+   expect(table.text).to eq("Account Date Merchant Category Amount")
 end
 
 When(/^I click the Date button$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+   button = wait.until {browser.find_element(:id, 'dateSort')}
+   button.click 
 end
 
 Then(/^the transactions are sorted in date order$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+   table = wait.until {browser.find_element(:id, "transactionTable")}
+   expect(table.text).to eq("Account Date Merchant Category Amount\nAmazon Money Card 04/01/2016 Landlord Entertainment 80.11\nAmazon Money Card 03/28/2016 Landlord Rent 30.21\nCredit Card 03/26/2016 Costco Food 200.54")
 end
 
 When(/^I click the Amount button$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+   button = wait.until {browser.find_element(:id, 'amountSort')}
+   button.click 
 end
 
 Then(/^the transactions are sorted in amount order$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+   table = wait.until {browser.find_element(:id, "transactionTable")}
+   expect(table.text).to eq("Account Date Merchant Category Amount")
 end
 
 

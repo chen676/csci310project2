@@ -20,15 +20,18 @@ Scenario: When two boxes are checked, the union of those account transactions ar
    
 Scenario: Clicking the Category Button sorts the transactions by category
    Given I am on the dashboard
+   When two visibility boxes are checked
    When I click the Category button
    Then the transactions are sorted in category order
    
 Scenario: Clicking the Date Button sorts the transactions by category
    Given I am on the dashboard
+   When two visibility boxes are checked   
    When I click the Date button
    Then the transactions are sorted in date order
    
 Scenario: Clicking the Amount Button sorts the transactions by category
    Given I am on the dashboard
+   When two visibility boxes are checked   
    When I click the Amount button
    Then the transactions are sorted in amount order

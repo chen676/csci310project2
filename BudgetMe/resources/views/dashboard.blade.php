@@ -209,10 +209,10 @@
 				   <table id="transactionTable">	
 					<tr>
 						<th style = "padding-right:50px; padding-left:20px">Account</th>
-						<th style = "padding-right:50px"><a href="/sortTransactionSetByDate">Date</th>
+						<th style = "padding-right:50px"><a href="/sortTransactionSetByDate" id="dateSort">Date</th>
 						<th style = "padding-right:50px">Merchant</th>
-						<th style = "padding-right:50px"> <a href="/sortTransactionSetByCategory">Category</a></th>
-						<th style = "padding-right:50px"><a href="/sortTransactionSetByAmount">Amount</a></th>		
+						<th style = "padding-right:50px"> <a href="/sortTransactionSetByCategory" id="categorySort">Category</a></th>
+						<th style = "padding-right:50px"><a href="/sortTransactionSetByAmount" id="amountSort">Amount</a></th>		
 					</tr>
 
 					<?php
@@ -276,7 +276,7 @@
 					{
 					   
 						//checkbox				   
-					   echo '<td><input type="checkbox" id="accountVisible" name="visibility" style="margin-left:10px" value="'. $acc['name'] . '"';
+					   echo '<td><input type="checkbox" id="accountVisible'. $acc['name'] . '" name="visibility" style="margin-left:10px" value="'. $acc['name'] . '"';
 						if(!is_null($checkedAccounts)){
 							if (in_array($acc['name'], $checkedAccounts)) 
 								echo " checked='checked'"; 	}					
