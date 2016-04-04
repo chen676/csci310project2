@@ -287,7 +287,7 @@
 					   <td style=''>
 					   	<form action="/uploadCSV" method="post" enctype="multipart/form-data">
 					   	<?php echo csrf_field(); ?>
-                  <input id="csvUpload" name="csv" value="" type="file" accept=".csv" multiple class="file-loading" />
+                  <input id="csvUpload" name="csv" value="<?php echo $acc['id'] ?>" type="file" accept=".csv" multiple class="file-loading" />
                   <button id="uploadButton" type="submit">Upload</button>
                   </form>
                   

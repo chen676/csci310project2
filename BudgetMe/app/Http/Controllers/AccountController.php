@@ -53,13 +53,14 @@ class AccountController extends Controller
     {
 		$id = $request->input('account_id');
 		$account = Account::find($id);
+		$account->transaction()->delete();
 		$account->delete();
 
 		$user = Session::get('user');
 		$u = User::find($user->id);
 		Session::put('user', $u);
 
-		return redirect('/dashboard');
+		return redirect('/clearList');
     }
     
     public function uploadCSV(Request $request)

@@ -15,23 +15,27 @@ Scenario: When no account is checked, no transactions are displayed
    
 Scenario: When two boxes are checked, the union of those account transactions are displayed sorted by date
    Given I am on the dashboard
+   When all visibility boxes are unchecked
    When two visibility boxes are checked
    Then the union of those transactions are displayed
    
 Scenario: Clicking the Category Button sorts the transactions by category
    Given I am on the dashboard
+   When all visibility boxes are unchecked
    When two visibility boxes are checked
    When I click the Category button
    Then the transactions are sorted in category order
    
 Scenario: Clicking the Date Button sorts the transactions by category
    Given I am on the dashboard
+   When all visibility boxes are unchecked
    When two visibility boxes are checked   
    When I click the Date button
    Then the transactions are sorted in date order
    
 Scenario: Clicking the Amount Button sorts the transactions by category
    Given I am on the dashboard
+   When all visibility boxes are unchecked
    When two visibility boxes are checked   
    When I click the Amount button
    Then the transactions are sorted in amount order
