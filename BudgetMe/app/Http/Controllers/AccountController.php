@@ -69,6 +69,7 @@ class AccountController extends Controller
     	if (!$request->hasFile('csv')){
     		return redirect('/dashboard');
     	}
+    	$id = $request->input('account_id');
     	$file = $request->file('csv');
     	$path = base_path() . '/upload';
     	$file->move($path, $file->getClientOriginalName());
@@ -85,7 +86,7 @@ class AccountController extends Controller
     		$single->amount = $t[1];
     		$single->merchant = $t[2];
     		$single->date = $t[3];
-    		$single->account_id = 1;
+    		$single->account_id = $id;
 
     		$single->save();
 
