@@ -40,6 +40,7 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('/uploadCSV', 'AccountController@uploadCSV');
 	Route::get('/viewT', 'UserController@getTransactionSet');
 
+	Route::get('/clearList', 'UserController@clearList');
 	Route::get('/sortTransactionSetByDate', 'UserController@sortTransactionSetByDate');
 	Route::get('/sortTransactionSetByAmount', 'UserController@sortTransactionSetByAmount');
 	Route::get('/sortTransactionSetByCategory', 'UserController@sortTransactionSetByCategory');

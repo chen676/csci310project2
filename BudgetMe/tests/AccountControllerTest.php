@@ -10,8 +10,8 @@ class AccountControllerTest extends TestCase
     {
     	$this
     		->visit('/')
-    		->type('user6@gmail.com', 'email')
-    		->type('password', 'password')
+    		->type('admin2@usc.edu', 'email')
+    		->type('123456', 'password')
     		->press('Login')
     		->seePageIs('/dashboard')
     		->type('Test Account', 'name')
@@ -23,8 +23,8 @@ class AccountControllerTest extends TestCase
     {
     	$this
     		->visit('/')
-    		->type('user6@gmail.com', 'email')
-    		->type('password', 'password')
+    		->type('admin2@usc.edu', 'email')
+    		->type('123456', 'password')
     		->press('Login')
     		->seePageIs('/dashboard')
     		->press('Delete Account')

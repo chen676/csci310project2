@@ -3,6 +3,7 @@ Test to see if user has a budget widget, can see his budget for each budget type
 
 Background:
 	Given I am on the dashboard
+	Given the budget is cleared
 
 Scenario: The user has his budgets inserted into the budget widget based on his transactions.
 	Then his Rent budget should be displayed

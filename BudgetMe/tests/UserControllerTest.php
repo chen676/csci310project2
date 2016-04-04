@@ -10,8 +10,8 @@ class UserControllerTest extends TestCase
     {
     	$this
     		->visit('/')
-    		->type('user1@gmail.com', 'email')
-    		->type('password', 'password')
+    		->type('admin2@usc.edu', 'email')
+    		->type('123456', 'password')
     		->press('Login')
     		->seePageIs('/dashboard');
     }

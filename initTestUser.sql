@@ -63,3 +63,26 @@ INSERT INTO `budgets` VALUES
 (4, 'Bills', 0, 1),
 (5, 'Other', 0, 1);
 
+INSERT INTO `users`(`id`, `email`, `password`) VALUES (2, 'guest@usc.edu', '123456');
+
+INSERT INTO `accounts` VALUES
+(6, 'Credit Card', 2),
+(7, 'Amazon Money Card', 2),
+(8, 'EBT', 2),
+(9, 'Prepaid', 2),
+(10, 'Debit Card', 2);
+
+INSERT INTO `transactions` VALUES
+(4, 'Rent', 30.21, 'Landlord', '03/28/2016', 7),
+(5, 'Food', 200.54, 'Costco', '03/26/2016', 6),
+(6, 'Entertainment', 80.11, 'Landlord', '04/01/2016', 7);
+
+INSERT INTO `budgets` VALUES
+(6, 'Food', 0, 2),
+(7, 'Rent', 0, 2),
+(8, 'Loans', 0, 2),
+(9, 'Bills', 0, 2),
+(10, 'Other', 0, 2);
+
+INSERT INTO `users`(`id`, `email`, `password`) VALUES (3, 'admin2@usc.edu', '123456');
+

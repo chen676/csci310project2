@@ -12,7 +12,7 @@ Scenario: All account elements are there
    Then the addAccountSubmitButton exists
    Then the addAccountField exists
    Then the removeAccount exists
-   Then the accountVisible exists
+   Then the accountVisibleEBT exists
    Then the csvUpload exists
    
                                     
