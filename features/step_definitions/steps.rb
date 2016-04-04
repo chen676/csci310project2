@@ -121,7 +121,7 @@ end
 
 Then(/^the union of those transactions are displayed$/) do
    table = wait.until {browser.find_element(:id, "transactionTable")}
-   expect(table.text).to eq("Account Date Merchant Category Amount\nAmazon Money Card 04/01/2016 Landlord Entertainment 80.11\nAmazon Money Card 03/28/2016 Landlord Rent 30.21\nCredit Card 03/26/2016 Costco Food 200.54")
+   expect(table.text).to eq("Account Date Merchant Category Amount\nAmazon Money Card 04/01/2016 Landlord Other 80.11\nAmazon Money Card 03/28/2016 Landlord Rent 30.21\nCredit Card 03/26/2016 Costco Food 200.54")
 end
 
 When(/^I click the Category button$/) do
@@ -131,7 +131,7 @@ end
 
 Then(/^the transactions are sorted in category order$/) do
    table = wait.until {browser.find_element(:id, "transactionTable")}
-   expect(table.text).to eq("Account Date Merchant Category Amount\nAmazon Money Card 04/01/2016 Landlord Entertainment 80.11\nCredit Card 03/26/2016 Costco Food 200.54\nAmazon Money Card 03/28/2016 Landlord Rent 30.21")
+   expect(table.text).to eq("Account Date Merchant Category Amount\nCredit Card 03/26/2016 Costco Food 200.54\nAmazon Money Card 04/01/2016 Landlord Other 80.11\nAmazon Money Card 03/28/2016 Landlord Rent 30.21")
 end
 
 When(/^I click the Date button$/) do
@@ -141,7 +141,7 @@ end
 
 Then(/^the transactions are sorted in date order$/) do
    table = wait.until {browser.find_element(:id, "transactionTable")}
-   expect(table.text).to eq("Account Date Merchant Category Amount\nAmazon Money Card 04/01/2016 Landlord Entertainment 80.11\nAmazon Money Card 03/28/2016 Landlord Rent 30.21\nCredit Card 03/26/2016 Costco Food 200.54")
+   expect(table.text).to eq("Account Date Merchant Category Amount\nAmazon Money Card 04/01/2016 Landlord Other 80.11\nAmazon Money Card 03/28/2016 Landlord Rent 30.21\nCredit Card 03/26/2016 Costco Food 200.54")
 end
 
 When(/^I click the Amount button$/) do
@@ -151,7 +151,7 @@ end
 
 Then(/^the transactions are sorted in amount order$/) do
    table = wait.until {browser.find_element(:id, "transactionTable")}
-   expect(table.text).to eq("Account Date Merchant Category Amount\nCredit Card 03/26/2016 Costco Food 200.54\nAmazon Money Card 04/01/2016 Landlord Entertainment 80.11\nAmazon Money Card 03/28/2016 Landlord Rent 30.21")
+   expect(table.text).to eq("Account Date Merchant Category Amount\nCredit Card 03/26/2016 Costco Food 200.54\nAmazon Money Card 04/01/2016 Landlord Other 80.11\nAmazon Money Card 03/28/2016 Landlord Rent 30.21")
 end
 
 Given(/^ a user is logged in with username $username and password $password$/) do |username, password|

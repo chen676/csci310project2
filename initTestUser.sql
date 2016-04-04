@@ -84,3 +84,5 @@ INSERT INTO `budgets` VALUES
 (9, 'Bills', 0, 2),
 (10, 'Other', 0, 2);
 
+INSERT INTO `users`(`id`, `email`, `password`) VALUES (3, 'admin2@usc.edu', '123456');
+
