@@ -86,3 +86,9 @@ INSERT INTO `budgets` VALUES
 
 INSERT INTO `users`(`id`, `email`, `password`) VALUES (3, 'admin2@usc.edu', '123456');
 
+INSERT INTO `transactions` VALUES
+(7, 'Other', -123.23, 'Landlord', '03/28/2016', 3),
+(8, 'Bills', -500.00, 'Costco', '03/26/2016', 3),
+(9, 'Loans', -50.11, 'Landlord', '04/01/2016', 3),
+(10, 'Rent', -1020.57, 'Landlord', '04/01/2016', 3),
+(11, 'Food', -200.00, 'Landlord', '04/01/2016', 3);

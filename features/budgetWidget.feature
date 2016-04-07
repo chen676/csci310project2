@@ -24,3 +24,7 @@ Scenario: The user enters a valid amount to change a budget. The budget should b
 	When the user inserts 100 into the budget widget's textfield
 		And the user presses the update button of Rent
 	Then the budget for Rent should be updated to $100
+
+Scenario: When the user has transactions on his accounts, the budget should reflect the correct total of the transactions
+	Given there is a budget
+	Then the budget has the correct totals displayed 	

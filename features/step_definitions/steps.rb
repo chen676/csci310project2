@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'selenium-webdriver'
 browser = Selenium::WebDriver.for(:firefox)
-wait = Selenium::WebDriver::Wait.new(:timeout => 500)
+wait = Selenium::WebDriver::Wait.new(:timeout => 20)
 
 Given(/^I am on the login page$/) do
    browser.get('http://localhost')
@@ -208,4 +208,51 @@ Given(/^the budget is cleared$/) do
 	wait.until{browser.find_element(:id, 'Rent' + '_button').click}
 	field.send_keys('0')
 	wait.until{browser.find_element(:id, 'Food' + '_button').click}
+end
+
+Then(/^the budget has the correct totals displayed$/) do
+   table = wait.until {browser.find_element(:id, 'budget')}
+   expect(table.text).to eq("Category Budget\nOther $0\nBills $0\nLoans $0\nRent $100\nFood $0")
+end
+
+Given(/^the user has accounts$/) do
+   expect(browser.page_source.include?('Amazon Money Card')).to eq(true)
+end
+
+Given(/^the graph is blank$/) do
+   box = wait.until {browser.find_element(:id, 'graphVisible')}
+   if(box.selected?)
+      box.click
+   end
+end
+
+Then(/^there is a legend$/) do
+   wait.until {browser.find_element(:id, 'legend').displayed?}
+end
+
+When(/^the user makes an account visible$/) do
+   box = wait.until {browser.find_element(:id, 'graphVisible')}
+   if(!box.selected?)
+      box.click
+   end
+end
+
+Then(/^the correct account line appears on the graph$/) do
+   wait.until {browser.find_element(:id, 'line').displayed?}
+end
+
+When(/^the user makes all accounts visible$/) do
+   box = wait.until {browser.find_element(:id, 'graphVisible')}
+   if(!box.selected?)
+      box.click
+   end
+end
+
+Then(/^the correct account lines appear on the graph$/) do
+   wait.until {browser.find_element(:id, 'line').displayed?}
+end
+
+Then(/^there are no lines$/) do
+   table = wait.until {browser.find_element(:id, 'graph_content')}
+   expect(table.text).to eq("")
 end
