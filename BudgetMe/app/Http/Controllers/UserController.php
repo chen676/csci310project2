@@ -48,7 +48,13 @@ class UserController extends Controller
     }
 
  
-      
+    public function clearList()
+    {
+      Session::put('checkedAccounts', array());
+      Session::put('transactionSet', array());
+      return redirect('/dashboard');
+    }
+         
     public function getTransactionSet(Request $request)
     {
       if($request->ajax())

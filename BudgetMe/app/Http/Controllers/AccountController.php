@@ -53,13 +53,14 @@ class AccountController extends Controller
     {
 		$id = $request->input('account_id');
 		$account = Account::find($id);
+		$account->transaction()->delete();
 		$account->delete();
 
 		$user = Session::get('user');
 		$u = User::find($user->id);
 		Session::put('user', $u);
 
-		return redirect('/dashboard');
+		return redirect('/clearList');
     }
     
     public function uploadCSV(Request $request)
@@ -68,6 +69,7 @@ class AccountController extends Controller
     	if (!$request->hasFile('csv')){
     		return redirect('/dashboard');
     	}
+    	$id = $request->input('account_id');
     	$file = $request->file('csv');
     	$path = base_path() . '/upload';
     	$file->move($path, $file->getClientOriginalName());
@@ -84,7 +86,7 @@ class AccountController extends Controller
     		$single->amount = $t[1];
     		$single->merchant = $t[2];
     		$single->date = $t[3];
-    		$single->account_id = 1;
+    		$single->account_id = $id;
 
     		$single->save();
 

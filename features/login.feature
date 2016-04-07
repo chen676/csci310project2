@@ -21,15 +21,15 @@ Scenario: The user is not taken to the dashboard page when providing incorrect l
   When I do not provide valid credentials
   Then I am rejected from the dashboard page
 
-Scenario: The user is unable to login for 1 minute after failing to login 4 consecutive times within 1 minute
-  Given I am on the login page
-  Given I wait 1 minute
-  When I do not successfully login 4 times
-  Then I am blocked from logging in
+#Scenario: The user is unable to login for 1 minute after failing to login 4 consecutive times within 1 minute
+  #Given I am on the login page
+ # Given I wait 1 minute
+ # When I do not successfully login 4 times
+  #Then I am blocked from logging in
 
-Scenario: The user is able to login 1 minute after being blocked
-  Given I am on the login page
-  Given I do not successfully login 4 times
-  Given I wait 1 minute
-  When I successfully login
-  Then I am taken to the dashboard page
+#Scenario: The user is able to login 1 minute after being blocked
+  #Given I am on the login page
+  #Given I do not successfully login 4 times
+  #Given I wait 1 minute
+  #When I successfully login
+  #Then I am taken to the dashboard page
