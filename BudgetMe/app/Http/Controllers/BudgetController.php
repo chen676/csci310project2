@@ -11,6 +11,16 @@ use Session;
 
 class BudgetController extends Controller
 {
+
+    /*
+        Parameters: Route Request
+
+        Description: Retrieve a specific user's budgets from the MySQL database
+
+        Returns: JSON string of all budgets
+
+        Created By:
+    */
     public function getBudgets(Request $request){
 	   if($request->ajax())
 	   {
@@ -29,7 +39,15 @@ class BudgetController extends Controller
        }
 
     }
+    /*
+        Parameters: Route Request
 
+        Description: Update a budget based off the inputted values from the user
+
+        Returns: JSON string of the updated budgets
+
+        Created By:
+    */
     public function updateBudget(Request $request){
       if($request->ajax()){
         $user = Session::get('user');
@@ -44,10 +62,13 @@ class BudgetController extends Controller
     }
 
     /*
-    Parameters: The name of the category to get the spending for
-    Description: Calculates the amount spent in this category across all accounts
-    Return: The amount spent for this category across all accounts
-    Created By: Rebecca and Paul
+        Parameters: The name of the category to get the spending for
+
+        Description: Calculates the amount spent in this category across all accounts
+
+        Returns: The amount spent for this category across all accounts
+        
+        Created By: Rebecca and Paul
     */
     public function getSpendingForCategory($categoryName){
       
