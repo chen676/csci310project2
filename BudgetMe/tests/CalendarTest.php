@@ -11,9 +11,10 @@ class CalendarTest extends TestCase
 	Parameters:None
 	Description:The dates selected for the graph (some normal range) are received accurately.
 	Created By: Harshul and Matt
+	Edited By: Rebecca and Paul
 	*/
     public function testNormalDatesSelected(){
-    	$this->assertTrue(true);
+    	$this->assertTrue(false);
     }
 
  	/*
@@ -22,7 +23,7 @@ class CalendarTest extends TestCase
 	Created By: Harshul and Matt
 	*/
     public function testEmptyDates(){
-		$this->assertTrue(true);
+		$this->assertTrue(false);
     }
 
     /*
@@ -30,7 +31,7 @@ class CalendarTest extends TestCase
 	Created By: Harshul and Matt
 	*/
     public function testOneEmptyDate(){
-		$this->assertTrue(true);
+		$this->assertTrue(false);
     }
 
     /*
@@ -38,7 +39,7 @@ class CalendarTest extends TestCase
 	Created By: Harshul and Matt
 	*/
     public function testNonchronologicalDates(){
-    	$this->assertTrue(true);
+    	$this->assertTrue(false);
     }
 
 
