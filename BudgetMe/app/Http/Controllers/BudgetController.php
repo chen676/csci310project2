@@ -41,6 +41,5 @@ class BudgetController extends Controller
 
       }
     }
-
 }
 
