@@ -29,6 +29,7 @@ class BudgetController extends Controller
        }
 
     }
+
     public function updateBudget(Request $request){
       if($request->ajax()){
         $user = Session::get('user');
@@ -40,6 +41,16 @@ class BudgetController extends Controller
 
 
       }
+    }
+
+    /*
+    Parameters: The name of the category to get the spending for
+    Description: Calculates the amount spent in this category across all accounts
+    Return: The amount spent for this category across all accounts
+    Created By: Rebecca and Paul
+    */
+    public function getSpendingForCategory($categoryName){
+      
     }
 
 }
