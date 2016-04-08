@@ -280,10 +280,14 @@ When(/^the user selects November 2015 for the start date and January 2016 for th
    #pending
 end
 
-When(/^the user selects November 2015 for the start date and January 2016 for the end date$/) do
+Then(/^the graph should reflect the desired time frame$/) do
    #pending
 end
 
-Then(/^the graph should reflect the desired time frame$/) do
+When(/^the user selects January 2016 for the start date and November 2015 for the end date$/) do
+   #pending
+end
+
+Then(/^the graph should not change$/) do
    #pending
 end
