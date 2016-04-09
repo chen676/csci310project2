@@ -34,6 +34,8 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::post('/updateBudget', 'BudgetController@updateBudget');
 
+    Route::post('/populateGraph', 'GraphController@populateGraph');
+
 	Route::post('/display_transactions', 'UserController@getTransactionSet');
 
 	Route::get('/sort', 'AccountController@sortAccounts');
