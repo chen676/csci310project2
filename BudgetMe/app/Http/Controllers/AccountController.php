@@ -17,6 +17,10 @@ use App\Library\AccountManager;
 
 class AccountController extends Controller
 {
+    public function __construct(){
+
+    }
+
 	/*
 		Parameters: Route Request
 
@@ -131,4 +135,33 @@ class AccountController extends Controller
     	return redirect('/dashboard');
     }
 
+    /*
+       Parameters: The name of the category to get the spending for
+
+        Description: Calculates the amount spent in this category across all accounts
+
+        Returns: The amount spent for this category across all accounts
+        
+        Created By: Rebecca and Paul
+    */
+    public function sumCategoryTransaction($id, $cat){
+        //need to build a list of all accounts tied to the user
+        // $id = 1; //will be a parameter later
+        // $cat = "Rent";
+        $sum = 0.00;
+
+        $accounts = Account::where('user_id', '=', $id)->get();
+        $transSet = array();
+        foreach($accounts as $acc){
+
+            $transactions = Transaction::where('category', '=', $cat)
+            ->where('account_id', '=', $acc['id'])->get();
+
+            foreach($transactions as $trans){
+                $sum += $trans['amount'];
+            }
+        }
+        $sum = round( $sum, 2, PHP_ROUND_HALF_UP);
+        return $sum;
+    }
 }
