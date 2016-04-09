@@ -7,10 +7,17 @@ class CSVManager{
 	public function __construct(){
 
 	}
-	// parse the csv file for values
-	public function parseCSV($target_file){
+	
+	/*
+		Parameters: Browsed file path + extension
 
-		
+		Description: Uploads the inputted file and parses the CSV for new transactions
+
+		Returns: 2D array of transactions
+
+		Created By: Brandon/Patrick
+	*/
+	public function parseCSV($target_file){
 
 		$transactions = array();
 

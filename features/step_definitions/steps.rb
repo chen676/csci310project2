@@ -256,3 +256,38 @@ Then(/^there are no lines$/) do
    table = wait.until {browser.find_element(:id, 'graph_content')}
    expect(table.text).to eq("")
 end
+
+Then(/^the assets line and liability line should be visible$/) do
+   #pending
+   table = wait.until {browser.find_element(:id, 'graph_content')}
+   expect(table.text).to include("Assets")
+   expect(table.text).to include("Liabilities")
+end
+
+When(/^the user inputs a csv file with assets and liabilities$/) do
+   #pending
+end
+
+Then(/^the graph should reflect those assets and liabilities$/) do
+   #pending
+end
+
+Then(/^the x axis by default should be a 3 month time frame$/) do
+   #pending
+end
+
+When(/^the user selects November 2015 for the start date and January 2016 for the end date$/) do
+   #pending
+end
+
+Then(/^the graph should reflect the desired time frame$/) do
+   #pending
+end
+
+When(/^the user selects January 2016 for the start date and November 2015 for the end date$/) do
+   #pending
+end
+
+Then(/^the graph should not change$/) do
+   #pending
+end
