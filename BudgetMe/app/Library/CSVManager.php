@@ -26,7 +26,7 @@ class CSVManager{
 		while($row = fgetcsv($file)){
 
 			// format: CATEGORY (STRING), AMOUNT (INT), MERCHANT (STRING), DATE (STRING)
-			$single_transaction = array($row[0], floatval($row[1]), $row[2], $row[3]);
+			$single_transaction = array($row[0], round(floatval($row[1]), 2, PHP_ROUND_HALF_UP), $row[2], $row[3]);
 			$transactions[] = $single_transaction;
 		}
 		fclose($file);
