@@ -4,14 +4,31 @@ namespace App\Library;
 
 class TransactionManager{
 
+	/*
+		Parameters: Array of transactions
+
+		Description: Sorts inputted transactions array by date chronologically
+
+		Returns: Sorted array of transactions
+
+		Created By:  
+	*/
     public function sortTransactionsByDates($transactionSet){
 		usort($transactionSet, array($this, "dateComparator"));	
 		return $transactionSet;
 	}
 
+	/*
+		Parameters: Two different transactions
 
-	public function dateComparator($lhs, $rhs) //compare two transactions by date
-    {
+		Description: Comparator for comparing two transactions
+
+		Returns: -1 or 1 depending on if the left transaction happened earlier or later
+
+		Created By:
+	*/
+	public function dateComparator($lhs, $rhs){
+
 	      //indeces of date MM/DD/YYYY
 	      $m = 0;
 	      $d = 1;
@@ -35,7 +52,17 @@ class TransactionManager{
 	      return 0; //equal dates	
     }
 
+    /*
+		Parameters: Array of transactions
+
+		Description: Sorts inputted transactions array by category alphabetically
+
+		Returns: Sorted array of transactions
+
+		Created By:  
+	*/
 	public function sortTransactionsByCategory($transactionSet){
+
 		usort($transactionSet, function($lhs, $rhs)
 		{
 			return strcmp($lhs['category'], $rhs['category']);
@@ -43,7 +70,17 @@ class TransactionManager{
 		return $transactionSet;
 	}
 
+	/*
+		Parameters: Array of transactions
+
+		Description: Sorts inputted transactions array by amount from least to greatest
+
+		Returns: Sorted array of transactions
+
+		Created By:  
+	*/
 	public function sortTransactionsByAmount($transactionSet){
+		
 		usort($transactionSet, function($lhs, $rhs)
 		{
 			return $lhs['amount'] < $rhs['amount'];

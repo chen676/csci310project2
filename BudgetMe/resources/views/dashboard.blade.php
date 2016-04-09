@@ -150,8 +150,6 @@
 					           }
 					         });
 
-					         
-
 					         //load when page loaded	
 					         $(document).ready(function(){
 					         	table = document.getElementById("budgetTable");
@@ -159,13 +157,12 @@
 								$.ajax({ type: "POST",
                       					url: '/loadBudgets',
                       					data:"",
+                      					dataType:'JSON',
         						success: function(data){
-           							//console.log(data);
-           							var resultset = JSON.parse(data);
-           							//console.log(obj[0]);
+           							var resultset = data.budgetData;
+           							var colorData = data.colorData;
            							$.each( resultset, function (i, row){
-
-           								console.log(resultset[i].category);
+           								//console.log(resultset[i].category);
            								//insert rows after headers
            								var row = table.insertRow(1);
            								var cell1 = row.insertCell(0);
@@ -180,6 +177,9 @@
            								cell1.id = cell1.innerHTML + "_label";
            								cell2.innerHTML = "$" + resultset[i].amount;
            								cell2.id = cell1.innerHTML + "_amount";
+           								//change color based on transactions
+          								cell2.style = "color:"+colorData[resultset[i].category];
+
            								//cell3.innerHTML = '<input type="text" class = "updatedBudget"> ';
            								
            								var innerHTML = '<input class = "updateBtn" type = "button" value = "Update" id = ' + cell1.innerHTML + "_button >";
@@ -200,15 +200,16 @@
         								var category = target.substr(0, target.indexOf('_'));
         								$.ajax({ type: "POST",
                       					url: '/updateBudget',
+                      					dataType:'json',
                       					data: {'updated_amount':updated_amount, 'category' : category},
         								success: function(data){
-        									console.log("success")
         									document.getElementById("budgetWidgetTextfield").value = "";
-        									var amount = JSON.parse(data);
+        									var amount = data.data;
         									console.log("amount:" +amount);
         									var element =category + "_amount";
         									console.log("element:" + element);
         									document.getElementById(element).innerHTML = "$" + amount;
+        									document.getElementById(element).style = "color:" + data.color;
         								}
 
         								
@@ -332,11 +333,12 @@
 					   
 						//checkbox				   
 					   echo '<td><input type="checkbox" id="accountVisible'. $acc['name'] . '" name="visibility" style="margin-left:10px" value="'. $acc['name'] . '"';
-						if(!is_null($checkedAccounts)){
-							if (in_array($acc['name'], $checkedAccounts)) 
-								echo " checked='checked'"; 	}					
+					if(!is_null($checkedAccounts)){
+						if (in_array($acc['name'], $checkedAccounts)) 
+						echo " checked='checked'"; 	}					
+ 						
  						echo "></td>";
-					?>
+				?>
 					<!--upload -->
 
 					   <td style=''>

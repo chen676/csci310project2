@@ -7,10 +7,17 @@ class CSVManager{
 	public function __construct(){
 
 	}
-	// parse the csv file for values
-	public function parseCSV($target_file){
+	
+	/*
+		Parameters: Browsed file path + extension
 
-		
+		Description: Uploads the inputted file and parses the CSV for new transactions
+
+		Returns: 2D array of transactions
+
+		Created By: Brandon/Patrick
+	*/
+	public function parseCSV($target_file){
 
 		$transactions = array();
 
@@ -19,7 +26,7 @@ class CSVManager{
 		while($row = fgetcsv($file)){
 
 			// format: CATEGORY (STRING), AMOUNT (INT), MERCHANT (STRING), DATE (STRING)
-			$single_transaction = array($row[0], floatval($row[1]), $row[2], $row[3]);
+			$single_transaction = array($row[0], round(floatval($row[1]), 2, PHP_ROUND_HALF_UP), $row[2], $row[3]);
 			$transactions[] = $single_transaction;
 		}
 		fclose($file);

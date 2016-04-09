@@ -17,8 +17,18 @@ use App\Library\AccountManager;
 
 class AccountController extends Controller
 {
-    public function sortAccounts()
-    {
+
+	/*
+		Parameters: Route Request
+
+		Description: Sort current accounts of the use by name alphabetically
+
+		Returns: N/A
+
+		Created By:
+	*/
+    public function sortAccounts(){
+
     	$accounts = Account::with('user')
     	->where('user_id', '=', 1)	
     	->get();
@@ -34,8 +44,18 @@ class AccountController extends Controller
             echo "<br>";
         }
 	}
-    public function addAccount(Request $request)
-    {
+
+	/*
+		Parameters: Route Request
+
+		Description: Insert a new account with the inputted name into the MySQL database
+
+		Returns: Route Redirect To Dashboard
+
+		Created By:
+	*/
+    public function addAccount(Request $request){
+
     	$user = Session::get('user');
     	$account = new Account([
     		'name' => $request->input('name'),
@@ -44,13 +64,21 @@ class AccountController extends Controller
     	$u = User::find($user->id);
     	Session::put('user', $u);
 
-
     	return redirect('/dashboard');
 
     }
 
-    public function removeAccount(Request $request)
-    {
+    /*
+		Parameters: Route Request
+
+		Description: Removes a specific account from the MySQL database
+
+		Returns: Route Redirect To Dashboard
+
+		Created By:
+    */
+    public function removeAccount(Request $request){
+
 		$id = $request->input('account_id');
 		$account = Account::find($id);
 		$account->transaction()->delete();
@@ -63,8 +91,16 @@ class AccountController extends Controller
 		return redirect('/clearList');
     }
     
-    public function uploadCSV(Request $request)
-    {
+    /*
+		Parameters: Route Request
+
+		Description: Upload a CSV file from a browsed file, parse it, and construct a new table of transactions for the specific account in the MySQL database
+
+		Returns: Route Redirect To Dashboard
+
+		Created By: Brandon/Patrick
+    */
+    public function uploadCSV(Request $request){
     	
     	if (!$request->hasFile('csv')){
     		return redirect('/dashboard');
@@ -95,4 +131,6 @@ class AccountController extends Controller
     	
     	return redirect('/dashboard');
     }
+
+
 }

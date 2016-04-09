@@ -4,6 +4,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\Controllers\BudgetController;
+use App\Http\Controllers\AccountController;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 
@@ -29,7 +30,6 @@ class BudgetTest extends TestCase
     	//$this -> assertSessionHas("password");
     	$this -> flushSession();
     }
-
     public function testupdateBudgetLoggedinUser(){
     	$this -> call('POST','/updateBudget');
     	$this -> assertResponseOk();
@@ -45,24 +45,26 @@ class BudgetTest extends TestCase
     public function testSpendingForEachCategoryCanBePulled(){
         $testUserName = "budgetTester@usc.edu"; //this user will have some set transaction spending that will never be changed so that this test will always pass
 
-        /*
+
+        $budgetController = new BudgetController();
+
         //pull these with the function
-        $otherSpending = //amount that this user spent in the "Other" category
-        $billSpending = //amount user spent on bills
-        $loansSpending =  //amount spent on loans 
-        $rentSpending =  //ammount spent on rent
-        $foodSpending =  // amount spent on food
+        $otherSpending = $budgetController -> sumCategoryTransaction(4, 'Other');
+        $billSpending = $budgetController -> sumCategoryTransaction(4, 'Bills');
+        $loansSpending =  $budgetController -> sumCategoryTransaction(4, 'Loans');
+        $rentSpending =  $budgetController -> sumCategoryTransaction(4, 'Rent');
+        $foodSpending =  $budgetController -> sumCategoryTransaction(4, 'Food');
 
 
         //these values will be fixed in sql for the test user
-        $this -> assertEquals($otherSpending, 72.50, "Amount spent on Other expenses does not match sql transactions");
-        $this -> assertEquals($billSpending, 81.50, "Amount spent on Bill expenses does not match sql transactions");
-        $this -> assertEquals($loansSpending, 102.10, "Amount spent on Loans expenses does not match sql transactions");
-        $this -> assertEquals($rentSpending, 100.00, "Amount spent on Rent expenses does not match sql transactions");
-        $this -> assertEquals($otherSpending, 66.50, "Amount spent on Food expenses does not match sql transactions");
+        $this -> assertEquals($otherSpending, 34.10, "Amount spent on Other expenses does not match sql transactions");
+        $this -> assertEquals($billSpending, 13.54, "Amount spent on Bill expenses does not match sql transactions");
+        $this -> assertEquals($loansSpending, 300, "Amount spent on Loans expenses does not match sql transactions");
+        $this -> assertEquals($rentSpending, 27, "Amount spent on Rent expenses does not match sql transactions");
+        $this -> assertEquals($foodSpending, 151.45, "Amount spent on Food expenses does not match sql transactions");
 
-        */
- 
-        $this -> assertTrue(false);  //just for now
+    
+
+        // $this -> assertTrue(false);
     }
 }

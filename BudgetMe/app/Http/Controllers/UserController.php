@@ -15,9 +15,17 @@ use App\Library\TransactionManager;
 
 class UserController extends Controller
 {
-	
-    public function login(Request $request)
-    {
+	/*
+        Parameters: Route Request
+
+        Description: Check the login credentials with the user accounts on the MySQL database, and redirect accordingly
+
+        Returns: Route Redirect to Dashboard or back to Login
+
+        Created By:
+    */
+    public function login(Request $request){
+
     	$user = User::with('accounts', 'budgets')
     	->where('email', '=', $request->input('email'))
     	->where('password', '=', $request->input('password'))
@@ -33,8 +41,17 @@ class UserController extends Controller
     	return redirect('/')->with('loginErrors', true);
     }
 
-    public function dashboard()
-    {
+    /*
+        Parameters: N/A
+
+        Description: Returns the Dashboard page with the current Session attributes
+
+        Returns: Route Redirect to Dashboard
+
+        Created By:
+    */
+    public function dashboard(){
+
     	if (is_null(Session::get('user')))
     	{
     		return redirect('/');
@@ -47,16 +64,33 @@ class UserController extends Controller
     	]);
     }
 
- 
-    public function clearList()
-    {
+    /*
+        Parameters: N/A
+
+        Description: Clear the current checked accounts and displayed transactions
+
+        Returns: Route Redirect to Dashboard
+
+        Created By:
+    */
+    public function clearList(){
+
       Session::put('checkedAccounts', array());
       Session::put('transactionSet', array());
       return redirect('/dashboard');
     }
          
-    public function getTransactionSet(Request $request)
-    {
+    /*
+        Parameters: Route Request
+
+        Description: Retrieve the appropriate transaction set to a checked account
+
+        Returns: Array of transactions of the specific account
+
+        Created By:
+    */
+    public function getTransactionSet(Request $request){
+
       if($request->ajax())
       {
 	      if($_POST['length'] == 0)
@@ -70,9 +104,11 @@ class UserController extends Controller
 
 	      //need to create an array based on id, not name
 	      $accountIDs = array();
+          $user = Session::get('user');
 	      foreach($accountNames as $name)
 	      {
 		      $account = Account::where('name', '=', $name)
+              ->where('user_id', '=', $user->id)
 		      ->get()->first();
 		      array_push($accountIDs, $account->id);
 	      }
@@ -96,8 +132,17 @@ class UserController extends Controller
       }
     }
 
-    public function sortTransactionSetByDate()	
-    {
+    /*
+        Parameters: N/A
+
+        Description: Sort the transaction set being the displayed by date chronologically
+
+        Returns: Route Redirect to Dashboard
+
+        Created By:
+    */
+    public function sortTransactionSetByDate(){
+
 	   $transactionSet = Session::get('transactionSet');
 	   if(!is_null($transactionSet))
 	   {
@@ -108,10 +153,17 @@ class UserController extends Controller
     	return redirect('/dashboard');
     }
 
+    /*
+        Parameters: N/A
 
-      
-    public function sortTransactionSetByCategory()
-    {
+        Description: Sort the transaction set being the displayed by category alphabetically
+
+        Returns: Route Redirect to Dashboard
+
+        Created By:
+    */
+    public function sortTransactionSetByCategory(){
+
 		$transactionSet = Session::get('transactionSet');
 		if(!is_null($transactionSet))
 		{
@@ -122,8 +174,17 @@ class UserController extends Controller
 		return redirect('/dashboard');
     }
 
-    public function sortTransactionSetByAmount()
-    {	
+    /*
+        Parameters: N/A
+
+        Description: Sort the transaction set being the displayed by amount from least to greatest
+
+        Returns: Route Redirect to Dashboard
+
+        Created By:
+    */
+    public function sortTransactionSetByAmount(){
+
 		$transactionSet = Session::get('transactionSet');
 		if(!is_null($transactionSet))
 		{
@@ -133,9 +194,18 @@ class UserController extends Controller
 		}
 	    return redirect('/dashboard');
     }
- 
-    public function logout(Request $request)
-    {
+
+    /*
+        Parameters: Route Request
+
+        Description: Logout of the logged-in user
+
+        Returns: Route Redirect to Login
+
+        Created By:
+    */
+    public function logout(Request $request){
+        
     	Session::forget('user');
     	Session::forget('transactionSet');
     	Session::forget('selected_accounts');
