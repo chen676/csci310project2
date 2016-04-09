@@ -132,20 +132,23 @@ class AccountController extends Controller
     }
 
     /*
-        param: category is a string that represents which category of transactions to sum
-        return: returns a float, the total sum of transactions
-        written by Rebecca/Paul
+       Parameters: The name of the category to get the spending for
+
+        Description: Calculates the amount spent in this category across all accounts
+
+        Returns: The amount spent for this category across all accounts
+        
+        Created By: Rebecca and Paul
     */
-    public function sumCategoryTransaction(){
+    public function sumCategoryTransaction($id, $cat){
         //need to build a list of all accounts tied to the user
-        $id = 1; //will be a parameter later
-        $cat = "Rent";
+        // $id = 1; //will be a parameter later
+        // $cat = "Rent";
         $sum = 0.00;
 
         $accounts = Account::where('user_id', '=', $id)->get();
         $transSet = array();
         foreach($accounts as $acc){
-            echo $acc['id'];
 
             $transactions = Transaction::where('category', '=', $cat)
             ->where('account_id', '=', $acc['id'])->get();
@@ -154,7 +157,6 @@ class AccountController extends Controller
                 $sum += $trans['amount'];
             }
         }
-        echo $sum;
-        return;
+        return $sum;
     }
 }
