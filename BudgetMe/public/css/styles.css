@@ -87,7 +87,7 @@ h2{
 #budget{
 	width: 20%;
 	height: 300px;
-	left: 0.1%;
+	left: 0.5%;
 	float: left;
 	overflow-y: scroll;
 }
@@ -95,7 +95,7 @@ h2{
 #graph{
 	width: 56%;
 	height: 300px;
-	left: 4px;
+	left: 7px;
 	float: left;
 }
 
