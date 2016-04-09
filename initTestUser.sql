@@ -66,11 +66,11 @@ INSERT INTO `budgets` VALUES
 INSERT INTO `users`(`id`, `email`, `password`) VALUES (2, 'guest@usc.edu', '123456');
 
 INSERT INTO `accounts` VALUES
-(6, 'Credit Card', 2),
-(7, 'Amazon Money Card', 2),
-(8, 'EBT', 2),
-(9, 'Prepaid', 2),
-(10, 'Debit Card', 2);
+(6, 'Credit Card2', 2),
+(7, 'Amazon Money Card2', 2),
+(8, 'EBT2', 2),
+(9, 'Prepaid2', 2),
+(10, 'Debit Card2', 2);
 
 INSERT INTO `transactions` VALUES
 (4, 'Rent', 30.21, 'Landlord', '03/28/2016', 7),
@@ -120,8 +120,6 @@ INSERT INTO `budgets` VALUES
 (13, 'Loans', 12, 4),
 (14, 'Bills', 50, 4),
 (15, 'Other', 5, 4);
-
-
 
 
 

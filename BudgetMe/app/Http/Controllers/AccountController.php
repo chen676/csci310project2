@@ -17,6 +17,10 @@ use App\Library\AccountManager;
 
 class AccountController extends Controller
 {
+    public function __construct(){
+
+    }
+
 	/*
 		Parameters: Route Request
 
@@ -157,6 +161,7 @@ class AccountController extends Controller
                 $sum += $trans['amount'];
             }
         }
+        $sum = round( $sum, 2, PHP_ROUND_HALF_UP);
         return $sum;
     }
 }
