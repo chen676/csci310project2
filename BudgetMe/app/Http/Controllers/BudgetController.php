@@ -68,7 +68,11 @@ class BudgetController extends Controller
         $updated_amount = $request['updated_amount'];
         $category = $request['category'];
         DB::update('update budgets set amount = :updated_amount where user_id = :user_id and category = :category', ['updated_amount' => $updated_amount, 'user_id' => $user_id, 'category' => $category ]);
-        return json_encode($updated_amount);
+        //get potential new color
+
+        $newColor = $this->getColorForBudgetTransactions($category, $updated_amount);
+        $returnVal = ["data" => $updated_amount, "color" => $newColor];
+        return json_encode($returnVal);
       }
     }
 
@@ -86,7 +90,6 @@ class BudgetController extends Controller
         $user = Session::get('user');
         $user_id = $user -> id;  
         $sum = $this->sumCategoryTransaction($user_id, $categoryName);
-
         if($sum > $currentBudget)
           return "Red";
         else if($sum == $currentBudget)
@@ -96,6 +99,9 @@ class BudgetController extends Controller
     }
 
     /*
+        description: This method will sum all of the spending transactions
+          symbolized by a negative amount, and then return the absolute value
+          of it regarding a specific category
         param: category is a string that represents which category of transactions to sum
         return: returns a float, the total sum of transactions
         written by Rebecca/Paul
@@ -103,7 +109,6 @@ class BudgetController extends Controller
     public function sumCategoryTransaction($id, $cat){
         //need to build a list of all accounts tied to the user
         $sum = 0.00;
-
         $accounts = Account::where('user_id', '=', $id)->get();
         $transSet = array();
         foreach($accounts as $acc){
@@ -111,10 +116,11 @@ class BudgetController extends Controller
             ->where('account_id', '=', $acc['id'])->get();
 
             foreach($transactions as $trans){
-                $sum += $trans['amount'];
+                if($trans['amount'] <= 0) //only negative numbers count as spending
+                  $sum += $trans['amount'];
             }
         }
-        return $sum;
+        return -1 * $sum;
     }
 }
 
