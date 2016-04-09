@@ -29,14 +29,19 @@ class CSVImportTest extends TestCase
     	// Assert
     	// row 1
     	$this->assertEquals("Food", $transactions[0][0]);
-    	$this->assertEquals(1000.0, $transactions[0][1]);
+    	$this->assertEquals(-1000.0, $transactions[0][1]);
     	$this->assertEquals("Ralphs", $transactions[0][2]);
     	$this->assertEquals("11/11/2016", $transactions[0][3]);
     	// row 2
     	$this->assertEquals("Loans", $transactions[1][0]);
-    	$this->assertEquals(100.0, $transactions[1][1]);
+    	$this->assertEquals(-100.0, $transactions[1][1]);
     	$this->assertEquals("USC", $transactions[1][2]);
     	$this->assertEquals("11/11/2015", $transactions[1][3]);
+        // row 3
+        $this->assertEquals("Other", $transactions[2][0]);
+        $this->assertEquals(300.0, $transactions[2][1]);
+        $this->assertEquals("Bank of America", $transactions[2][2]);
+        $this->assertEquals("11/12/1996", $transactions[2][3]);
     }
 
     public function testParseCSVOnTest2CSVRoundTwoDecimalPlaces(){

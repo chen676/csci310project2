@@ -328,11 +328,12 @@
 					   
 						//checkbox				   
 					   echo '<td><input type="checkbox" id="accountVisible'. $acc['name'] . '" name="visibility" style="margin-left:10px" value="'. $acc['name'] . '"';
-						if(!is_null($checkedAccounts)){
-							if (in_array($acc['name'], $checkedAccounts)) 
-								echo " checked='checked'"; 	}					
+					if(!is_null($checkedAccounts)){
+						if (in_array($acc['name'], $checkedAccounts)) 
+						echo " checked='checked'"; 	}					
+ 						
  						echo "></td>";
-					?>
+				?>
 					<!--upload -->
 
 					   <td style=''>
