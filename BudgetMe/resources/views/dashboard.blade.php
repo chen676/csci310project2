@@ -146,8 +146,6 @@
 					           }
 					         });
 
-					         
-
 					         //load when page loaded	
 					         $(document).ready(function(){
 					         	table = document.getElementById("budgetTable");
@@ -155,13 +153,12 @@
 								$.ajax({ type: "POST",
                       					url: '/loadBudgets',
                       					data:"",
+                      					dataType:'JSON',
         						success: function(data){
-           							//console.log(data);
-           							var resultset = JSON.parse(data);
-           							//console.log(obj[0]);
+           							var resultset = data.budgetData;
+           							var colorData = data.colorData;
            							$.each( resultset, function (i, row){
-
-           								console.log(resultset[i].category);
+           								//console.log(resultset[i].category);
            								//insert rows after headers
            								var row = table.insertRow(1);
            								var cell1 = row.insertCell(0);
@@ -176,6 +173,9 @@
            								cell1.id = cell1.innerHTML + "_label";
            								cell2.innerHTML = "$" + resultset[i].amount;
            								cell2.id = cell1.innerHTML + "_amount";
+           								//change color based on transactions
+          								cell2.style = "color:"+colorData[resultset[i].category];
+
            								//cell3.innerHTML = '<input type="text" class = "updatedBudget"> ';
            								
            								var innerHTML = '<input class = "updateBtn" type = "button" value = "Update" id = ' + cell1.innerHTML + "_button >";

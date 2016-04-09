@@ -104,9 +104,11 @@ class UserController extends Controller
 
 	      //need to create an array based on id, not name
 	      $accountIDs = array();
+          $user = Session::get('user');
 	      foreach($accountNames as $name)
 	      {
 		      $account = Account::where('name', '=', $name)
+              ->where('user_id', '=', $user->id)
 		      ->get()->first();
 		      array_push($accountIDs, $account->id);
 	      }
