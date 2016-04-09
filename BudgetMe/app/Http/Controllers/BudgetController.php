@@ -14,6 +14,10 @@ use Session;
 class BudgetController extends Controller
 {
 
+    public function __construct(){
+
+    }
+    
     /*
         Parameters: Route Request
 
@@ -99,12 +103,12 @@ class BudgetController extends Controller
     }
 
     /*
+        param: category is a string that represents which category of transactions to sum
         description: This method will sum all of the spending transactions
           symbolized by a negative amount, and then return the absolute value
           of it regarding a specific category
-        param: category is a string that represents which category of transactions to sum
         return: returns a float, the total sum of transactions
-        written by Rebecca/Paul
+        written by: Rebecca/Paul
     */
     public function sumCategoryTransaction($id, $cat){
         //need to build a list of all accounts tied to the user
@@ -120,6 +124,7 @@ class BudgetController extends Controller
                   $sum += $trans['amount'];
             }
         }
+        $sum = round( $sum, 2, PHP_ROUND_HALF_UP);
         return -1 * $sum;
     }
 }

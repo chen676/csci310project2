@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 
 require_once 'app/Http/Controllers/BudgetController.php';
-require_once 'app/Http/Controllers/AccountController.php';
 
 class BudgetTest extends TestCase
 {
@@ -47,14 +46,14 @@ class BudgetTest extends TestCase
         $testUserName = "budgetTester@usc.edu"; //this user will have some set transaction spending that will never be changed so that this test will always pass
 
 
-        $accountController = new AccountController();
+        $budgetController = new BudgetController();
 
         //pull these with the function
-        $otherSpending = $accountController -> sumCategoryTransaction(4, 'Other');
-        $billSpending = $accountController -> sumCategoryTransaction(4, 'Bills');
-        $loansSpending =  $accountController -> sumCategoryTransaction(4, 'Loans');
-        $rentSpending =  $accountController -> sumCategoryTransaction(4, 'Rent');
-        $foodSpending =  $accountController -> sumCategoryTransaction(4, 'Food');
+        $otherSpending = $budgetController -> sumCategoryTransaction(4, 'Other');
+        $billSpending = $budgetController -> sumCategoryTransaction(4, 'Bills');
+        $loansSpending =  $budgetController -> sumCategoryTransaction(4, 'Loans');
+        $rentSpending =  $budgetController -> sumCategoryTransaction(4, 'Rent');
+        $foodSpending =  $budgetController -> sumCategoryTransaction(4, 'Food');
 
 
         //these values will be fixed in sql for the test user
