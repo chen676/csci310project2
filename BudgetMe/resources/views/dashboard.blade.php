@@ -196,15 +196,16 @@
         								var category = target.substr(0, target.indexOf('_'));
         								$.ajax({ type: "POST",
                       					url: '/updateBudget',
+                      					dataType:'json',
                       					data: {'updated_amount':updated_amount, 'category' : category},
         								success: function(data){
-        									console.log("success")
         									document.getElementById("budgetWidgetTextfield").value = "";
-        									var amount = JSON.parse(data);
+        									var amount = data.data;
         									console.log("amount:" +amount);
         									var element =category + "_amount";
         									console.log("element:" + element);
         									document.getElementById(element).innerHTML = "$" + amount;
+        									document.getElementById(element).style = "color:" + data.color;
         								}
 
         								
