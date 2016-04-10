@@ -75,7 +75,7 @@ INSERT INTO `accounts` VALUES
 INSERT INTO `transactions` VALUES
 (4, 'Deposit', 500.21, 'Landlord', '03/28/2016', 7),
 (5, 'Food', -200.54, 'Costco', '03/26/2016', 6),
-(6, 'Entertainment', -80.11, 'Landlord', '04/01/2016', 7);
+(6, 'Rent', -80.11, 'Landlord', '04/01/2016', 7);
 
 INSERT INTO `budgets` VALUES
 (6, 'Food', 0, 2),

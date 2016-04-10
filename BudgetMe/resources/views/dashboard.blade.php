@@ -256,8 +256,46 @@
 			<div class="widget" id="graph">
 				<h2>Main Line Graph</h2>
 				<div id="graph_div" style="min-width: 300px; height: 250px; margin: 0 auto"></div>
-
 			</div>
+
+			<div class="widget" id="graphLegend">
+				<h2>Graph Legend</h2>
+				<div id="legend_div" style="min-width:100px; height:250px; margin:0 auto">
+
+				<?php
+
+					$accounts = $user->accounts;
+	
+					$accounts = $accounts->toArray();
+					usort($accounts, function($lhs, $rhs)
+					{
+						return strcmp($lhs['name'], $rhs['name']);
+					});
+               ?>
+               <table id='legendTable'>
+               <?php
+					foreach($accounts as $acc)
+					{
+						echo "<tr>";
+						//checkbox				   
+					   echo '<td><input type="checkbox" id="accountVisible'. $acc['name'] . '" name="visibility" style="margin-left:10px" value="'. $acc['name'] . '"';
+					if(!is_null($checkedAccounts)){
+						if (in_array($acc['name'], $checkedAccounts)) 
+						echo " checked='checked'"; 	}	
+					?>
+					<?php
+                  		//name of account
+						echo "<td>".$acc['name']."</td>";						
+						?>
+						</tr>
+					<?php	
+					}
+				   ?>
+				</table>
+				</div>
+			</div>	
+
+
 
          <div id="accountPanel">
 			   <div class="widget" id="transactionHistory">

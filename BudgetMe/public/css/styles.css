@@ -96,8 +96,16 @@ h2{
 #graph{
 	width: 56%;
 	height: 300px;
-	left: 7px;
+	left: 5px;
 	float: left;
+}
+
+#graphLegend{
+	width: 18%;
+	height: 300px;
+	left: 7px;
+	float: 18ft;
+	overflow-y: scroll;
 }
 
 #transactionHistory{
