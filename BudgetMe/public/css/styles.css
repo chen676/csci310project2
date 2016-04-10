@@ -97,6 +97,7 @@ h2{
 	height: 300px;
 	left: 4px;
 	float: left;
+	overflow-y: scroll;
 }
 
 #transactionHistory{

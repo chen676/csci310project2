@@ -6,12 +6,31 @@
 		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 		<link rel="stylesheet" href="./css/styles.css">
 		<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+		  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
 		<script src="https://code.highcharts.com/highcharts.js"></script>
 		<script src="https://code.highcharts.com/modules/exporting.js"></script>
 
 		<script type="text/javascript">
 			$(function () {
+
+				/*Created by Harshul and Matt
+				Description: update graph x axis via start/end dates*/
+
+				$('#startDate').datepicker();
+				$('#endDate').datepicker();
+
+				var startDate = new Date(String($('#startDate').val());
+				var endDate = new Date('04/01/2016');
+
+				$('#submitDates').click(function(){
+					console.log(endDate);
+					console.log(startDate.getTime());
+				});
+
+
 			    $('#graph_div').highcharts({
 			        title: {
 			            text: 'Assets and Liabilities',
@@ -251,6 +270,11 @@
 			<div class="widget" id="graph">
 				<h2>Main Line Graph</h2>
 				<div id="graph_div" style="min-width: 300px; height: 250px; margin: 0 auto"></div>
+				Start Date:
+					<input type = "date" id = "startDate"> <br>
+				End Date: 
+					<input type = "date" id = "endDate">
+				<input type ="button" id ="submitDates" value = "Graph">
 
 			</div>
 
