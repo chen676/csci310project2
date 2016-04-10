@@ -19,15 +19,29 @@
 				/*Created by Harshul and Matt
 				Description: update graph x axis via start/end dates*/
 
-				$('#startDate').datepicker();
-				$('#endDate').datepicker();
+				//$('#startDate').datepicker();
+				//$('#endDate').datepicker();
 
-				var startDate = new Date(String($('#startDate').val());
-				var endDate = new Date('04/01/2016');
+				$("#startDate").datepicker({
+		        onSelect: function(selected) {
+		          $("#startDate").datepicker("option","minDate", selected)
+		        }
+		    });
+		    $("#endDate").datepicker({ 
+		        
+		        onSelect: function(selected) {
+		           $("#endDate").datepicker("option","maxDate", selected)
+		        }
+		    });  
+
+				var startDateParse = $('#startDate').val();
+				var endDateParse = $('#endDate').val();
+
+
+				
 
 				$('#submitDates').click(function(){
-					console.log(endDate);
-					console.log(startDate.getTime());
+					console.log(startDateParse - endDateParse);
 				});
 
 
@@ -271,10 +285,10 @@
 				<h2>Main Line Graph</h2>
 				<div id="graph_div" style="min-width: 300px; height: 250px; margin: 0 auto"></div>
 				Start Date:
-					<input type = "date" id = "startDate"> <br>
+					<input type = "text" id = "startDate"/> <br>
 				End Date: 
-					<input type = "date" id = "endDate">
-				<input type ="button" id ="submitDates" value = "Graph">
+					<input type = "text" id = "endDate"/>
+				<input type ="button" id ="submitDates" value = "Graph"/>
 
 			</div>
 
