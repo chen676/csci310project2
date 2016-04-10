@@ -28,3 +28,7 @@ Scenario: The user enters a valid amount to change a budget. The budget should b
 Scenario: When the user has transactions on his accounts, the budget should reflect the correct total of the transactions
 	Given there is a budget
 	Then the budget has the correct totals displayed 	
+
+Scenario: The users budget numbers should be the correct colors
+	Given there is a budget
+	Then the budget has the correct colors

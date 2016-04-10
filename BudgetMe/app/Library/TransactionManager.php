@@ -25,17 +25,30 @@ class TransactionManager{
 
 		Returns: -1 or 1 depending on if the left transaction happened earlier or later
 
-		Created By:
+		Created By: Paul and Rebecca
 	*/
 	public function dateComparator($lhs, $rhs){
+		return $this->rawDateCompare($lhs['date'], $rhs['date']);
+    }
 
+	/*
+		Parameters: Two different transactions dates MM/DD/YYYY
+
+		Description: Comparator for comparing two dates in MM/DD/YYYY format
+
+		Returns: -1 or 1 depending on if the left transaction happened earlier or later
+
+		Created By: Paul and Rebecca
+	*/
+    public function rawDateCompare($ldate, $rdate){
 	      //indeces of date MM/DD/YYYY
 	      $m = 0;
 	      $d = 1;
 	      $y = 2; 
 
-	      $ldate = explode('/', $lhs['date']);
-	      $rdate = explode('/', $rhs['date']);
+	      $ldate = explode('/', $ldate);
+	      $rdate = explode('/', $rdate);
+
 	      if(strcmp($ldate[$y], $rdate[$y]) > 0) //if left is chronologically more recent
 		      return -1;
 	      if(strcmp($ldate[$y], $rdate[$y]) < 0) //if right is more recent
