@@ -42,7 +42,7 @@
 				startTime();
 				var today = new Date();
 				makeGraphDefault();
-				//populateGraph();
+				populateGraph();
 			}
 			function populateGraph(){
 				$.ajaxSetup({
@@ -67,9 +67,8 @@
         				console.log(request.responseText);
         			}
         		});
-
-
 			}
+
 			function makeGraphDefault(){
 				var graph = $('#graph_div');
 				graph.highcharts({
@@ -106,7 +105,7 @@
 			        },
 			        series: [{
 			            name: 'Assets',
-			            data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+			            data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
 			        }, {
 			            name: 'Liabilities',
 			            data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
@@ -298,9 +297,9 @@
 					{
 						echo "<tr>";
 						//checkbox				   
-					   echo '<td><input type="checkbox" id="accountVisible'. $acc['name'] . '" name="visibility" style="margin-left:10px" value="'. $acc['name'] . '"';
-					if(!is_null($checkedAccounts)){
-						if (in_array($acc['name'], $checkedAccounts)) 
+					   echo '<td><input type="checkbox" id="graphVisible'. $acc['name'] . '" name="graphVisibility" style="margin-left:10px" value="'. $acc['name'] . '"';
+					if(!is_null($checkedAccountsForGraph)){
+						if (in_array($acc['name'], $checkedAccountsForGraph)) 
 						echo " checked='checked'"; 	}	
 					?>
 					<?php
@@ -441,9 +440,8 @@
 			    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 			  }
 			});
-			$("input[name=visibility]").click( function()
-			{
-				var checked = $("input[type=checkbox]:checked").map( function() 
+			$("input[name=visibility]").click( function(){
+				var checked = $("input[name=visibility]:checked").map( function() 
 				{
 					return $(this).val();
 				}).get();
@@ -461,7 +459,26 @@
 				   }
 				});
 			});
-
+			$("input[name=graphVisibility]").click( function()
+			{
+				var checked = $("input[name=graphVisibility]:checked").map(function() 
+				{
+					return $(this).val();
+				}).get();
+				
+				$.ajax({
+				   type: "POST",
+				   data: {accountSet:checked, length:checked.length},
+				   dataType: "json",
+				   url: "/display_graph",
+				   success: function(msg){
+					window.location.reload(true); 
+				   },
+			       	   error:function(exception){
+					alert(exception); 
+				   }
+				});
+			});
 
 			// idle time-out
 			$(document).ready(function () {

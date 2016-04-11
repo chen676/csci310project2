@@ -106,10 +106,42 @@ class GraphController extends Controller{
 	    	$graphData[$t['date']] += $t['amount'];
 	    }
 	    
-	    var_dump($graphData);
+	    //cumulate each data point
+	    $net = 0;
+	    foreach($graphData as &$g){
+	    	$net += $g;
+	    	$g = $net;
+	    }
 	}
 
 	public function test(){
 		$this->getGraphDataForAnAccount("03/27/2014", "03/30/2016", 13);
+	}
+
+	public function getAccountSetForGraph(Request $request){
+ 		if($request->ajax()){
+			if($_POST['length'] == 0){
+			  Session::put('checkedAccountsForGraph', array());
+			  return;
+			}
+
+			$accountNames = $_POST['accountSet'];
+
+			//need to create an array based on id, not name
+			$user = Session::get('user');
+			$graphData = array();
+			foreach($accountNames as $name){
+			  $account = Account::where('name', '=', $name)
+			  ->where('user_id', '=', $user->id)
+			  ->get()->first();
+			  $aid = $account->id;
+			  $data = $this->getGraphDataForAnAccount("03/27/2014", "03/30/2016", $aid);
+			  $graphData[$name] = $data;
+			}
+
+			Session::put('checkedAccountsForGraph', $accountNames);
+			Session::put('graphData', $graphData);
+			return $graphData;
+      	}		
 	}
 }

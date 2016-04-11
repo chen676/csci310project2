@@ -37,6 +37,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/populateGraph', 'GraphController@populateGraph');
 
 	Route::post('/display_transactions', 'UserController@getTransactionSet');
+	Route::post('/display_graph', 'GraphController@getAccountSetForGraph');
 
 	Route::get('/sort', 'GraphController@test');
 	Route::post('/uploadCSV', 'AccountController@uploadCSV');

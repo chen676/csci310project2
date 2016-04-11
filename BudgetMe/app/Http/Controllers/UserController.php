@@ -58,9 +58,10 @@ class UserController extends Controller
     	}
 
     	return view('dashboard', [
-    		'user' => Session::get('user'),
-		'transactionSet' => Session::get('transactionSet'),
-		'checkedAccounts' => Session::get('checkedAccounts')
+    	   'user' => Session::get('user'),
+		  'transactionSet' => Session::get('transactionSet'),
+		  'checkedAccounts' => Session::get('checkedAccounts'),
+            'checkedAccountsForGraph' => Session::get('checkedAccountsForGraph')
     	]);
     }
 
@@ -76,6 +77,7 @@ class UserController extends Controller
     public function clearList(){
 
       Session::put('checkedAccounts', array());
+      Session::put('checkedAccountsForGraph', array());
       Session::put('transactionSet', array());
       return redirect('/dashboard');
     }
@@ -210,6 +212,7 @@ class UserController extends Controller
     	Session::forget('transactionSet');
     	Session::forget('selected_accounts');
     	Session::forget('checkedAccounts');
+        Session::forget('checkedAccountsForGraph');
     	return redirect('/');
     }
 }
