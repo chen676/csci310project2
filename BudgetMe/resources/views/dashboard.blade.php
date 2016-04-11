@@ -42,15 +42,27 @@
 				startTime();
 				var today = new Date();
 				makeGraphDefault();
+				//populateGraph();
 			}
 			function populateGraph(){
+				$.ajaxSetup({
+					headers: {
+			            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					}
+		        });
 				$.ajax({ type: "POST",
                     url: '/populateGraph',
-                    data:{'starting_date':updated_amount, 'ending_date' : category},
+                    data: "",
+                    //data:{'starting_date':updated_amount, 'ending_date' : category},
+                    dataType:"JSON",
         			success: function(data){
-
+        				console.log(data);
+        			},
+        			error: function(request, status, error){
+        				console.log(request.responseText);
         			}
         		});
+
 
 			}
 			function makeGraphDefault(){
@@ -150,9 +162,11 @@
 					             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 					           }
 					         });
-
+					         
 					         //load when page loaded	
 					         $(document).ready(function(){
+					         	populateGraph();
+					         	console.log("after");
 					         	table = document.getElementById("budgetTable");
 
 								$.ajax({ type: "POST",
