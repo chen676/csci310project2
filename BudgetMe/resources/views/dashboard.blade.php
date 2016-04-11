@@ -50,10 +50,15 @@
 			            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 					}
 		        });
+		        var today =  new Date();
+		        var dd = today.getDate();
+		        var mm = today.getMonth() + 1;
+		        var yyyy = today.getFullYear();
+		        today = mm + '/' + dd + '/' + yyyy;
 				$.ajax({ type: "POST",
-                    url: '/populateGraph',
-                    data: "",
-                    //data:{'starting_date':updated_amount, 'ending_date' : category},
+                    url: "/populateGraph",
+                    //data: "",
+                    data:{'starting_date': '01/10/2016', 'ending_date' : today},
                     dataType:"JSON",
         			success: function(data){
         				console.log(data);
