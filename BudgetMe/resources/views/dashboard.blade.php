@@ -40,7 +40,8 @@
 			}
 			function onLoad() {
 				startTime();
-				makeGraphInitially();
+				var today = new Date();
+				makeGraphDefault();
 			}
 			function populateGraph(){
 				$.ajax({ type: "POST",
@@ -52,7 +53,7 @@
         		});
 
 			}
-			function makeGraphInitially(){
+			function makeGraphDefault(){
 				var graph = $('#graph_div');
 				graph.highcharts({
 					title: {
