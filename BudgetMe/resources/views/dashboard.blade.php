@@ -40,19 +40,37 @@
 			}
 			function onLoad() {
 				startTime();
-				makeGraphInitially();
+				var today = new Date();
+				makeGraphDefault();
+				//populateGraph();
 			}
 			function populateGraph(){
+				$.ajaxSetup({
+					headers: {
+			            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					}
+		        });
+		        var today =  new Date();
+		        var dd = today.getDate();
+		        var mm = today.getMonth() + 1;
+		        var yyyy = today.getFullYear();
+		        today = mm + '/' + dd + '/' + yyyy;
 				$.ajax({ type: "POST",
-                    url: '/populateGraph',
-                    data:{'starting_date':updated_amount, 'ending_date' : category},
+                    url: "/populateGraph",
+                    //data: "",
+                    data:{'starting_date': '01/10/2016', 'ending_date' : today},
+                    dataType:"JSON",
         			success: function(data){
-
+        				console.log(data);
+        			},
+        			error: function(request, status, error){
+        				console.log(request.responseText);
         			}
         		});
 
+
 			}
-			function makeGraphInitially(){
+			function makeGraphDefault(){
 				var graph = $('#graph_div');
 				graph.highcharts({
 					title: {
@@ -149,9 +167,11 @@
 					             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 					           }
 					         });
-
+					         
 					         //load when page loaded	
 					         $(document).ready(function(){
+					         	populateGraph();
+					         	console.log("after");
 					         	table = document.getElementById("budgetTable");
 
 								$.ajax({ type: "POST",

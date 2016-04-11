@@ -28,8 +28,8 @@ class BudgetController extends Controller
         Created By:
     */
     public function getBudgets(Request $request){
-	   if($request->ajax())
-	   {
+	   if($request->ajax()){
+	   
 	      $user = Session::get('user');
 
         $user_id = $user -> id;
