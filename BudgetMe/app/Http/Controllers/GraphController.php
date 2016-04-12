@@ -93,10 +93,19 @@ class GraphController extends Controller{
 
 	    $graphData = array();
 	    $cDate = $startDate;
+	    $prevBalance = 0;
+	    $transactionBeforeStartExists = false;
+
+	    if(empty($tset))
+	    	return array();
+	    
 	    foreach($tset as $t){
 	    	//if cDate is before startDate, skip 
-	    	if($tm->rawDateCompare($t['date'], $startDate) > 0)
+	    	if($tm->rawDateCompare($t['date'], $startDate) > 0) {
+	    		$prevBalance += $t['amount'];
+	    		$transactionBeforeStartExists = true;
 	    		continue;
+	    	}
 	    	//if date is after endDate, skip
 	    	if($tm->rawDateCompare($t['date'], $endDate) < 0)
 	    		continue;
@@ -107,16 +116,25 @@ class GraphController extends Controller{
 	    }
 	    
 	    //cumulate each data point
-	    $net = 0;
+	    $net = $prevBalance;
 	    foreach($graphData as &$g){
 	    	$net += $g;
 	    	$g = $net;
 	    }
-	    return $graphData;
-	}
+	    //all data points betwen sDate and earliest transaction are $prevBalance
+	    $paddingLeft = array();
+	    $paddingRight = array();
 
-	public function test(){
-		$this->getGraphDataForAnAccount("03/27/2014", "03/30/2016", 13);
+	    if($transactionBeforeStartExists){
+		    if(!array_key_exists($startDate, $graphData))
+		    	$paddingLeft[$startDate] = $prevBalance;
+		}
+	    if(!array_key_exists($endDate, $graphData))
+	    	$paddingRight[$endDate] = $net;	    
+
+	  
+	    //all points between latest transaction and fDate are $net
+	    return array_merge($paddingLeft, $graphData, $paddingRight);
 	}
 
 	public function getAccountSetForGraph(Request $request){
@@ -129,13 +147,15 @@ class GraphController extends Controller{
 			$accountNames = $_POST['accountSet'];
 			//need to create an array based on id, not name
 			$user = Session::get('user');
+			
 			$graphData = array();
+
 			foreach($accountNames as $name){
 			  $account = Account::where('name', '=', $name)
 			  ->where('user_id', '=', $user->id)
 			  ->get()->first();
 			  $aid = $account->id;
-			  $data = $this->getGraphDataForAnAccount("03/27/2014", "03/30/2040", $aid);
+			  $data = $this->getGraphDataForAnAccount("02/27/2016", "03/30/2016", $aid);
 			  $graphData[$name] = $data;
 			}
 

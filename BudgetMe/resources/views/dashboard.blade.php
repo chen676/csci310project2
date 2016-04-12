@@ -41,7 +41,25 @@
 			function onLoad() {
 				startTime();
 				var today = new Date();
-				makeGraphDefault();
+
+				var checked = $("input[name=graphVisibility]").map(function(){
+					return $(this).val();
+				}).get();
+
+				$.ajax({
+				   type: "POST",
+				   data: {accountSet:checked, length:checked.length},
+				   dataType: "json",
+				   url: "/display_graph",
+				   success: function(msg){
+				   	var chart = $('#graph_div').highcharts();
+
+				   	makeGraphDefault(msg);
+				   },
+			       error:function(exception){
+				     alert(exception); 
+				   }
+				});
 				//populateGraph();
 			}
 			function populateGraph(){
@@ -70,7 +88,18 @@
 			}
 
 			function makeGraphDefault(graphLines){
-				console.log(graphLines['Amazon Money Card']);
+				var data = new Array();
+
+				for(var acc in graphLines) {
+					var accdata = new Array();
+					for(var key in graphLines[acc]) {
+						var splitDate = key.split("/");
+						console.log();
+						accdata.push([Date.UTC(parseInt(splitDate[2]), parseInt(splitDate[0]), parseInt(splitDate[1])), graphLines[acc][key]]);
+					}
+					data.push({name:acc, data:accdata});
+				}
+
 				var graph = $('#graph_div');
 				graph.highcharts({
 					title: {
@@ -82,8 +111,7 @@
 			            x: -20
 			        },
 			        xAxis: {
-			            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-			                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+			            type:'datetime'
 			        },
 			        yAxis: {
 			            title: {
@@ -96,7 +124,7 @@
 			            }]
 			        },
 			        tooltip: {
-			            valueSuffix: '°C'
+			            valueSuffix: '$'
 			        },
 			        legend: {
 			            layout: 'vertical',
@@ -104,14 +132,10 @@
 			            verticalAlign: 'middle',
 			            borderWidth: 0
 			        },
-			        series: [{
-			            name: 'Assets',
-			            data: graphLines['Amazon Money Card']
-			        }, {
-			            name: 'Liabilities',
-			            data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
-			        }]
+			        series: data
     			});
+    							//graph.setData(graphLines['Amazon Money Card']);
+
 			}
     	</script>
 
@@ -280,7 +304,7 @@
 
 			<div class="widget" id="graphLegend">
 				<h2>Graph Legend</h2>
-				<div id="legend_div" style="min-width:100px; height:250px; margin:0 auto">
+				<div id="legend_div">
 
 				<?php
 
@@ -466,22 +490,7 @@
 			            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 					}
 		        });
-				var checked = $("input[name=graphVisibility]:checked").map(function(){
-					return $(this).val();
-				}).get();
 
-				$.ajax({
-				   type: "POST",
-				   data: {accountSet:checked, length:checked.length},
-				   dataType: "json",
-				   url: "/display_graph",
-				   success: function(msg){
-				   	makeGraphDefault(msg);
-				   },
-			       error:function(exception){
-				     alert(exception); 
-				   }
-				});
 			});
 
 			// idle time-out
