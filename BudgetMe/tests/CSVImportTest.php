@@ -12,7 +12,15 @@ use App\Library\CSVManager;
 
 class CSVImportTest extends TestCase
 {
-    
+    /*
+        Parameters: None
+
+        Description: Test if first sample csv can be parsed correctly
+
+        Returns: None
+
+        Created By: Brandon and Patrick
+    */
     public function testParseCSVOnTest1CSV(){
 
     	// Arrange
@@ -44,6 +52,15 @@ class CSVImportTest extends TestCase
         $this->assertEquals("11/12/1996", $transactions[2][3]);
     }
 
+    /*
+        Parameters: None
+
+        Description: Test if second sample csv can be parsed correctly and can correctly round transaction amount to 2 decimal places
+
+        Returns: None
+
+        Created By: Brandon and Patrick
+    */
     public function testParseCSVOnTest2CSVRoundTwoDecimalPlaces(){
 
         // Arrange

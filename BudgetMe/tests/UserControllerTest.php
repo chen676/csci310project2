@@ -6,6 +6,16 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserControllerTest extends TestCase
 {
+
+     /*
+        Parameters: None
+
+        Description: Test if a valid login can occur
+
+        Returns: None
+
+        Created By: Brandon and Patrick
+    */
     public function testLoginWithCorrectInfo()
     {
     	$this
@@ -15,6 +25,16 @@ class UserControllerTest extends TestCase
     		->press('Login')
     		->seePageIs('/dashboard');
     }
+
+    /*
+        Parameters: None
+
+        Description: Test if a invalid login can occur
+
+        Returns: None
+
+        Created By: Brandon and Patrick
+    */
 
     public function testLoginWithIncorrectInfo()
     {
@@ -26,6 +46,15 @@ class UserControllerTest extends TestCase
     		->see('Email or password is incorrect. Please try again.');
     }
 
+    /*
+        Parameters: None
+
+        Description: Test if a valid logout can occur
+
+        Returns: None
+
+        Created By: Brandon and Patrick
+    */
     public function testLogout()
     {
     	$this
@@ -33,6 +62,15 @@ class UserControllerTest extends TestCase
     		->seePageIs('/');
     }
 
+    /*
+        Parameters: None
+
+        Description: Test if a dashboard can be visited without logging in
+
+        Returns: None
+
+        Created By: Brandon and Patrick
+    */
     public function testDashboard()
     {
     	$this

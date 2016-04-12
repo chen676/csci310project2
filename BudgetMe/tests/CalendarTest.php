@@ -11,7 +11,6 @@ class CalendarTest extends TestCase
 	Parameters:None
 	Description:The dates selected for the graph (some normal range) are received accurately.
 	Created By: Harshul and Matt
-	Edited By: Rebecca and Paul
 	*/
     public function testNormalDatesSelected(){
     	$this->assertTrue(false);
