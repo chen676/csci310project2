@@ -89,13 +89,13 @@
 
 			function makeGraphDefault(graphLines){
 				var data = new Array();
-
+				console.log(graphLines);
 				for(var acc in graphLines) {
 					var accdata = new Array();
 					for(var key in graphLines[acc]) {
 						var splitDate = key.split("/");
-						console.log();
-						accdata.push([Date.UTC(parseInt(splitDate[2]), parseInt(splitDate[0]), parseInt(splitDate[1])), graphLines[acc][key]]);
+						console.log(splitDate);
+						accdata.push([Date.UTC(parseInt(splitDate[2])-1, parseInt(splitDate[0])-1, parseInt(splitDate[1]))-1, graphLines[acc][key]]);
 					}
 					data.push({name:acc, data:accdata});
 				}
@@ -111,7 +111,8 @@
 			            x: -20
 			        },
 			        xAxis: {
-			            type:'datetime'
+			            type:'datetime',
+			            min: null
 			        },
 			        yAxis: {
 			            title: {

@@ -131,7 +131,6 @@ class GraphController extends Controller{
 		}
 	    if(!array_key_exists($endDate, $graphData))
 	    	$paddingRight[$endDate] = $net;	    
-
 	  
 	    //all points between latest transaction and fDate are $net
 	    return array_merge($paddingLeft, $graphData, $paddingRight);
@@ -155,7 +154,7 @@ class GraphController extends Controller{
 			  ->where('user_id', '=', $user->id)
 			  ->get()->first();
 			  $aid = $account->id;
-			  $data = $this->getGraphDataForAnAccount("02/27/2016", "03/30/2016", $aid);
+			  $data = $this->getGraphDataForAnAccount("03/01/2016", "03/30/2016", $aid);
 			  $graphData[$name] = $data;
 			}
 
