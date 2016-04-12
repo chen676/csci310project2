@@ -12,7 +12,7 @@ class AccountManager{
 
 		Returns: Sorted array of accounts
 
-		Created By: 
+		Created By: Rebbecca and Paul
 	*/
     public function sortAccountsByNames($accounts){
 		usort($accounts, function($lhs, $rhs)

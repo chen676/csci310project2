@@ -15,6 +15,16 @@ use DB;
 use App\Library\TransactionManager;
 
 class GraphController extends Controller{
+
+	/*
+		Parameters: Request
+
+		Description: Populates the default graph with assets and liabilities
+
+		Returns:
+
+		Created By: Matt and Harshul
+	*/
 	public function populateGraph(Request $request){
 
 		if($request->ajax()){
@@ -137,6 +147,15 @@ class GraphController extends Controller{
 	    return array_merge($paddingLeft, $graphData, $paddingRight);
 	}
 
+	/*
+		Parameters: Request
+
+		Description: get aggregate accounts to graph 
+
+		Returns: associative array of accounts and balances for dates within the start and end
+
+		Created By: Paul and Rebecca
+	*/
 	public function getAccountSetForGraph(Request $request){
  		if($request->ajax()){
 			if($_POST['length'] == 0){

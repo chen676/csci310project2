@@ -1,4 +1,8 @@
 <html>
+<!--
+This file was created by: Paul and Rebecca
+Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
+-->
 	<head>
 		<meta charset="UTF-8">		
 		<meta name="csrf-token" content="{{ csrf_token() }}">

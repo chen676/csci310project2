@@ -19,13 +19,13 @@ class AccountController extends Controller
 {
 
 	/*
-		Parameters: Route Request
+		Parameters: None
 
 		Description: Sort current accounts of the use by name alphabetically
 
 		Returns: N/A
 
-		Created By:
+		Created By: Paul and Rebecca
 	*/
     public function sortAccounts(){
 
@@ -50,9 +50,9 @@ class AccountController extends Controller
 
 		Description: Insert a new account with the inputted name into the MySQL database
 
-		Returns: Route Redirect To Dashboard
+		Returns: Route Redirect To Dashboard to reload
 
-		Created By:
+		Created By: Paul and Rebecca
 	*/
     public function addAccount(Request $request){
 
@@ -75,7 +75,7 @@ class AccountController extends Controller
 
 		Returns: Route Redirect To Dashboard
 
-		Created By:
+		Created By: Brandon and Patrick
     */
     public function removeAccount(Request $request){
 

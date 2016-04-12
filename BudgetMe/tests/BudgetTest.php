@@ -12,15 +12,16 @@ require_once 'app/Http/Controllers/BudgetController.php';
 
 class BudgetTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testExample()
-    {
-        $this->assertTrue(true);
-    }
+
+    /*
+        Parameters: None
+
+        Description: Test if budgets for a user can be pulled from database
+
+        Returns: None
+
+        Created By: Matt and Harshul
+    */
     public function testgetBudgetLoggedInUser(){
     	
     	$this -> call('POST','/loadBudgets');
@@ -30,6 +31,16 @@ class BudgetTest extends TestCase
     	//$this -> assertSessionHas("password");
     	$this -> flushSession();
     }
+
+    /*
+        Parameters: None
+
+        Description: Test if budgets for a user can be updated to database
+
+        Returns: None
+
+        Created By: Matt and Harshul
+    */
     public function testupdateBudgetLoggedinUser(){
     	$this -> call('POST','/updateBudget');
     	$this -> assertResponseOk();
@@ -63,8 +74,5 @@ class BudgetTest extends TestCase
         $this -> assertEquals($rentSpending, 27, "Amount spent on Rent expenses does not match sql transactions");
         $this -> assertEquals($foodSpending, 151.45, "Amount spent on Food expenses does not match sql transactions");
 
-    
-
-        // $this -> assertTrue(false);
     }
 }

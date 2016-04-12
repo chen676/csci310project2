@@ -22,7 +22,7 @@ class UserController extends Controller
 
         Returns: Route Redirect to Dashboard or back to Login
 
-        Created By:
+        Created By: Brandon and Patrick
     */
     public function login(Request $request){
 
@@ -46,9 +46,10 @@ class UserController extends Controller
 
         Description: Returns the Dashboard page with the current Session attributes
 
-        Returns: Route Redirect to Dashboard
+        Returns: Route Redirect to Dashboard if session is null, otherwise return a view populated with all relevant user data
 
-        Created By:
+        Created By: Brandon and Matt
+        Edited By: Paul and Rebecca
     */
     public function dashboard(){
 
@@ -72,7 +73,7 @@ class UserController extends Controller
 
         Returns: Route Redirect to Dashboard
 
-        Created By:
+        Created By: Patrick and Brandon
     */
     public function clearList(){
 
@@ -89,7 +90,7 @@ class UserController extends Controller
 
         Returns: Array of transactions of the specific account
 
-        Created By:
+        Created By: Paul and Rebecca
     */
     public function getTransactionSet(Request $request){
 
@@ -141,7 +142,7 @@ class UserController extends Controller
 
         Returns: Route Redirect to Dashboard
 
-        Created By:
+        Created By: Paul and Rebecca
     */
     public function sortTransactionSetByDate(){
 
@@ -162,7 +163,7 @@ class UserController extends Controller
 
         Returns: Route Redirect to Dashboard
 
-        Created By:
+        Created By: Paul and Rebecca
     */
     public function sortTransactionSetByCategory(){
 
@@ -183,7 +184,7 @@ class UserController extends Controller
 
         Returns: Route Redirect to Dashboard
 
-        Created By:
+        Created By: Paul and Rebecca
     */
     public function sortTransactionSetByAmount(){
 
@@ -204,7 +205,8 @@ class UserController extends Controller
 
         Returns: Route Redirect to Login
 
-        Created By:
+        Created By: Patrick and Brandon
+        Edited By: Paul and Rebecca
     */
     public function logout(Request $request){
         
