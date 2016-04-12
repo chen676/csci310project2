@@ -112,6 +112,7 @@ class GraphController extends Controller{
 	    	$net += $g;
 	    	$g = $net;
 	    }
+	    return $graphData;
 	}
 
 	public function test(){
@@ -126,7 +127,6 @@ class GraphController extends Controller{
 			}
 
 			$accountNames = $_POST['accountSet'];
-
 			//need to create an array based on id, not name
 			$user = Session::get('user');
 			$graphData = array();
@@ -135,12 +135,11 @@ class GraphController extends Controller{
 			  ->where('user_id', '=', $user->id)
 			  ->get()->first();
 			  $aid = $account->id;
-			  $data = $this->getGraphDataForAnAccount("03/27/2014", "03/30/2016", $aid);
+			  $data = $this->getGraphDataForAnAccount("03/27/2014", "03/30/2040", $aid);
 			  $graphData[$name] = $data;
 			}
 
 			Session::put('checkedAccountsForGraph', $accountNames);
-			Session::put('graphData', $graphData);
 			return $graphData;
       	}		
 	}

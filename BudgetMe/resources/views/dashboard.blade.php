@@ -42,7 +42,7 @@
 				startTime();
 				var today = new Date();
 				makeGraphDefault();
-				populateGraph();
+				//populateGraph();
 			}
 			function populateGraph(){
 				$.ajaxSetup({
@@ -56,20 +56,21 @@
 		        var yyyy = today.getFullYear();
 		        today = mm + '/' + dd + '/' + yyyy;
 				$.ajax({ type: "POST",
-                    url: "/populateGraph",
+                    url: "/getAccountSetForGraph",
                     //data: "",
                     data:{'starting_date': '01/10/2016', 'ending_date' : today},
                     dataType:"JSON",
         			success: function(data){
-        				console.log(data);
+        				//console.log(data);
         			},
         			error: function(request, status, error){
-        				console.log(request.responseText);
+        				//console.log(request.responseText);
         			}
         		});
 			}
 
-			function makeGraphDefault(){
+			function makeGraphDefault(graphLines){
+				console.log(graphLines['Amazon Money Card']);
 				var graph = $('#graph_div');
 				graph.highcharts({
 					title: {
@@ -105,7 +106,7 @@
 			        },
 			        series: [{
 			            name: 'Assets',
-			            data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
+			            data: graphLines['Amazon Money Card']
 			        }, {
 			            name: 'Liabilities',
 			            data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
@@ -169,8 +170,8 @@
 					         
 					         //load when page loaded	
 					         $(document).ready(function(){
-					         	populateGraph();
-					         	console.log("after");
+					         	//populateGraph();
+					         	//console.log("after");
 					         	table = document.getElementById("budgetTable");
 
 								$.ajax({ type: "POST",
@@ -210,7 +211,7 @@
         						//update button clicked
         						$(document).on('click', '.updateBtn', function(e) {
         								var target = e.target.id;
-        								console.log( target);
+        								//console.log( target);
         								var updated_amount = document.getElementById("budgetWidgetTextfield").value;
         								if(!$(updated_amount) || !$.isNumeric(updated_amount) || updated_amount.indexOf('-') != -1){
         									console.log("invalid input: "+updated_amount)
@@ -224,9 +225,9 @@
         								success: function(data){
         									document.getElementById("budgetWidgetTextfield").value = "";
         									var amount = data.data;
-        									console.log("amount:" +amount);
+        									//console.log("amount:" +amount);
         									var element =category + "_amount";
-        									console.log("element:" + element);
+        									//console.log("element:" + element);
         									document.getElementById(element).innerHTML = "$" + amount;
         									document.getElementById(element).style = "color:" + data.color;
         								}
@@ -445,7 +446,7 @@
 				{
 					return $(this).val();
 				}).get();
-				
+
 				$.ajax({
 				   type: "POST",
 				   data: {accountSet:checked, length:checked.length},
@@ -459,23 +460,26 @@
 				   }
 				});
 			});
-			$("input[name=graphVisibility]").click( function()
-			{
-				var checked = $("input[name=graphVisibility]:checked").map(function() 
-				{
+			$("input[name=graphVisibility]").click(function(){
+				$.ajaxSetup({
+					headers: {
+			            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					}
+		        });
+				var checked = $("input[name=graphVisibility]:checked").map(function(){
 					return $(this).val();
 				}).get();
-				
+
 				$.ajax({
 				   type: "POST",
 				   data: {accountSet:checked, length:checked.length},
 				   dataType: "json",
 				   url: "/display_graph",
 				   success: function(msg){
-					window.location.reload(true); 
+				   	makeGraphDefault(msg);
 				   },
-			       	   error:function(exception){
-					alert(exception); 
+			       error:function(exception){
+				     alert(exception); 
 				   }
 				});
 			});
