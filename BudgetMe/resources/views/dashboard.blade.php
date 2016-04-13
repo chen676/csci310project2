@@ -76,7 +76,6 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 				startTime();
 				var today = new Date();
 				getGraphData("","04/12/2016");
-				//populateGraph();
 			}
 			function getGraphData(startDate, endDate){
 				var checked = $("input[name=graphVisibility]").map(function(){
@@ -90,6 +89,7 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 				   dataType: "json",
 				   url: "/display_graph",
 				   success: function(msg){
+				   	console.log(msg);
 				   	var chart = $('#graph_div').highcharts();
 				   	makeGraphDefault(msg, startDate);
 				   },
@@ -105,17 +105,29 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 					}
 		        });
 		        var today =  new Date();
-		        var dd = today.getDate();
-		        var mm = today.getMonth() + 1;
-		        var yyyy = today.getFullYear();
-		        today = mm + '/' + dd + '/' + yyyy;
+		        var dd = today.getDate() + '';
+		        var mm = today.getMonth() + 1 + '';
+		        var yyyy = today.getFullYear() + '';
+		        if(mm.length < 2){
+		        	mm = '0' + mm;
+		        }
+		        if(dd.length < 2){
+		        	dd = '0' + dd;
+		        }
+		        while(yyyy.length < 4){
+		        	yyyy = '0' + yyyy;
+		        }
+		        var dateString = mm + '/' + dd + '/' + yyyy;
 				$.ajax({ type: "POST",
                     url: "/getAccountSetForGraph",
                     //data: "",
-                    data:{'starting_date': '01/10/2016', 'ending_date' : today},
+                    data:{'starting_date': '03/01/2016', 'ending_date' : dateString},
                     dataType:"JSON",
         			success: function(data){
-        				//console.log(data);
+        				console.log(data);
+        				
+        				makeGraphDefault(data, '03/01/2016');
+        				
         			},
         			error: function(request, status, error){
         				//console.log(request.responseText);
@@ -128,6 +140,9 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 				console.log(startDate);
 				var data = new Array();
 				for(var acc in graphLines) {
+
+					console.log(acc);
+
 					var accdata = new Array();
 					for(var key in graphLines[acc]) {
 						var splitDate = key.split("/");
@@ -176,6 +191,7 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 			        series: data
     			});
     							//graph.setData(graphLines['Amazon Money Card']);
+
 
 			}
     	</script>

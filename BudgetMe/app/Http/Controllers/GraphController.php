@@ -25,14 +25,13 @@ class GraphController extends Controller{
 
 		Created By: Matt and Harshul
 	*/
-	public function populateGraph(Request $request){
+	public function populateGraph(){
 
-		if($request->ajax()){
 			
 			$user = Session::get('user');
 			$user_id = $user -> id;
-			$starting_date = $request['starting_date'];
-			$ending_date = $request['ending_date'];
+			$startDate = $request['starting_date'];
+			$endDate = $request['ending_date'];
 			$accounts = DB::select('select * from accounts where user_id = :user_id' ,  ['user_id' => $user_id]);
 			$valid_account_ids = array();
 			foreach($accounts as $account){
@@ -51,13 +50,30 @@ class GraphController extends Controller{
 			}
 			$transactionManager = new TransactionManager();
 			$transactions = $transactionManager -> sortTransactionsByDates($transactions);
-			$transactions = array_reverse($tset);
+			$transactions = array_reverse($transactions);
+
+			$prevBalanceAssets = 0;
+			$prevBalanceLiabilities = 0;
+			$transactionBeforeStartExistsAssets = false;
+			$transactionBeforeStartExistsLiabilities = false;
+
+			if(empty($transactions)){
+				return array();
+			}
 
 			$assetsData = array();
 			$liabilitiesData = array();
 			foreach($transactions as $t){
 				/*if date is before startDate, skip this transaction*/
 				if($transactionManager->rawDateCompare($t->date, $startDate) > 0){
+					if($t->amount > 0){
+						$prevBalanceAssets += $t->amount;
+						$transactionBeforeStartExistsAssets = true;
+					}
+					else{
+						$prevBalanceAssets += -1 * $t->amount;
+						$transactionBeforeStartExistsLiabilities = true;
+					}
 					continue;
 				}
 				/*if date is after endDate, skip this transaction*/
@@ -67,23 +83,63 @@ class GraphController extends Controller{
 				/*amount is greater than zero, therefore an asset*/
 				if($t->amount > 0){
 					if(!array_key_exists($t->date, $assetsData)){
-						$assetsDate[$t->date] = 0;
+						$assetsData[$t->date] = 0;
 					}
 					$assetsData[$t->date] += $t->amount;
 				}
 				/*amount is less than zero, therefore a liability*/
 				else{
 					if(!array_key_exists($t->date, $liabilitiesData)){
-						$liabilitiesDate[$t->date] = 0;
+						$liabilitiesData[$t->date] = 0;
 					}
-					$liabilitiesData[$t->date] += -1 * $t->date;
+					$liabilitiesData[$t->date] += -1 * $t->amount;
 				}
 			}
-			return 5;
+			//cumulate each data point for assets and liabilities
+			$netAssets = $prevBalanceAssets;
+			$netLiabilities = $prevBalanceLiabilities;
+			foreach($assetsData as &$data){
+				$netAssets += $data;
+				$data = $netAssets;
+			}
+
+			foreach($liabilitiesData as &$data){
+				$netLiabilities += $data;
+				$data = $netLiabilities;
+			}
+
+			$paddingLeftAssets = array();
+			$paddingRightAssets = array();
+
+			$paddingLeftLiabilities = array();
+			$paddingRightLiabilities = array();
+
+			if($transactionBeforeStartExistsAssets){
+				if(!array_key_exists($startDate, $assetsData)){
+					$paddingLeftAssets[$startDate] = $prevBalanceAssets;
+				}
+			}
+			if(!array_key_exists($endDate, $assetsData)){
+				$paddingRightAssets[$endDate] = $netAssets;
+			}
+
+			$fullAssetsData = array_merge($paddingLeftAssets, $assetsData, $paddingRightAssets);
+
+			if($transactionBeforeStartExistsLiabilities){
+				if(!array_key_exists($startDate, $liabilitiesData)){
+					$paddingLeftLiabilities[$startDate] = $prevBalanceLiabilities;
+				}
+			}
+			if(!array_key_exists($endDate, $liabilitiesData)){
+				$paddingRightLiabilities[$endDate] = $netLiabilities;
+			}
+
+			$fullLiabilitiesData = array_merge($paddingLeftLiabilities, $liabilitiesData, $paddingRightLiabilities);
+			$totalData = array("Assets" => $fullAssetsData, "Liabilities" => $fullLiabilitiesData);
 
 			
-
-		}
+			return $totalData;
+		
 	}
 
 	/*
@@ -184,8 +240,8 @@ class GraphController extends Controller{
 			  $graphData[$name] = $data;
 			}
 
-			Session::put('checkedAccountsForGraph', $accountNames);
-			return $graphData;
+			$assetsAndLiabilities = $this->populateGraph();
+			return array_merge($assetsAndLiabilities, $graphData);
       	}		
 	}
 }
