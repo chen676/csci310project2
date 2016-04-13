@@ -17,17 +17,18 @@ use App\Library\TransactionManager;
 class GraphController extends Controller{
 
 	/*
-		Parameters: Request
+		Parameters: Start Date as a string in MM/DD/YYYY format
+					End Date as a string in MM/DD/YYYY format
 
-		Description: Populates the default graph with assets and liabilities
+		Description: Calculates the user's assets and liabilities
 
-		Returns:
+		Returns: An array with the data for assets and liabilities
 
 		Created By: Matt and Harshul
-	*/
-	public function populateGraph($startDate, $endDate){
 
-			
+		Edited By: Paul and Rebbbbecca
+	*/
+	public function calculateAssetsAndLiabilities($startDate, $endDate){			
 			$user = Session::get('user');
 			$user_id = $user -> id;
 			$accounts = DB::select('select * from accounts where user_id = :user_id' ,  ['user_id' => $user_id]);
@@ -35,7 +36,6 @@ class GraphController extends Controller{
 			foreach($accounts as $account){
 				$valid_id = $account->id;
 				array_push($valid_account_ids, $valid_id);
-
 			}
 
 			$transactions = Transaction::get()->toArray();
@@ -232,7 +232,7 @@ class GraphController extends Controller{
 			  $graphData[$name] = $data;
 			}
 
-			$assetsAndLiabilities = $this->populateGraph($sDate, $eDate);
+			$assetsAndLiabilities = $this->calculateAssetsAndLiabilities($sDate, $eDate);
 			return array_merge($assetsAndLiabilities, $graphData);
       	}		
 	}
