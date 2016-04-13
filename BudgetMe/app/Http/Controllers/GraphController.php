@@ -73,7 +73,7 @@ class GraphController extends Controller{
 					}
 					else{
 						$prevBalanceAssets += -1 * $t->amount;
-						$transactionBeforeStartExistsLiabilities = false;
+						$transactionBeforeStartExistsLiabilities = true;
 					}
 					continue;
 				}
@@ -93,7 +93,7 @@ class GraphController extends Controller{
 					if(!array_key_exists($t->date, $liabilitiesData)){
 						$liabilitiesData[$t->date] = 0;
 					}
-					$liabilitiesData[$t->date] += -1 * $t->date;
+					$liabilitiesData[$t->date] += -1 * $t->amount;
 				}
 			}
 			//cumulate each data point for assets and liabilities
@@ -136,9 +136,9 @@ class GraphController extends Controller{
 			}
 
 			$fullLiabilitiesData = array_merge($paddingLeftLiabilities, $liabilitiesData, $paddingRightLiabilities);
-			$totalData = array();
-			array_push($totalData, $fullAssetsData);
-			array_push($totalData, $fullLiabilitiesData);
+			$totalData = array("Assets" => $fullAssetsData, "Liabilities" => $fullLiabilitiesData);
+
+			
 			return $totalData;
 
 			

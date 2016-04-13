@@ -50,17 +50,29 @@
 					}
 		        });
 		        var today =  new Date();
-		        var dd = today.getDate();
-		        var mm = today.getMonth() + 1;
-		        var yyyy = today.getFullYear();
-		        today = mm + '/' + dd + '/' + yyyy;
+		        var dd = today.getDate() + '';
+		        var mm = today.getMonth() + 1 + '';
+		        var yyyy = today.getFullYear() + '';
+		        if(mm.length < 2){
+		        	mm = '0' + mm;
+		        }
+		        if(dd.length < 2){
+		        	dd = '0' + dd;
+		        }
+		        while(yyyy.length < 4){
+		        	yyyy = '0' + yyyy;
+		        }
+		        var dateString = mm + '/' + dd + '/' + yyyy;
 				$.ajax({ type: "POST",
                     url: "/populateGraph",
                     //data: "",
-                    data:{'starting_date': '01/10/2016', 'ending_date' : today},
+                    data:{'starting_date': '03/01/2016', 'ending_date' : dateString},
                     dataType:"JSON",
         			success: function(data){
         				console.log(data);
+        				
+        				makeGraphDefault(data, '03/01/2016');
+        				
         			},
         			error: function(request, status, error){
         				console.log(request.responseText);
@@ -69,7 +81,24 @@
 
 
 			}
-			function makeGraphDefault(){
+			function makeGraphDefault(graphLines, startDate){
+				console.log(graphLines);
+				console.log(startDate);
+				var data = new Array();
+				for(var acc in graphLines) {
+					console.log(acc);
+					var accdata = new Array();
+					for(var key in graphLines[acc]) {
+						var splitDate = key.split("/");
+						accdata.push([Date.UTC(parseInt(splitDate[2])-1, parseInt(splitDate[0])-1, parseInt(splitDate[1])-1), graphLines[acc][key]]);
+					}
+					data.push({name:acc, data:accdata});
+				}
+				var startDateUTC = null;
+				if(startDate != ""){
+					var splitDate = startDate.split("/");
+					startDateUTC = Date.UTC(parseInt(splitDate[2])-1, parseInt(splitDate[0])-1, parseInt(splitDate[1])-1);
+				}
 				var graph = $('#graph_div');
 				graph.highcharts({
 					title: {
@@ -81,8 +110,8 @@
 			            x: -20
 			        },
 			        xAxis: {
-			            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-			                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+			            type:'datetime',
+			            min: startDateUTC
 			        },
 			        yAxis: {
 			            title: {
@@ -95,7 +124,7 @@
 			            }]
 			        },
 			        tooltip: {
-			            valueSuffix: '°C'
+			            valueSuffix: '$'
 			        },
 			        legend: {
 			            layout: 'vertical',
@@ -103,14 +132,10 @@
 			            verticalAlign: 'middle',
 			            borderWidth: 0
 			        },
-			        series: [{
-			            name: 'Assets',
-			            data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
-			        }, {
-			            name: 'Liabilities',
-			            data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
-			        }]
-    			});
+			        series: data
+				});
+								//graph.setData(graphLines['Amazon Money Card']);
+
 			}
     	</script>
 
