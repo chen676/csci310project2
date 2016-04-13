@@ -36,11 +36,10 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 			        }
 			    });  
 
-				var startDateParse = $('#startDate').val();
-				var endDateParse = $('#endDate').val();
 
 				$('#submitDates').click(function(){
-					console.log(startDateParse + "" + endDateParse);
+					var startDateParse = $('#startDate').val();
+					var endDateParse = $('#endDate').val();
 					getGraphData(startDateParse, endDateParse);
 				});
 			});
@@ -92,8 +91,7 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 				   url: "/display_graph",
 				   success: function(msg){
 				   	var chart = $('#graph_div').highcharts();
-
-				   	makeGraphDefault(msg);
+				   	makeGraphDefault(msg, startDate);
 				   },
 			       error:function(exception){
 				     alert(exception); 
@@ -125,17 +123,23 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
         		});
 			}
 
-			function makeGraphDefault(graphLines){
+			function makeGraphDefault(graphLines, startDate){
+				console.log(graphLines);
+				console.log(startDate);
 				var data = new Array();
 				for(var acc in graphLines) {
 					var accdata = new Array();
 					for(var key in graphLines[acc]) {
 						var splitDate = key.split("/");
-						accdata.push([Date.UTC(parseInt(splitDate[2])-1, parseInt(splitDate[0])-1, parseInt(splitDate[1]))-1, graphLines[acc][key]]);
+						accdata.push([Date.UTC(parseInt(splitDate[2])-1, parseInt(splitDate[0])-1, parseInt(splitDate[1])-1), graphLines[acc][key]]);
 					}
 					data.push({name:acc, data:accdata});
 				}
-
+				var startDateUTC = null;
+				if(startDate != ""){
+					var splitDate = startDate.split("/");
+					startDateUTC = Date.UTC(parseInt(splitDate[2])-1, parseInt(splitDate[0])-1, parseInt(splitDate[1])-1);
+				}
 				var graph = $('#graph_div');
 				graph.highcharts({
 					title: {
@@ -148,7 +152,7 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 			        },
 			        xAxis: {
 			            type:'datetime',
-			            min: null
+			            min: startDateUTC
 			        },
 			        yAxis: {
 			            title: {
