@@ -243,7 +243,7 @@ Given(/^the graph is blank$/) do
 end
 
 Then(/^there is a legend$/) do
-   wait.until {browser.find_element(:id, 'legend').displayed?}
+   wait.until {browser.find_element(:id, 'graphLegend').displayed?}
 end
 
 When(/^the user makes an account visible$/) do
