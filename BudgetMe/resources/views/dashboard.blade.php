@@ -10,10 +10,41 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 		<link rel="stylesheet" href="./css/styles.css">
 		<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+		  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
 		<script src="https://code.highcharts.com/highcharts.js"></script>
 		<script src="https://code.highcharts.com/modules/exporting.js"></script>
 
+
+		<script type="text/javascript">
+			$(function () {
+
+				/*Created by Harshul and Matt
+				Description: update graph x axis via start/end dates*/
+
+				$("#startDate").datepicker({
+			        onSelect: function(selected) {
+			          $("#startDate").datepicker("option","minDate", selected)
+			        }
+		    	});
+			    $("#endDate").datepicker({ 
+			        
+			        onSelect: function(selected) {
+			           $("#endDate").datepicker("option","maxDate", selected)
+			        }
+			    });  
+
+				var startDateParse = $('#startDate').val();
+				var endDateParse = $('#endDate').val();
+
+				$('#submitDates').click(function(){
+					console.log(startDateParse + "" + endDateParse);
+					getGraphData(startDateParse, endDateParse);
+				});
+			});
+		</script>
 
    	<script>
 			function startTime() {
@@ -45,14 +76,18 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 			function onLoad() {
 				startTime();
 				var today = new Date();
-
+				getGraphData("","04/12/2016");
+				//populateGraph();
+			}
+			function getGraphData(startDate, endDate){
 				var checked = $("input[name=graphVisibility]").map(function(){
 					return $(this).val();
 				}).get();
 
 				$.ajax({
 				   type: "POST",
-				   data: {accountSet:checked, length:checked.length},
+				   data: {accountSet:checked, length:checked.length,
+				          sDate:startDate, eDate:endDate},
 				   dataType: "json",
 				   url: "/display_graph",
 				   success: function(msg){
@@ -62,9 +97,8 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 				   },
 			       error:function(exception){
 				     alert(exception); 
-				   }
-				});
-				//populateGraph();
+				   }		
+				});		
 			}
 			function populateGraph(){
 				$.ajaxSetup({
@@ -303,6 +337,13 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 			<div class="widget" id="graph">
 				<h2>Main Line Graph</h2>
 				<div id="graph_div" style="min-width: 300px; height: 250px; margin: 0 auto"></div>
+
+				Start Date:
+					<input type = "text" id = "startDate"/> <br>
+				End Date: 
+					<input type = "text" id = "endDate"/>
+				<input type ="button" id ="submitDates" value = "Graph"/>
+
 			</div>
 
 			<div class="widget" id="graphLegend">

@@ -162,6 +162,13 @@ class GraphController extends Controller{
 			  return;
 			}
 
+			$sDate = $_POST['sDate'];
+			$eDate = $_POST['eDate'];
+			if($sDate == "")
+				$sDate = "01/01/1990";
+			if($eDate == "")
+				$eDate = "04/12/3000";
+
 			$accountNames = $_POST['accountSet'];
 			//need to create an array based on id, not name
 			$user = Session::get('user');
@@ -173,7 +180,7 @@ class GraphController extends Controller{
 			  ->where('user_id', '=', $user->id)
 			  ->get()->first();
 			  $aid = $account->id;
-			  $data = $this->getGraphDataForAnAccount("03/01/2016", "03/30/2016", $aid);
+			  $data = $this->getGraphDataForAnAccount($sDate, $eDate, $aid);
 			  $graphData[$name] = $data;
 			}
 

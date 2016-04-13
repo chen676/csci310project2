@@ -104,6 +104,7 @@ h2{
 	height: 300px;
 	left: 5px;
 	float: left;
+	overflow-y: scroll;
 }
 
 #graphLegend{
