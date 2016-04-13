@@ -75,6 +75,11 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 			function onLoad() {
 				startTime();
 				var today = new Date();
+				$.ajaxSetup({
+					headers: {
+			            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					}
+		        });
 				getGraphData("","04/12/2016");
 				//populateGraph();
 			}
@@ -94,16 +99,11 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 				   	makeGraphDefault(msg, startDate);
 				   },
 			       error:function(exception){
-				     alert(exception); 
+				     //alert(exception); 
 				   }		
 				});		
 			}
 			function populateGraph(){
-				$.ajaxSetup({
-					headers: {
-			            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-					}
-		        });
 		        var today =  new Date();
 		        var dd = today.getDate();
 		        var mm = today.getMonth() + 1;
@@ -227,18 +227,17 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 				         <input type = "text" id = "budgetWidgetTextfield"/>
 				         
 					         <script type="text/javascript">
-					         $.ajaxSetup({
-					           headers: {
-					             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-					           }
-					         });
 					         
 					         //load when page loaded	
 					         $(document).ready(function(){
 					         	//populateGraph();
 					         	//console.log("after");
 					         	table = document.getElementById("budgetTable");
-
+					         	$.ajaxSetup({
+									headers: {
+			           				 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+									}
+		        				});
 								$.ajax({ type: "POST",
                       					url: '/loadBudgets',
                       					data:"",
@@ -371,9 +370,6 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 						echo "<tr>";
 						//checkbox				   
 					   echo '<td><input type="checkbox" id="graphVisible'. $acc['name'] . '" name="graphVisibility" style="margin-left:10px" value="'. $acc['name'] . '"';
-					if(!is_null($checkedAccountsForGraph)){
-						if (in_array($acc['name'], $checkedAccountsForGraph)) 
-						echo " checked='checked'"; 	}	
 					?>
 					<?php
                   		//name of account
@@ -508,11 +504,6 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
          });
 
 			//checkbox functionality
-			$.ajaxSetup({
-			  headers: {
-			    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-			  }
-			});
 			$("input[name=visibility]").click( function(){
 				var checked = $("input[name=visibility]:checked").map( function() 
 				{
@@ -520,25 +511,19 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 				}).get();
 
 				$.ajax({
-				   type: "POST",
-				   data: {accountSet:checked, length:checked.length},
-				   dataType: "json",
-				   url: "/display_transactions",
-				   success: function(msg){
-					window.location.reload(true); 
-				   },
-			       	   error:function(exception){
-					alert(exception); 
-				   }
-				});
-			});
-			$("input[name=graphVisibility]").click(function(){
-				$.ajaxSetup({
-					headers: {
-			            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				   	type: "POST",
+				   	data: {accountSet:checked, length:checked.length},
+				   	//dataType: "json",
+				   	url: "/display_transactions",
+				   	success: function(msg){
+				   		//alert(checked);
+						window.location.reload(true); 
+				   	},
+			       	error: function(xhr, status, error) {
+			       		console.log(error);
 					}
-		        });
-
+				   	
+				});
 			});
 
 			// idle time-out
