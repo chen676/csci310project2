@@ -42,7 +42,6 @@
 				startTime();
 				var today = new Date();
 				makeGraphDefault();
-				//populateGraph();
 			}
 			function populateGraph(){
 				$.ajaxSetup({
