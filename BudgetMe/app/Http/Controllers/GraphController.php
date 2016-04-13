@@ -25,13 +25,11 @@ class GraphController extends Controller{
 
 		Created By: Matt and Harshul
 	*/
-	public function populateGraph(){
+	public function populateGraph($startDate, $endDate){
 
 			
 			$user = Session::get('user');
 			$user_id = $user -> id;
-			$startDate = $request['starting_date'];
-			$endDate = $request['ending_date'];
 			$accounts = DB::select('select * from accounts where user_id = :user_id' ,  ['user_id' => $user_id]);
 			$valid_account_ids = array();
 			foreach($accounts as $account){
@@ -39,15 +37,9 @@ class GraphController extends Controller{
 				array_push($valid_account_ids, $valid_id);
 
 			}
-			$transactions = array();
-			
-			$allTransactions = DB::select('select * from transactions');
 
-			foreach($allTransactions as $transaction){
-				if(in_array($transaction->account_id, $valid_account_ids)){
-					array_push($transactions, $transaction);
-				}
-			}
+			$transactions = Transaction::get()->toArray();
+
 			$transactionManager = new TransactionManager();
 			$transactions = $transactionManager -> sortTransactionsByDates($transactions);
 			$transactions = array_reverse($transactions);
@@ -65,34 +57,34 @@ class GraphController extends Controller{
 			$liabilitiesData = array();
 			foreach($transactions as $t){
 				/*if date is before startDate, skip this transaction*/
-				if($transactionManager->rawDateCompare($t->date, $startDate) > 0){
-					if($t->amount > 0){
-						$prevBalanceAssets += $t->amount;
+				if($transactionManager->rawDateCompare($t['date'], $startDate) > 0){
+					if($t['amount'] > 0){
+						$prevBalanceAssets += $t['amount'];
 						$transactionBeforeStartExistsAssets = true;
 					}
 					else{
-						$prevBalanceAssets += -1 * $t->amount;
+						$prevBalanceAssets += -1 * $t['amount'];
 						$transactionBeforeStartExistsLiabilities = true;
 					}
 					continue;
 				}
 				/*if date is after endDate, skip this transaction*/
-				if($transactionManager->rawDateCompare($t->date, $endDate) < 0){
+				if($transactionManager->rawDateCompare($t['date'], $endDate) < 0){
 					continue;
 				}
 				/*amount is greater than zero, therefore an asset*/
-				if($t->amount > 0){
-					if(!array_key_exists($t->date, $assetsData)){
-						$assetsData[$t->date] = 0;
+				if($t['amount'] > 0){
+					if(!array_key_exists($t['date'], $assetsData)){
+						$assetsData[$t['date']] = 0;
 					}
-					$assetsData[$t->date] += $t->amount;
+					$assetsData[$t['date']] += $t['amount'];
 				}
 				/*amount is less than zero, therefore a liability*/
 				else{
-					if(!array_key_exists($t->date, $liabilitiesData)){
-						$liabilitiesData[$t->date] = 0;
+					if(!array_key_exists($t['date'], $liabilitiesData)){
+						$liabilitiesData[$t['date']] = 0;
 					}
-					$liabilitiesData[$t->date] += -1 * $t->amount;
+					$liabilitiesData[$t['date']] += -1 * $t['amount'];
 				}
 			}
 			//cumulate each data point for assets and liabilities
@@ -240,7 +232,7 @@ class GraphController extends Controller{
 			  $graphData[$name] = $data;
 			}
 
-			$assetsAndLiabilities = $this->populateGraph();
+			$assetsAndLiabilities = $this->populateGraph($sDate, $eDate);
 			return array_merge($assetsAndLiabilities, $graphData);
       	}		
 	}

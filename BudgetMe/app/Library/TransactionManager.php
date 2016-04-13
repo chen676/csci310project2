@@ -28,7 +28,7 @@ class TransactionManager{
 		Created By: Paul and Rebecca
 	*/
 	public function dateComparator($lhs, $rhs){
-		return $this->rawDateCompare($lhs->date, $rhs->date);
+		return $this->rawDateCompare($lhs['date'], $rhs['date']);
     }
 
 	/*

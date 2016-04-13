@@ -98,42 +98,6 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 				   }		
 				});		
 			}
-			function populateGraph(){
-				$.ajaxSetup({
-					headers: {
-			            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-					}
-		        });
-		        var today =  new Date();
-		        var dd = today.getDate() + '';
-		        var mm = today.getMonth() + 1 + '';
-		        var yyyy = today.getFullYear() + '';
-		        if(mm.length < 2){
-		        	mm = '0' + mm;
-		        }
-		        if(dd.length < 2){
-		        	dd = '0' + dd;
-		        }
-		        while(yyyy.length < 4){
-		        	yyyy = '0' + yyyy;
-		        }
-		        var dateString = mm + '/' + dd + '/' + yyyy;
-				$.ajax({ type: "POST",
-                    url: "/getAccountSetForGraph",
-                    //data: "",
-                    data:{'starting_date': '03/01/2016', 'ending_date' : dateString},
-                    dataType:"JSON",
-        			success: function(data){
-        				console.log(data);
-        				
-        				makeGraphDefault(data, '03/01/2016');
-        				
-        			},
-        			error: function(request, status, error){
-        				//console.log(request.responseText);
-        			}
-        		});
-			}
 
 			function makeGraphDefault(graphLines, startDate){
 				console.log(graphLines);
@@ -155,6 +119,7 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 					var splitDate = startDate.split("/");
 					startDateUTC = Date.UTC(parseInt(splitDate[2])-1, parseInt(splitDate[0])-1, parseInt(splitDate[1])-1);
 				}
+				console.log(startDateUTC);
 				var graph = $('#graph_div');
 				graph.highcharts({
 					title: {
@@ -547,14 +512,6 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 					alert(exception); 
 				   }
 				});
-			});
-			$("input[name=graphVisibility]").click(function(){
-				$.ajaxSetup({
-					headers: {
-			            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-					}
-		        });
-
 			});
 
 			// idle time-out
