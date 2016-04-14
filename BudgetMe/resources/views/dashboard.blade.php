@@ -24,17 +24,8 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 				/*Created by Harshul and Matt
 				Description: update graph x axis via start/end dates*/
 
-				$("#startDate").datepicker({
-			        onSelect: function(selected) {
-			          $("#startDate").datepicker("option","minDate", selected)
-			        }
-		    	});
-			    $("#endDate").datepicker({ 
-			        
-			        onSelect: function(selected) {
-			           $("#endDate").datepicker("option","maxDate", selected)
-			        }
-			    });  
+				$("#startDate").datepicker();
+			    $("#endDate").datepicker();  
 
 
 				$('#submitDates').click(function(){
