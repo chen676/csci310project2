@@ -113,6 +113,9 @@ class AccountController extends Controller
     	$csvm = new CSVManager();
     	$transactions = $csvm -> parseCSV($target_file);
 
+        $account = Account::find($id);
+        $account->transaction()->delete();
+
         $tset = array();
     	foreach ($transactions as $t){
     		$single = new Transaction;
