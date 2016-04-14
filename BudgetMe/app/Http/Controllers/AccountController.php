@@ -113,9 +113,8 @@ class AccountController extends Controller
     	$csvm = new CSVManager();
     	$transactions = $csvm -> parseCSV($target_file);
 
+        $tset = array();
     	foreach ($transactions as $t){
-
-
     		$single = new Transaction;
 
     		$single->category = $t[0];
@@ -125,11 +124,14 @@ class AccountController extends Controller
     		$single->account_id = $id;
 
     		$single->save();
-
-    		
+    		array_push($tset, $single);
     	}
-    	
-    	return redirect('/dashboard');
+
+    	//automatically display newly uploaded csv
+        $accName = Account::where('id', '=', $id)->first()->name;
+        Session::put('checkedAccounts', array($accName));
+        Session::put('transactionSet', $tset);
+    	return redirect('/sortTransactionSetByDate');
     }
 
 
