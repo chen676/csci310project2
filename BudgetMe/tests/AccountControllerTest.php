@@ -17,6 +17,7 @@ class AccountControllerTest extends TestCase
         Created By: Patrick and Brandon
     */
 
+    /*
     public function testAddAccount()
     {
     	$this
@@ -29,6 +30,7 @@ class AccountControllerTest extends TestCase
     		->press('Add Account')
     		->see('Test Account');
     }
+    */
 
 
    /*
@@ -41,6 +43,7 @@ class AccountControllerTest extends TestCase
         Created By: Patrick and Brandon
     */
 
+    /*
     public function testRemoveAccount()
     {
     	$this
@@ -52,4 +55,5 @@ class AccountControllerTest extends TestCase
     		->press('Delete Account')
     		->dontSee('Test Account');
     }
+    */
 }
