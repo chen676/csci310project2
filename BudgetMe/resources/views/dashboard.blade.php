@@ -113,10 +113,29 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 					return $(this).val();
 				}).get();
 
+				//calcuate todays date
+		        var today =  new Date();
+                var dd = today.getDate() +  '';
+                var mm = today.getMonth() + 1 + '';
+                var yyyy = today.getFullYear() + '';
+
+                if(mm.length < 2){
+                    mm = '0' + mm;
+                }
+                if(dd.length < 2){
+                    dd = '0' + dd;
+                }
+                while(yyyy.length < 4){
+                    yyyy = '0' + yyyy;
+                }
+                
+                var todayDateString = mm + '/' + dd + '/' + yyyy;
+
 				$.ajax({
 				   type: "POST",
 				   data: {accountSet:checked, length:checked.length,
-				          sDate:startDate, eDate:endDate},
+				          sDate:startDate, eDate:endDate,
+				      	  today:todayDateString},
 				   dataType: "json",
 				   url: "/display_graph",
 				   success: function(msg){
@@ -125,6 +144,7 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 				   	makeGraphDefault(msg, startDate);
 				   },
 			       error:function(exception){
+			       	console.log(exception);
 				     //alert(exception); 
 				   }		
 				});		
