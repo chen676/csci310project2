@@ -8,7 +8,7 @@ require("navbar.php");
 
 		<h3>Core Functionality:</h3>
 			<h4>Graph</h4>
-			<p style="text-indent: 50px; margin-bottom: 20px;">The graph allows users to view a graphical representation of his or her net worth in the form of assets and liabilities plotted on a time axis.  It also displays each account the user has, allowing them to compare the net worth between accounts and where they are spending most of their money.  The graph also has the ability for the user to choose a starting and ending date to display their account information between a specified time period.</p>
+			<p style="text-indent: 50px; margin-bottom: 20px;">The graph allows users to view a graphical representation of his or her net worth in the form of assets and liabilities plotted on a time axis.  It also displays each account the user has, allowing them to compare the net worth between accounts and where they are spending most of their money.  The user can click on an account in the legend of the graph to remove that account from displaying on the graph.  The graph defaults to showing the last three months of data, but also has the ability for the user to choose a starting and ending date to display their account information between a specified time period.  In the upper right hand corner of the graph is a dropdown menu which allows the user to print or download the graph to a file type of their choosing.</p>
 
 			<h4>CSV Format:</h4>
 			<ul>
