@@ -257,7 +257,7 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 					  <li><a href="/dashboard">Dashboard</a></li>
 				    </ul>
 				    <ul class="nav navbar-nav">
-				       <li><a href="manual.html">User Manual</a></li>
+				       <li><a href="/user_manual">User Manual</a></li>
 				    </ul>
 				    <ul class="nav navbar-nav navbar-right" style="margin-right:20px;">
 					    <li><a href="/logout">Logout</a></li>
