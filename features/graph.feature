@@ -29,14 +29,10 @@ Scenario: there should be no account lines if there are no accounts visible
 	Given the graph is blank
 	Then there are no lines
 
-Scenario: the user should see his assets and liabilities on the graph
+Scenario: the user should see his assets, liabilities, and net worth on the graph
 	Given the graph is blank
-	Then the assets line and liability line should be visible
+	Then the assets line, the liability line, and net worth line should be visible
 
-Scenario: the assets and liability lines should change when the user inputs assets/liabilities
-	Given the graph is blank
-	When the user inputs a csv file with assets and liabilities
-	Then the graph should reflect those assets and liabilities
 
 Scenario: the calendar should default to a 3 month time frame for the graph
 	Given the graph is blank

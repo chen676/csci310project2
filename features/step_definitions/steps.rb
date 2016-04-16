@@ -270,20 +270,21 @@ Then(/^there are no lines$/) do
    expect(table.text).to include("")
 end
 
-Then(/^the assets line and liability line should be visible$/) do
-   #pending
-   table = wait.until {browser.find_element(:id, 'legendTable')}
-   expect(browser.page_source.include?('Assets')).to eq(true)
-   expect(browser.page_source.include?('Liabilities')).to eq(true)
+Then(/^the assets line, the liability line, and net worth line should be visible$/) do
+   box = wait.until {browser.find_element(:id, 'graphVisibleAssets')}
+   if(box.selected?)
+      box.click
+   end
+   box = wait.until {browser.find_element(:id, 'graphVisibleLiabilities')}
+   if(box.selected?)
+      box.click
+   end
+   box = wait.until {browser.find_element(:id, 'graphVisibleNetWorth')}
+   if(box.selected?)
+      box.click
+   end
 end
 
-When(/^the user inputs a csv file with assets and liabilities$/) do
-   #pending
-end
-
-Then(/^the graph should reflect those assets and liabilities$/) do
-   #pending
-end
 
 Then(/^the x axis by default should be a 3 month time frame$/) do
    #pending

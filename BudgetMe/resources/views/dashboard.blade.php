@@ -31,6 +31,7 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 				$('#submitDates').click(function(){
 					var startDateParse = $('#startDate').val();
 					var endDateParse = $('#endDate').val();
+					console.log("click dates: " + startDateParse + " " + endDateParse);
 					getGraphData(startDateParse, endDateParse);
 				});
 			});
@@ -71,7 +72,7 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 					}
 		        });
 		        var today =  new Date();
-                var dd = today.getDate() + '';
+                var dd = today.getDate() +  '';
                 var mm = today.getMonth() + 1 + '';
                 var yyyy = today.getFullYear() + '';
 
@@ -92,7 +93,7 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
                 dd = threeMonthsPrior.getDate() + '';
                 mm = threeMonthsPrior.getMonth() + 1 + '';
                 yyyy = threeMonthsPrior.getFullYear() + '';
-
+                
                 if(mm.length < 2){
                     mm = '0' + mm;
                 }
@@ -103,7 +104,7 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
                     yyyy = '0' + yyyy;
                 }
                 var threeMonthsPriorDateString = mm + '/' + dd + '/' + yyyy;
-
+                console.log("Auto dates: "+ threeMonthsPriorDateString + " " + endDateString);
 				getGraphData(threeMonthsPriorDateString,endDateString);
 			}
 			function getGraphData(startDate, endDate){
@@ -139,14 +140,14 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 					var accdata = new Array();
 					for(var key in graphLines[acc]) {
 						var splitDate = key.split("/");
-						accdata.push([Date.UTC(parseInt(splitDate[2])-1, parseInt(splitDate[0])-1, parseInt(splitDate[1])-1), graphLines[acc][key]]);
+						accdata.push([Date.UTC(parseInt(splitDate[2]), parseInt(splitDate[0])-1, parseInt(splitDate[1])), graphLines[acc][key]]);
 					}
 					data.push({name:acc, data:accdata});
 				}
 				var startDateUTC = null;
 				if(startDate != ""){
 					var splitDate = startDate.split("/");
-					startDateUTC = Date.UTC(parseInt(splitDate[2])-1, parseInt(splitDate[0])-1, parseInt(splitDate[1])-1);
+					startDateUTC = Date.UTC(parseInt(splitDate[2]), parseInt(splitDate[0])-1, parseInt(splitDate[1]));
 				}
 				console.log(startDateUTC);
 				var graph = $('#graph_div');
