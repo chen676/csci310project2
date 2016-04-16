@@ -6,28 +6,25 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 	<head>
 		<meta charset="UTF-8">		
 		<meta name="csrf-token" content="{{ csrf_token() }}">
+
 		<title>Budget Me</title>
+
 		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 		<link rel="stylesheet" href="./css/styles.css">
-		<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
-		  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 
+		<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+  		<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  		<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 		<script src="https://code.highcharts.com/highcharts.js"></script>
 		<script src="https://code.highcharts.com/modules/exporting.js"></script>
 
-
 		<script type="text/javascript">
-			$(function () {
-
-				/*Created by Harshul and Matt
-				Description: update graph x axis via start/end dates*/
-
+			/*Created by Harshul and Matt
+			Description: update graph x axis via start/end dates*/
+			$(function (){
 				$("#startDate").datepicker();
 			    $("#endDate").datepicker();  
-
-
 				$('#submitDates').click(function(){
 					var startDateParse = $('#startDate').val();
 					var endDateParse = $('#endDate').val();
@@ -37,7 +34,7 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 			});
 		</script>
 
-   	<script>
+   		<script>
 			function startTime() {
 				var today = convertToEasternStandardTimeZone(new Date());
 				var date = today.toDateString();
@@ -50,12 +47,14 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 				document.getElementById('clock').innerHTML = date + ",\n" + hour + ":" + min + ":" + sec + " EST";
 				var t = setTimeout(startTime, 500);
 			}
+
 			function checkTime(i) {
 				if (i < 10) {
 					i = "0" + i;
 				}
 				return i;
 			}
+
 			function convertToEasternStandardTimeZone(date) {
 				//EST
 				offset = -5.0;
@@ -64,10 +63,11 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 				ESTDate = new Date(utc + (3600000*offset));
 				return ESTDate;
 			}
+
 			function onLoad() {
 				startTime();
 				$.ajaxSetup({
-					headers: {
+					dheaders: {
 			            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 					}
 		        });
@@ -107,6 +107,7 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
                 console.log("Auto dates: "+ threeMonthsPriorDateString + " " + endDateString);
 				getGraphData(threeMonthsPriorDateString,endDateString);
 			}
+
 			function getGraphData(startDate, endDate){
 				var checked = $("input[name=graphVisibility]").map(function(){
 					return $(this).val();
@@ -134,9 +135,6 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 				console.log(startDate);
 				var data = new Array();
 				for(var acc in graphLines) {
-
-					console.log(acc);
-
 					var accdata = new Array();
 					for(var key in graphLines[acc]) {
 						var splitDate = key.split("/");
@@ -144,12 +142,13 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 					}
 					data.push({name:acc, data:accdata});
 				}
+
 				var startDateUTC = null;
 				if(startDate != ""){
 					var splitDate = startDate.split("/");
 					startDateUTC = Date.UTC(parseInt(splitDate[2]), parseInt(splitDate[0])-1, parseInt(splitDate[1]));
 				}
-				console.log(startDateUTC);
+
 				var graph = $('#graph_div');
 				graph.highcharts({
 					title: {
@@ -185,41 +184,40 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 			        },
 			        series: data
     			});
-    							//graph.setData(graphLines['Amazon Money Card']);
-
-
 			}
     	</script>
 
 
-      <nav class="navbar navbar-inverse navbar-fixed-top" style="padding:3px 0px 7px 0px">
-	      <div class="container-fluid">
-		      <div class="navbar-header">
-			      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-	                  <span class="sr-only">Toggle navigation</span>
-	                  <span class="icon-bar"></span>
-	                  <span class="icon-bar"></span>
-	                  <span class="icon-bar"></span>
-                	</button>
-			      <a class="navbar-brand" href="">BudgetMe</a>
-		      </div>
-		      <div class="collapse navbar-collapse" id="navbar">
-			      <ul class="nav navbar-nav">
-				      <li><a href="/dashboard">Dashboard</a></li>
-			      </ul>
-			      <ul class="nav navbar-nav">
-			         <li><a href="manual.html">User Manual</a></li>
-			      </ul>
-			      <ul class="nav navbar-nav navbar-right" style="margin-right:20px;">
-				      <li><a href="/logout">Logout</a></li>
-			      </ul>
-			      <ul class="nav navbar-nav navbar-right" style="margin-right:50px">
-			      				<div id="clock"></div>
-			      </ul>
-		      </div>
-	      </div>
-      </nav>
+      	<nav class="navbar navbar-inverse navbar-fixed-top" style="padding:3px 0px 7px 0px">
+	      	<div class="container-fluid">
 
+		     	<div class="navbar-header">
+			      	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+	                  	<span class="sr-only">Toggle navigation</span>
+	                  	<span class="icon-bar"></span>
+	                 	<span class="icon-bar"></span>
+	                 	<span class="icon-bar"></span>
+                	</button>
+			      	<a class="navbar-brand" href="">BudgetMe</a>
+		      	</div>
+
+			    <div class="collapse navbar-collapse" id="navbar">
+				    <ul class="nav navbar-nav">
+					  <li><a href="/dashboard">Dashboard</a></li>
+				    </ul>
+				    <ul class="nav navbar-nav">
+				       <li><a href="manual.html">User Manual</a></li>
+				    </ul>
+				    <ul class="nav navbar-nav navbar-right" style="margin-right:20px;">
+					    <li><a href="/logout">Logout</a></li>
+				    </ul>
+				    <ul class="nav navbar-nav navbar-right" style="margin-right:50px">
+				      	<div id="clock"></div>
+				    </ul>
+			    </div>
+
+	    	</div> <!-- end to container-fluid -->
+    	</nav>
 	</head>
 
 	<body onload="onLoad()">
@@ -227,26 +225,182 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 		<h1>Your Dashboard</h1>
 
 		<div id = "dashboard">
+
+			    <div class="widget" id="accountList">
+				    <h2>Your Accounts</h2>
+					<form action="/create_account" method="post">
+						<?php echo csrf_field(); ?>
+						<div class="form-group">
+							<input class="form-control" type="text" id="addAccountField" name="name">
+						</div>
+						<button class="btn btn-success" id="addAccountSubmitButton" type="submit">Add Account</button>
+					</form>
+					<?php
+
+						$accounts = $user->accounts;
+		
+						$accounts = $accounts->toArray();
+						usort($accounts, function($lhs, $rhs)
+						{
+							return strcmp($lhs['name'], $rhs['name']);
+						});
+	                ?>
+	                <table id='accountTable'>
+	                <tr>
+	                <?php
+						foreach($accounts as $acc)
+						{   
+							//checkbox				   
+						   echo '<td><input type="checkbox" id="accountVisible'. $acc['name'] . '" name="visibility" style="margin-left:10px" value="'. $acc['name'] . '"';
+						if(!is_null($checkedAccounts)){
+							if (in_array($acc['name'], $checkedAccounts)) 
+							echo " checked='checked'"; 	
+						}					
+	 						echo "></td>";
+					?>
+						<!--upload -->
+						<td style=''>
+						   	<form action="/uploadCSV" method="post" enctype="multipart/form-data">
+							   	<?php echo csrf_field(); ?>
+
+				                <input id="csvUpload" name="csv" value="" type="file" accept=".csv" multiple class="file-loading" />
+				                <input type="hidden" name="account_id" value="<?php echo $acc['id'] ?>">
+				                <button id="uploadButton" type="submit">Upload</button>
+			                </form>
+	               
+			                <form action="/remove_account" method="post">
+				                {{csrf_field()}}
+				                <input type="hidden" name="account_id" value="<?php echo $acc['id'] ?>">
+				                <button type="submit" id="removeAccount">Delete Account</button>
+			                </form>
+	                    </td>
+
+						<?php
+	                  		//name of account
+							echo "<td>".$acc['name']."</td>";						
+						?>
+					</tr>
+						<?php	
+						}
+					    ?>
+					</table>
+				</div> <!-- end of accountList -->
+
+			
+			<div class="widget" id="graph">
+				<h2>Main Line Graph</h2>
+				<div id="graph_div" style="min-width: 300px; height: 250px; margin: 0 auto"></div>
+
+				Start Date:
+					<input type = "text" id = "startDate"/> <br>
+				End Date: 
+					<input type = "text" id = "endDate"/>
+				<input type ="button" id ="submitDates" value = "Graph"/>
+
+			</div>
+
+			<div class="widget" id="graphLegend">
+				<h2>Graph Legend</h2>
+				<div id="legend_div">
+
+					<?php
+
+						$accounts = $user->accounts;
+		
+						$accounts = $accounts->toArray();
+						usort($accounts, function($lhs, $rhs)
+						{
+							return strcmp($lhs['name'], $rhs['name']);
+						});
+	                ?>
+
+	                <table id='legendTable'>
+		                <?php
+							foreach($accounts as $acc)
+							{
+								echo "<tr>";
+								//checkbox				   
+							    echo '<td><input type="checkbox" id="graphVisible'. $acc['name'] . '" name="graphVisibility" style="margin-left:10px" value="'. $acc['name'] . '"';
+						?>
+						<?php
+		                  	//name of account
+								echo "<td>".$acc['name']."</td>";						
+						?>
+								</tr>
+						<?php	
+							}
+						?>
+					</table>
+				</div> <!--end to legend_div-->
+			</div>	<!--end to graphLegend-->
+
+
+
+         	<div id="accountPanel">
+			    <div class="widget" id="transactionHistory">
+				    <h2>Transaction History</h2><br>
+				    <table id="transactionTable">	
+						<tr>
+							<th style = "padding-right:50px; padding-left:20px">Account</th>
+							<th style = "padding-right:50px"><a href="/sortTransactionSetByDate" id="dateSort">Date</th>
+							<th style = "padding-right:50px">Merchant</th>
+							<th style = "padding-right:50px"> <a href="/sortTransactionSetByCategory" id="categorySort">Category</a></th>
+							<th style = "padding-right:50px"><a href="/sortTransactionSetByAmount" id="amountSort">Amount</a></th>		
+						</tr>
+
+						<?php
+							if(!is_null($transactionSet))
+							{
+								foreach($transactionSet as $trans)
+								{
+									echo "<tr>";
+									echo "<td style = 'padding-right:50px; padding-left:20px; padding-bottom:10px' >";
+									$accounts = $user->accounts;
+									foreach($accounts as $acc)
+									{
+										if($acc['id'] == $trans['account_id'])
+											echo $acc['name'];
+									}
+									echo "</td>";
+									echo "<td style = 'padding-right:50px; padding-bottom:10px'>";
+									echo $trans['date'];
+									echo "</td>";
+									echo "<td style = 'padding-right:50px; padding-bottom:10px'>";
+									echo $trans['merchant'];
+									echo "</td>";
+									echo "<td style = 'padding-right:50px; padding-bottom:10px'>";
+									echo $trans['category'];
+									echo "</td>";
+									echo "<td style = 'padding-right:50px; padding-bottom:10px'>";
+									echo $trans['amount'];
+									echo "</td>";
+									echo "<td style = 'padding-right:50px; padding-bottom:10px'>";
+
+								}
+							}
+						?>
+				    </table>
+			    </div> <!-- end to accountPanel -->
+			
 			<div class="widget" id="budget">
 				<h2>Budget</h2>
-		         <div id="BudgetDiv"> 
-			         <table id = "budgetTable" width="100%">
-				         <tr>
-					         <td>Category</td>
-					         <td>Budget</td>
-				         </tr>
-				         <input type = "text" id = "budgetWidgetTextfield"/>
+		        <div id="BudgetDiv"> 
+			        <table id = "budgetTable" width="100%">
+				        <tr>
+					        <td>Category</td>
+					        <td>Budget</td>
+				        </tr>
+				        <input type = "text" id = "budgetWidgetTextfield"/>
 				         
-					         <script type="text/javascript">
-					         
-					         //load when page loaded	
-					         $(document).ready(function(){
-					         	//populateGraph();
+					        <script type="text/javascript">
+					        //load when page loaded	
+					        $(document).ready(function(){
+					        	//populateGraph();
 					         	//console.log("after");
 					         	table = document.getElementById("budgetTable");
 					         	$.ajaxSetup({
 									headers: {
-			           				 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			           				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 									}
 		        				});
 								$.ajax({ type: "POST",
@@ -278,234 +432,49 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
            								//cell3.innerHTML = '<input type="text" class = "updatedBudget"> ';
            								
            								var innerHTML = '<input class = "updateBtn" type = "button" value = "Update" id = ' + cell1.innerHTML + "_button >";
-           								cell3.innerHTML = innerHTML
+           								cell3.innerHTML = innerHTML;
            							});
-        						}});
-        						
-
-        						//update button clicked
-        						$(document).on('click', '.updateBtn', function(e) {
-        								var target = e.target.id;
-        								//console.log( target);
-        								var updated_amount = document.getElementById("budgetWidgetTextfield").value;
-        								if(!$(updated_amount) || !$.isNumeric(updated_amount) || updated_amount.indexOf('-') != -1){
-        									console.log("invalid input: "+updated_amount)
-        									return;
-        								}
-        								var category = target.substr(0, target.indexOf('_'));
-        								$.ajax({ type: "POST",
-                      					url: '/updateBudget',
-                      					dataType:'json',
-                      					data: {'updated_amount':updated_amount, 'category' : category},
-        								success: function(data){
-        									document.getElementById("budgetWidgetTextfield").value = "";
-        									var amount = data.data;
-        									//console.log("amount:" +amount);
-        									var element =category + "_amount";
-        									//console.log("element:" + element);
-        									document.getElementById(element).innerHTML = "$" + amount;
-        									document.getElementById(element).style = "color:" + data.color;
-        								}
-
-        								
-        							});
-									
-								});
+        						}
         					});
-					         /*
 
-						         $('.updateBtn').bind('click',(function()
-                    				{
-                    					console.log("BTN click");
-
-                    					var inputBudget = $('#name1input').val();
-
-                    					if(!$(inputBudget) || !$.isNumeric(inputBudget)) return;
-
-
-                      				$.ajax({
-                      					type: "POST",
-                      					url: '/clickBudgetButton',
-                      					data:inputBudget,
-                      					success: function(data) {
-
-                      						console.log(data);
-                      						
-                      						console.log("ID " + data.id);
-                      						console.log("Budgets" + data.budgets )
-                      					}
-                      				})
-
-
-                   				 }
-        					}
-               				)
-						         );*/
-
-					         </script>
-				         </tr>
-			         </table>
-		         </div>
-			</div>
-
-			<div class="widget" id="graph">
-				<h2>Main Line Graph</h2>
-				<div id="graph_div" style="min-width: 300px; height: 250px; margin: 0 auto"></div>
-
-				Start Date:
-					<input type = "text" id = "startDate"/> <br>
-				End Date: 
-					<input type = "text" id = "endDate"/>
-				<input type ="button" id ="submitDates" value = "Graph"/>
-
-			</div>
-
-			<div class="widget" id="graphLegend">
-				<h2>Graph Legend</h2>
-				<div id="legend_div">
-
-				<?php
-
-					$accounts = $user->accounts;
-	
-					$accounts = $accounts->toArray();
-					usort($accounts, function($lhs, $rhs)
-					{
-						return strcmp($lhs['name'], $rhs['name']);
-					});
-               ?>
-               <table id='legendTable'>
-               <?php
-					foreach($accounts as $acc)
-					{
-						echo "<tr>";
-						//checkbox				   
-					   echo '<td><input type="checkbox" id="graphVisible'. $acc['name'] . '" name="graphVisibility" style="margin-left:10px" value="'. $acc['name'] . '"';
-					?>
-					<?php
-                  		//name of account
-						echo "<td>".$acc['name']."</td>";						
-						?>
-						</tr>
-					<?php	
-					}
-				   ?>
-				</table>
-				</div>
-			</div>	
-
-
-
-         <div id="accountPanel">
-			   <div class="widget" id="transactionHistory">
-				   <h2>Transaction History</h2><br>
-				   <table id="transactionTable">	
-					<tr>
-						<th style = "padding-right:50px; padding-left:20px">Account</th>
-						<th style = "padding-right:50px"><a href="/sortTransactionSetByDate" id="dateSort">Date</th>
-						<th style = "padding-right:50px">Merchant</th>
-						<th style = "padding-right:50px"> <a href="/sortTransactionSetByCategory" id="categorySort">Category</a></th>
-						<th style = "padding-right:50px"><a href="/sortTransactionSetByAmount" id="amountSort">Amount</a></th>		
-					</tr>
-
-					<?php
-						if(!is_null($transactionSet))
-						{
-							foreach($transactionSet as $trans)
-							{
-								echo "<tr>";
-								echo "<td style = 'padding-right:50px; padding-left:20px; padding-bottom:10px' >";
-								$accounts = $user->accounts;
-								foreach($accounts as $acc)
-								{
-									if($acc['id'] == $trans['account_id'])
-										echo $acc['name'];
+    						//update button clicked
+    						$(document).on('click', '.updateBtn', function(e) {
+    							var target = e.target.id;
+    							//console.log( target);
+    							var updated_amount = document.getElementById("budgetWidgetTextfield").value;
+								if(!$(updated_amount) || !$.isNumeric(updated_amount) || updated_amount.indexOf('-') != -1){
+									console.log("invalid input: "+updated_amount)
+									return;
 								}
-								echo "</td>";
-								echo "<td style = 'padding-right:50px; padding-bottom:10px'>";
-								echo $trans['date'];
-								echo "</td>";
-								echo "<td style = 'padding-right:50px; padding-bottom:10px'>";
-								echo $trans['merchant'];
-								echo "</td>";
-								echo "<td style = 'padding-right:50px; padding-bottom:10px'>";
-								echo $trans['category'];
-								echo "</td>";
-								echo "<td style = 'padding-right:50px; padding-bottom:10px'>";
-								echo $trans['amount'];
-								echo "</td>";
-								echo "<td style = 'padding-right:50px; padding-bottom:10px'>";
 
-							}
-						}
-					?>
-				   </table>
+								var category = target.substr(0, target.indexOf('_'));
+								$.ajax({ 
+									type: "POST",
+              						url: '/updateBudget',
+	              					dataType:'json',
+	              					data: {'updated_amount':updated_amount, 'category' : category},
+									success: function(data){
+										document.getElementById("budgetWidgetTextfield").value = "";
+										var amount = data.data;
+										//console.log("amount:" +amount);
+										var element =category + "_amount";
+										//console.log("element:" + element);
+										document.getElementById(element).innerHTML = "$" + amount;
+										document.getElementById(element).style = "color:" + data.color;
+									}	
+    							});
+								
+							});
+    					});
+					        </script>
+				        </tr>
+			        </table>
+		        </div>
+			</div>
 
-			   </div>
 
-			   <div class="widget" id="accountList">
-				   <h2>Your Accounts</h2>
-				<form action="/create_account" method="post">
-					<?php echo csrf_field(); ?>
-					<div class="form-group">
-						<input class="form-control" type="text" id="addAccountField" name="name">
-					</div>
-					<button class="btn btn-success" id="addAccountSubmitButton" type="submit">Add Account</button>
-				</form>
-				   <?php
 
-					$accounts = $user->accounts;
-	
-					$accounts = $accounts->toArray();
-					usort($accounts, function($lhs, $rhs)
-					{
-						return strcmp($lhs['name'], $rhs['name']);
-					});
-               ?>
-               <table id='accountTable'>
-               <tr>
-               <?php
-					foreach($accounts as $acc)
-					{
-					   
-						//checkbox				   
-					   echo '<td><input type="checkbox" id="accountVisible'. $acc['name'] . '" name="visibility" style="margin-left:10px" value="'. $acc['name'] . '"';
-					if(!is_null($checkedAccounts)){
-						if (in_array($acc['name'], $checkedAccounts)) 
-						echo " checked='checked'"; 	}					
- 						
- 						echo "></td>";
-				?>
-					<!--upload -->
-
-					   <td style=''>
-					   	<form action="/uploadCSV" method="post" enctype="multipart/form-data">
-					   	<?php echo csrf_field(); ?>
-
-                  <input id="csvUpload" name="csv" value="" type="file" accept=".csv" multiple class="file-loading" />
-                  <input type="hidden" name="account_id" value="<?php echo $acc['id'] ?>">
-                  <button id="uploadButton" type="submit">Upload</button>
-                  </form>
-                  
-
-                  <form action="/remove_account" method="post">
-                  	{{csrf_field()}}
-                  	<input type="hidden" name="account_id" value="<?php echo $acc['id'] ?>">
-                  	<button type="submit" id="removeAccount">Delete Account</button>
-                  </form>
-                  </td>
-
-					<?php
-                  //name of account
-						echo "<td>".$acc['name']."</td>";						
-					?>
-					</tr>
-					<?php	
-					}
-				   ?>
-				   </table>
-			   </div>
-         </div>
+	        </div>
 		</div>
 
     		<script>

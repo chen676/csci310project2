@@ -92,7 +92,7 @@ h2{
 
 #budget{
 	width: 38%;
-	height: 300px;
+	height: 250px;
 	left: 0.5%;
 	float: left;
 	overflow-y: scroll;
@@ -116,23 +116,19 @@ h2{
 }
 
 #transactionHistory{
-	width: 47%;
+	width: 57%;
 	height: 250px;
-	left: .5%;
+	left: 10px;
 	float: left;
 	overflow-y: scroll;
 }
 
 #accountList{
-	width: 47%;
-	height: 250px;
+	width: 40%;
+	height: 300px;
 	left: 5px;
 	float: left;
 	overflow-y: scroll;
-}
-
-.form-group{
-	width: 50%;
 }
 
 .checkbox {width:20%}
