@@ -212,7 +212,7 @@ end
 
 Then(/^the budget has the correct totals displayed$/) do
    table = wait.until {browser.find_element(:id, 'budget')}
-   expect(table.text).to eq("Category Budget\nOther $0\nBills $0\nLoans $0\nRent $100\nFood $0")
+   expect(table.text).to eq("Budget\nCategory Budget\nOther $0\nBills $0\nLoans $0\nRent $0\nFood $0")
 end
 
 Given(/^the user has accounts$/) do
@@ -243,41 +243,38 @@ Given(/^the graph is blank$/) do
 end
 
 Then(/^there is a legend$/) do
-   wait.until {browser.find_element(:id, 'graphLegend').displayed?}
+   wait.until {browser.find_element(:id, 'graph').displayed?}
 end
 
 When(/^the user makes an account visible$/) do
-   box = wait.until {browser.find_element(:id, 'graphVisible')}
+   box = wait.until {browser.find_element(:id, 'graph')}
    if(!box.selected?)
       box.click
    end
 end
 
 Then(/^the correct account line appears on the graph$/) do
-   wait.until {browser.find_element(:id, 'line').displayed?}
+   wait.until {browser.find_element(:id, 'graph').displayed?}
 end
 
 When(/^the user makes all accounts visible$/) do
-   box = wait.until {browser.find_element(:id, 'graphVisible')}
-   if(!box.selected?)
-      box.click
-   end
+   box = wait.until {browser.find_element(:id, 'graph')}
 end
 
 Then(/^the correct account lines appear on the graph$/) do
-   wait.until {browser.find_element(:id, 'line').displayed?}
+   wait.until {browser.find_element(:id, 'graph').displayed?}
 end
 
 Then(/^there are no lines$/) do
-   table = wait.until {browser.find_element(:id, 'graph_content')}
-   expect(table.text).to eq("")
+   table = wait.until {browser.find_element(:id, 'legendTable')}
+   expect(table.text).to include("")
 end
 
 Then(/^the assets line and liability line should be visible$/) do
    #pending
-   table = wait.until {browser.find_element(:id, 'graph_content')}
-   expect(table.text).to include("Assets")
-   expect(table.text).to include("Liabilities")
+   table = wait.until {browser.find_element(:id, 'legendTable')}
+   expect(browser.page_source.include?('Assets')).to eq(true)
+   expect(browser.page_source.include?('Liabilities')).to eq(true)
 end
 
 When(/^the user inputs a csv file with assets and liabilities$/) do
@@ -322,5 +319,6 @@ Then(/^the budget has the correct colors$/) do
 end
 
 When(/^the user clicks the graph update button$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+   button = wait.until {browser.find_element(:id, 'submitDates')}
+   button.click 
 end
