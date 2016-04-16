@@ -29,6 +29,14 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 					var startDateParse = $('#startDate').val();
 					var endDateParse = $('#endDate').val();
 					console.log("click dates: " + startDateParse + " " + endDateParse);
+					var startDate = new Date(startDateParse);
+					var endDate = new Date(endDateParse);
+					var info = document.getElementById('info');
+					if(startDate > endDate){
+						console.log("In it: " + info.innerHTML);
+						return;
+					}
+
 					getGraphData(startDateParse, endDateParse);
 				});
 			});
@@ -104,7 +112,9 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
                     yyyy = '0' + yyyy;
                 }
                 var threeMonthsPriorDateString = mm + '/' + dd + '/' + yyyy;
-                console.log("Auto dates: "+ threeMonthsPriorDateString + " " + endDateString);
+                
+                var dateInfo = threeMonthsPriorDateString + ' ' + endDateString;
+                
 				getGraphData(threeMonthsPriorDateString,endDateString);
 			}
 
@@ -122,6 +132,10 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 				   success: function(msg){
 				   	console.log(msg);
 				   	var chart = $('#graph_div').highcharts();
+				   	var info = document.getElementById('info');
+				   	var dateInfo = startDate + ' ' + endDate;
+				   	info.innerHTML = dateInfo;
+				   	console.log ("Date info: " + info.innerHTML);
 				   	makeGraphDefault(msg, startDate);
 				   },
 			       error:function(exception){
@@ -221,7 +235,9 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 	<body onload="onLoad()">
 	
 		<h1>Your Dashboard</h1>
-
+		<div id = "info" style = "display:none">
+			Hi
+		</div>
 		<div id = "dashboard">
 
 			    <div class="widget" id="accountList">
