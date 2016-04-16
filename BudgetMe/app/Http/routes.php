@@ -23,6 +23,10 @@ Route::group(['middleware' => ['web']], function () {
   	Route::post('/login', 'UserController@login');
   	Route::get('/dashboard', 'UserController@dashboard');
   	Route::get('/logout', 'UserController@logout');
+    Route::get('/user_manual', function()
+    {
+      return view('user_manual');
+    });
 
   	Route::post('/remove_account', 'AccountController@removeAccount');
   	Route::post('/create_account', 'AccountController@addAccount');

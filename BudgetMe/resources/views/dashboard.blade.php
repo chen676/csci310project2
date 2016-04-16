@@ -187,10 +187,8 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 			}
     	</script>
 
-
       	<nav class="navbar navbar-inverse navbar-fixed-top" style="padding:3px 0px 7px 0px">
 	      	<div class="container-fluid">
-
 		     	<div class="navbar-header">
 			      	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
 	                  	<span class="sr-only">Toggle navigation</span>
