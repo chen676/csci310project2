@@ -252,10 +252,21 @@ class GraphController extends Controller{
 
 			$sDate = $_POST['sDate'];
 			$eDate = $_POST['eDate'];
+			$today = $_POST['today'];
+
 			if($sDate == "")
 				$sDate = "01/01/1990";
 			if($eDate == "")
-				$eDate = "04/12/3000";
+				$eDate = $today;
+
+			//check that the dates are valid
+			$tm = new TransactionManager();
+			if($tm->rawDateCompare($today, $sDate) > 0) //if startDate in future
+				return;
+			if($tm->rawDateCompare($eDate, $sDate) > 0) //if end date bfore start
+				return;
+			if($tm->rawDateCompare($today, $eDate) > 0) //if end date after today
+				return;
 
 			$accountNames = $_POST['accountSet'];
 			//need to create an array based on id, not name
