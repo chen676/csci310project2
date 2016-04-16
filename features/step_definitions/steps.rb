@@ -121,7 +121,7 @@ end
 
 Then(/^the union of those transactions are displayed$/) do
    table = wait.until {browser.find_element(:id, "transactionTable")}
-   expect(table.text).to eq("Account Date Merchant Category Amount\nAmazon Money Card 04/01/2016 Landlord Other 80.11\nAmazon Money Card 03/28/2016 Landlord Rent 30.21\nCredit Card 03/26/2016 Costco Food 200.54")
+   expect(table.text).to eq("Account Date Merchant Category Amount\nAmazon Money Card 04/01/2016 Landlord Other -80.11\nAmazon Money Card 03/28/2016 Landlord Deposit 300.21\nCredit Card 03/26/2016 Costco Food -200.54")
 end
 
 When(/^I click the Category button$/) do
@@ -131,7 +131,7 @@ end
 
 Then(/^the transactions are sorted in category order$/) do
    table = wait.until {browser.find_element(:id, "transactionTable")}
-   expect(table.text).to eq("Account Date Merchant Category Amount\nCredit Card 03/26/2016 Costco Food 200.54\nAmazon Money Card 04/01/2016 Landlord Other 80.11\nAmazon Money Card 03/28/2016 Landlord Rent 30.21")
+   expect(table.text).to eq("Account Date Merchant Category Amount\nAmazon Money Card 03/28/2016 Landlord Deposit 300.21\nCredit Card 03/26/2016 Costco Food -200.54\nAmazon Money Card 04/01/2016 Landlord Other -80.11")
 end
 
 When(/^I click the Date button$/) do
@@ -141,7 +141,7 @@ end
 
 Then(/^the transactions are sorted in date order$/) do
    table = wait.until {browser.find_element(:id, "transactionTable")}
-   expect(table.text).to eq("Account Date Merchant Category Amount\nAmazon Money Card 04/01/2016 Landlord Other 80.11\nAmazon Money Card 03/28/2016 Landlord Rent 30.21\nCredit Card 03/26/2016 Costco Food 200.54")
+   expect(table.text).to eq("Account Date Merchant Category Amount\nAmazon Money Card 04/01/2016 Landlord Other -80.11\nAmazon Money Card 03/28/2016 Landlord Deposit 300.21\nCredit Card 03/26/2016 Costco Food -200.54")
 end
 
 When(/^I click the Amount button$/) do
@@ -151,7 +151,7 @@ end
 
 Then(/^the transactions are sorted in amount order$/) do
    table = wait.until {browser.find_element(:id, "transactionTable")}
-   expect(table.text).to eq("Account Date Merchant Category Amount\nCredit Card 03/26/2016 Costco Food 200.54\nAmazon Money Card 04/01/2016 Landlord Other 80.11\nAmazon Money Card 03/28/2016 Landlord Rent 30.21")
+   expect(table.text).to eq("Account Date Merchant Category Amount\nAmazon Money Card 03/28/2016 Landlord Deposit 300.21\nAmazon Money Card 04/01/2016 Landlord Other -80.11\nCredit Card 03/26/2016 Costco Food -200.54")
 end
 
 Given(/^ a user is logged in with username $username and password $password$/) do |username, password|
@@ -220,14 +220,30 @@ Given(/^the user has accounts$/) do
 end
 
 Given(/^the graph is blank$/) do
-   box = wait.until {browser.find_element(:id, 'graphVisible')}
+   box = wait.until {browser.find_element(:id, 'graphVisibleAmazon Money Card')}
+   if(box.selected?)
+      box.click
+   end
+   box = wait.until {browser.find_element(:id, 'graphVisibleCredit Card')}
+   if(box.selected?)
+      box.click
+   end
+   box = wait.until {browser.find_element(:id, 'graphVisibleDebit Card')}
+   if(box.selected?)
+      box.click
+   end   
+   box = wait.until {browser.find_element(:id, 'graphVisibleEBT')}
+   if(box.selected?)
+      box.click
+   end
+   box = wait.until {browser.find_element(:id, 'graphVisiblePrepaid')}
    if(box.selected?)
       box.click
    end
 end
 
 Then(/^there is a legend$/) do
-   wait.until {browser.find_element(:id, 'legend').displayed?}
+   wait.until {browser.find_element(:id, 'graphLegend').displayed?}
 end
 
 When(/^the user makes an account visible$/) do
@@ -290,4 +306,21 @@ end
 
 Then(/^the graph should not change$/) do
    #pending
+end
+
+Then(/^the budget has the correct colors$/) do
+   field = wait.until{browser.find_element(:id, 'budgetWidgetTextfield')}   
+   field.send_keys('400.54')
+   wait.until{browser.find_element(:id, 'Food' + '_button').click}
+   field.send_keys('9999')
+   wait.until{browser.find_element(:id, 'Other' + '_button').click}
+
+   amount = wait.until{browser.find_element(:id, 'Other_amount')}
+   expect(amount.attribute("style")).to eq("color: Green;");
+   amount = wait.until{browser.find_element(:id, 'Food_amount')}
+   expect(amount.attribute("style")).to eq("color: Yellow;");
+end
+
+When(/^the user clicks the graph update button$/) do
+  pending # Write code here that turns the phrase above into concrete actions
 end

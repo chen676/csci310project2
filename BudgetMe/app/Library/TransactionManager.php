@@ -11,7 +11,7 @@ class TransactionManager{
 
 		Returns: Sorted array of transactions
 
-		Created By:  
+		Created By: Rebecca and Paul 
 	*/
     public function sortTransactionsByDates($transactionSet){
 		usort($transactionSet, array($this, "dateComparator"));	
@@ -28,7 +28,7 @@ class TransactionManager{
 		Created By: Paul and Rebecca
 	*/
 	public function dateComparator($lhs, $rhs){
-		return $this->rawDateCompare($lhs->date, $rhs->date);
+		return $this->rawDateCompare($lhs['date'], $rhs['date']);
     }
 
 	/*
@@ -71,7 +71,7 @@ class TransactionManager{
 
 		Returns: Sorted array of transactions
 
-		Created By:  
+		Created By:  Paul and Rebecca
 	*/
 	public function sortTransactionsByCategory($transactionSet){
 
@@ -89,7 +89,7 @@ class TransactionManager{
 
 		Returns: Sorted array of transactions
 
-		Created By:  
+		Created By:  Paul and Rebecca
 	*/
 	public function sortTransactionsByAmount($transactionSet){
 		

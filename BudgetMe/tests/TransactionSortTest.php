@@ -9,6 +9,16 @@ require_once 'app/Library/TransactionManager.php';
 
 class TransactionSortTest extends TestCase
 {
+
+    /*
+        Parameters: None
+
+        Description: Test if transactions can be sorted by amount
+
+        Returns: None
+
+        Created By: Rebecca and Paul
+    */
     public function testTransactionsCanBeSortedByAmount(){
         // Setup
 
@@ -58,6 +68,16 @@ class TransactionSortTest extends TestCase
         $this->assertEquals($sortedCorrectly, 1, "Sorting transactions by amount does not work"); //assert that it is correctly sorted
 
     }
+
+    /*
+        Parameters: None
+
+        Description: Test if transactions can be sorted by category
+
+        Returns: None
+
+        Created By: Rebecca and Paul
+    */
     public function testTransactionsCanBeSortedByCategory(){
         // Setup
 
@@ -106,9 +126,15 @@ class TransactionSortTest extends TestCase
         // Assert
         $this->assertEquals($sortedCorrectly, 1, "Sorting transactions by category does not work"); //assert that it is correctly sorted
     }
-    /**
-     * Test whether or not accounts are sorted by name
-     */
+    /*
+        Parameters: None
+
+        Description: Test if transactions can be sorted by date
+
+        Returns: None
+
+        Created By: Rebecca and Paul
+    */
     public function testTransactionsCanBeSortedByDate()
     {
     	// Setup

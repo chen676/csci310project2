@@ -9,9 +9,15 @@ require_once 'app/Library/AccountManager.php';
 
 class AccountSortTest extends TestCase
 {
-    /**
-     * Test whether or not accounts are sorted by name
-     */
+    /*
+        Parameters: None
+
+        Description: Test if accounts can be sorted by name alphabetically
+
+        Returns: None
+
+        Created By: Rebecca and Paul
+    */
     public function testAccountsCanBeSortedAlphabeticallyByName()
     {
     	// Setup

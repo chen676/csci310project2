@@ -17,46 +17,45 @@ use App\Library\TransactionManager;
 class GraphController extends Controller{
 
 	/*
-		Parameters: Request
+		Parameters: Start Date as a string in MM/DD/YYYY format
+					End Date as a string in MM/DD/YYYY format
 
+<<<<<<< HEAD
 		Description: Populates the default graph with assets and liabilities. This method will take in a specific time range specified by the user in order to calculate the list of data points of assets and the list of data points of liabilities to be plotted on the main graph widget.
 
 		Returns: Array containing the data for the assets and the data for the liabilities. 
+=======
+		Description: Calculates the user's assets and liabilities
+
+		Returns: An array with the data for assets and liabilities
+>>>>>>> master
 
 		Created By: Matt and Harshul
-	*/
-	public function populateGraph(Request $request){
 
-		if($request->ajax()){
-			
+		Edited By: Paul and Rebbbbecca
+	*/
+	public function calculateAssetsAndLiabilities($startDate, $endDate){			
 			$user = Session::get('user');
 			$user_id = $user -> id;
-			$startDate = $request['starting_date'];
-			$endDate = $request['ending_date'];
 			$accounts = DB::select('select * from accounts where user_id = :user_id' ,  ['user_id' => $user_id]);
 			$valid_account_ids = array();
 			foreach($accounts as $account){
 				$valid_id = $account->id;
 				array_push($valid_account_ids, $valid_id);
-
 			}
-			$transactions = array();
-			
-			$allTransactions = DB::select('select * from transactions');
 
-			foreach($allTransactions as $transaction){
-				if(in_array($transaction->account_id, $valid_account_ids)){
-					array_push($transactions, $transaction);
-				}
-			}
+			$transactions = Transaction::get()->toArray();
+
 			$transactionManager = new TransactionManager();
 			$transactions = $transactionManager -> sortTransactionsByDates($transactions);
 			$transactions = array_reverse($transactions);
 
 			$prevBalanceAssets = 0;
 			$prevBalanceLiabilities = 0;
+			$prevBalanceNetWorth = 0;
 			$transactionBeforeStartExistsAssets = false;
 			$transactionBeforeStartExistsLiabilities = false;
+			$transactionBeforeStartExistsNetWorth = false;
 
 			if(empty($transactions)){
 				return array();
@@ -64,41 +63,55 @@ class GraphController extends Controller{
 
 			$assetsData = array();
 			$liabilitiesData = array();
+			$netWorthData = array();
 			foreach($transactions as $t){
 				/*if date is before startDate, skip this transaction*/
-				if($transactionManager->rawDateCompare($t->date, $startDate) > 0){
-					if($t->amount > 0){
-						$prevBalanceAssets += $t->amount;
+				if($transactionManager->rawDateCompare($t['date'], $startDate) > 0){
+					if($t['amount'] > 0){
+						$prevBalanceAssets += $t['amount'];
 						$transactionBeforeStartExistsAssets = true;
+						$prevBalanceNetWorth += $t['amount'];
+						$transactionBeforeStartExistsNetWorth = true;
 					}
 					else{
-						$prevBalanceAssets += -1 * $t->amount;
+						$prevBalanceAssets += -1 * $t['amount'];
 						$transactionBeforeStartExistsLiabilities = true;
+						$prevBalanceNetWorth += $t['amount'];
+						$transactionBeforeStartExistsNetWorth = true;
 					}
 					continue;
 				}
 				/*if date is after endDate, skip this transaction*/
-				if($transactionManager->rawDateCompare($t->date, $endDate) < 0){
+				if($transactionManager->rawDateCompare($t['date'], $endDate) < 0){
 					continue;
 				}
 				/*amount is greater than zero, therefore an asset*/
-				if($t->amount > 0){
-					if(!array_key_exists($t->date, $assetsData)){
-						$assetsData[$t->date] = 0;
+				if($t['amount'] > 0){
+					if(!array_key_exists($t['date'], $assetsData)){
+						$assetsData[$t['date']] = 0;
 					}
-					$assetsData[$t->date] += $t->amount;
+					if(!array_key_exists($t['date'], $netWorthData)){
+						$netWorthData[$t['date']] = 0;
+					}
+					$assetsData[$t['date']] += $t['amount'];
+					$netWorthData[$t['date']] += $t['amount'];
 				}
 				/*amount is less than zero, therefore a liability*/
 				else{
-					if(!array_key_exists($t->date, $liabilitiesData)){
-						$liabilitiesData[$t->date] = 0;
+					if(!array_key_exists($t['date'], $liabilitiesData)){
+						$liabilitiesData[$t['date']] = 0;
 					}
-					$liabilitiesData[$t->date] += -1 * $t->amount;
+					if(!array_key_exists($t['date'], $netWorthData)){
+						$netWorthData[$t['date']] = 0;
+					}
+					$liabilitiesData[$t['date']] += -1 * $t['amount'];
+					$netWorthData[$t['date']] += $t['amount'];
 				}
 			}
 			//cumulate each data point for assets and liabilities
 			$netAssets = $prevBalanceAssets;
 			$netLiabilities = $prevBalanceLiabilities;
+			$netNetWorth = $prevBalanceNetWorth;
 			foreach($assetsData as &$data){
 				$netAssets += $data;
 				$data = $netAssets;
@@ -108,12 +121,19 @@ class GraphController extends Controller{
 				$netLiabilities += $data;
 				$data = $netLiabilities;
 			}
+			foreach($netWorthData as &$data){
+				$netNetWorth += $data;
+				$data = $netNetWorth;
+			}
 
 			$paddingLeftAssets = array();
 			$paddingRightAssets = array();
 
 			$paddingLeftLiabilities = array();
 			$paddingRightLiabilities = array();
+
+			$paddingLeftNetWorth = array();
+			$paddingRightNetWorth = array();
 
 			if($transactionBeforeStartExistsAssets){
 				if(!array_key_exists($startDate, $assetsData)){
@@ -136,15 +156,23 @@ class GraphController extends Controller{
 			}
 
 			$fullLiabilitiesData = array_merge($paddingLeftLiabilities, $liabilitiesData, $paddingRightLiabilities);
-			$totalData = array("Assets" => $fullAssetsData, "Liabilities" => $fullLiabilitiesData);
+
+			if($transactionBeforeStartExistsNetWorth){
+				if(!array_key_exists($startDate, $netWorthData)){
+					$paddingLeftNetWorth[$startDate] = $prevBalanceNetWorth;
+				}
+			}
+			if(!array_key_exists($endDate, $netWorthData)){
+				$paddingRightNetWorth[$endDate] = $netNetWorth;
+			}
+
+			$fullNetWorthData = array_merge($paddingLeftNetWorth, $netWorthData, $paddingRightNetWorth);
+			
+			$totalData = array("Assets" => $fullAssetsData, "Liabilities" => $fullLiabilitiesData, "Net Worth" => $fullNetWorthData);
 
 			
 			return $totalData;
-
-			
-
-
-		}
+		
 	}
 
 	/*
@@ -245,8 +273,8 @@ class GraphController extends Controller{
 			  $graphData[$name] = $data;
 			}
 
-			Session::put('checkedAccountsForGraph', $accountNames);
-			return $graphData;
+			$assetsAndLiabilities = $this->calculateAssetsAndLiabilities($sDate, $eDate);
+			return array_merge($assetsAndLiabilities, $graphData);
       	}		
 	}
 }

@@ -6,6 +6,17 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class AccountControllerTest extends TestCase
 {
+
+    /*
+        Parameters: None
+
+        Description: Test if adding account to database works
+
+        Returns: None
+
+        Created By: Patrick and Brandon
+    */
+
     public function testAddAccount()
     {
     	$this
@@ -18,6 +29,17 @@ class AccountControllerTest extends TestCase
     		->press('Add Account')
     		->see('Test Account');
     }
+
+
+   /*
+        Parameters: None
+
+        Description: Test if removing account from database works
+
+        Returns: None
+
+        Created By: Patrick and Brandon
+    */
 
     public function testRemoveAccount()
     {

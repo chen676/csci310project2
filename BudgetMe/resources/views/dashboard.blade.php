@@ -1,4 +1,8 @@
 <html>
+<!--
+This file was created by: Paul and Rebecca
+Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
+-->
 	<head>
 		<meta charset="UTF-8">		
 		<meta name="csrf-token" content="{{ csrf_token() }}">
@@ -6,10 +10,31 @@
 		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 		<link rel="stylesheet" href="./css/styles.css">
 		<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+		  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
 		<script src="https://code.highcharts.com/highcharts.js"></script>
 		<script src="https://code.highcharts.com/modules/exporting.js"></script>
 
+
+		<script type="text/javascript">
+			$(function () {
+
+				/*Created by Harshul and Matt
+				Description: update graph x axis via start/end dates*/
+
+				$("#startDate").datepicker();
+			    $("#endDate").datepicker();  
+
+
+				$('#submitDates').click(function(){
+					var startDateParse = $('#startDate').val();
+					var endDateParse = $('#endDate').val();
+					getGraphData(startDateParse, endDateParse);
+				});
+			});
+		</script>
 
    	<script>
 			function startTime() {
@@ -40,53 +65,77 @@
 			}
 			function onLoad() {
 				startTime();
-				var today = new Date();
-				makeGraphDefault();
-			}
-			function populateGraph(){
 				$.ajaxSetup({
 					headers: {
 			            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 					}
 		        });
 		        var today =  new Date();
-		        var dd = today.getDate() + '';
-		        var mm = today.getMonth() + 1 + '';
-		        var yyyy = today.getFullYear() + '';
-		        if(mm.length < 2){
-		        	mm = '0' + mm;
-		        }
-		        if(dd.length < 2){
-		        	dd = '0' + dd;
-		        }
-		        while(yyyy.length < 4){
-		        	yyyy = '0' + yyyy;
-		        }
-		        var dateString = mm + '/' + dd + '/' + yyyy;
-				$.ajax({ type: "POST",
-                    url: "/populateGraph",
-                    //data: "",
-                    data:{'starting_date': '03/01/2016', 'ending_date' : dateString},
-                    dataType:"JSON",
-        			success: function(data){
-        				console.log(data);
-        				
-        				makeGraphDefault(data, '03/01/2016');
-        				
-        			},
-        			error: function(request, status, error){
-        				console.log(request.responseText);
-        			}
-        		});
+                var dd = today.getDate() + '';
+                var mm = today.getMonth() + 1 + '';
+                var yyyy = today.getFullYear() + '';
 
+                if(mm.length < 2){
+                    mm = '0' + mm;
+                }
+                if(dd.length < 2){
+                    dd = '0' + dd;
+                }
+                while(yyyy.length < 4){
+                    yyyy = '0' + yyyy;
+                }
+                
+                var endDateString = mm + '/' + dd + '/' + yyyy;
 
+                var threeMonthsPrior = new Date();
+                threeMonthsPrior.setMonth(today.getMonth() - 3);
+                dd = threeMonthsPrior.getDate() + '';
+                mm = threeMonthsPrior.getMonth() + 1 + '';
+                yyyy = threeMonthsPrior.getFullYear() + '';
+
+                if(mm.length < 2){
+                    mm = '0' + mm;
+                }
+                if(dd.length < 2){
+                    dd = '0' + dd;
+                }
+                while(yyyy.length < 4){
+                    yyyy = '0' + yyyy;
+                }
+                var threeMonthsPriorDateString = mm + '/' + dd + '/' + yyyy;
+
+				getGraphData(threeMonthsPriorDateString,endDateString);
 			}
+			function getGraphData(startDate, endDate){
+				var checked = $("input[name=graphVisibility]").map(function(){
+					return $(this).val();
+				}).get();
+
+				$.ajax({
+				   type: "POST",
+				   data: {accountSet:checked, length:checked.length,
+				          sDate:startDate, eDate:endDate},
+				   dataType: "json",
+				   url: "/display_graph",
+				   success: function(msg){
+				   	console.log(msg);
+				   	var chart = $('#graph_div').highcharts();
+				   	makeGraphDefault(msg, startDate);
+				   },
+			       error:function(exception){
+				     //alert(exception); 
+				   }		
+				});		
+			}
+
 			function makeGraphDefault(graphLines, startDate){
 				console.log(graphLines);
 				console.log(startDate);
 				var data = new Array();
 				for(var acc in graphLines) {
+
 					console.log(acc);
+
 					var accdata = new Array();
 					for(var key in graphLines[acc]) {
 						var splitDate = key.split("/");
@@ -99,6 +148,7 @@
 					var splitDate = startDate.split("/");
 					startDateUTC = Date.UTC(parseInt(splitDate[2])-1, parseInt(splitDate[0])-1, parseInt(splitDate[1])-1);
 				}
+				console.log(startDateUTC);
 				var graph = $('#graph_div');
 				graph.highcharts({
 					title: {
@@ -133,8 +183,9 @@
 			            borderWidth: 0
 			        },
 			        series: data
-				});
-								//graph.setData(graphLines['Amazon Money Card']);
+    			});
+    							//graph.setData(graphLines['Amazon Money Card']);
+
 
 			}
     	</script>
@@ -186,18 +237,17 @@
 				         <input type = "text" id = "budgetWidgetTextfield"/>
 				         
 					         <script type="text/javascript">
-					         $.ajaxSetup({
-					           headers: {
-					             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-					           }
-					         });
 					         
 					         //load when page loaded	
 					         $(document).ready(function(){
-					         	populateGraph();
-					         	console.log("after");
+					         	//populateGraph();
+					         	//console.log("after");
 					         	table = document.getElementById("budgetTable");
-
+					         	$.ajaxSetup({
+									headers: {
+			           				 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+									}
+		        				});
 								$.ajax({ type: "POST",
                       					url: '/loadBudgets',
                       					data:"",
@@ -235,7 +285,7 @@
         						//update button clicked
         						$(document).on('click', '.updateBtn', function(e) {
         								var target = e.target.id;
-        								console.log( target);
+        								//console.log( target);
         								var updated_amount = document.getElementById("budgetWidgetTextfield").value;
         								if(!$(updated_amount) || !$.isNumeric(updated_amount) || updated_amount.indexOf('-') != -1){
         									console.log("invalid input: "+updated_amount)
@@ -249,9 +299,9 @@
         								success: function(data){
         									document.getElementById("budgetWidgetTextfield").value = "";
         									var amount = data.data;
-        									console.log("amount:" +amount);
+        									//console.log("amount:" +amount);
         									var element =category + "_amount";
-        									console.log("element:" + element);
+        									//console.log("element:" + element);
         									document.getElementById(element).innerHTML = "$" + amount;
         									document.getElementById(element).style = "color:" + data.color;
         								}
@@ -300,11 +350,18 @@
 			<div class="widget" id="graph">
 				<h2>Main Line Graph</h2>
 				<div id="graph_div" style="min-width: 300px; height: 250px; margin: 0 auto"></div>
+
+				Start Date:
+					<input type = "text" id = "startDate"/> <br>
+				End Date: 
+					<input type = "text" id = "endDate"/>
+				<input type ="button" id ="submitDates" value = "Graph"/>
+
 			</div>
 
 			<div class="widget" id="graphLegend">
 				<h2>Graph Legend</h2>
-				<div id="legend_div" style="min-width:100px; height:250px; margin:0 auto">
+				<div id="legend_div">
 
 				<?php
 
@@ -322,10 +379,7 @@
 					{
 						echo "<tr>";
 						//checkbox				   
-					   echo '<td><input type="checkbox" id="accountVisible'. $acc['name'] . '" name="visibility" style="margin-left:10px" value="'. $acc['name'] . '"';
-					if(!is_null($checkedAccounts)){
-						if (in_array($acc['name'], $checkedAccounts)) 
-						echo " checked='checked'"; 	}	
+					   echo '<td><input type="checkbox" id="graphVisible'. $acc['name'] . '" name="graphVisibility" style="margin-left:10px" value="'. $acc['name'] . '"';
 					?>
 					<?php
                   		//name of account
@@ -460,32 +514,26 @@
          });
 
 			//checkbox functionality
-			$.ajaxSetup({
-			  headers: {
-			    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-			  }
-			});
-			$("input[name=visibility]").click( function()
-			{
-				var checked = $("input[type=checkbox]:checked").map( function() 
+			$("input[name=visibility]").click( function(){
+				var checked = $("input[name=visibility]:checked").map( function() 
 				{
 					return $(this).val();
 				}).get();
-				
+
 				$.ajax({
-				   type: "POST",
-				   data: {accountSet:checked, length:checked.length},
-				   dataType: "json",
-				   url: "/display_transactions",
-				   success: function(msg){
-					window.location.reload(true); 
-				   },
-			       	   error:function(exception){
-					alert(exception); 
-				   }
+				   	type: "POST",
+				   	data: {accountSet:checked, length:checked.length},
+				   	//dataType: "json",
+				   	url: "/display_transactions",
+				   	success: function(msg){
+				   		//alert(checked);
+						window.location.reload(true); 
+				   	},
+			       	error: function(xhr, status, error) {
+			       		console.log(error);
+					}				   	
 				});
 			});
-
 
 			// idle time-out
 			$(document).ready(function () {

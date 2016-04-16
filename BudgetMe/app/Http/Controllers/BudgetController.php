@@ -25,7 +25,7 @@ class BudgetController extends Controller
 
         Returns: JSON string of all budgets
 
-        Created By:
+        Created By: Matt and Harshul
     */
     public function getBudgets(Request $request){
 	   if($request->ajax()){
@@ -63,7 +63,7 @@ class BudgetController extends Controller
 
         Returns: JSON string of the updated budgets
 
-        Created By:
+        Created By: Matt and Harshul
     */
     public function updateBudget(Request $request){
       if($request->ajax()){
