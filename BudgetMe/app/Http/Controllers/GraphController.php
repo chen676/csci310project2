@@ -20,15 +20,14 @@ class GraphController extends Controller{
 		Parameters: Start Date as a string in MM/DD/YYYY format
 					End Date as a string in MM/DD/YYYY format
 
-<<<<<<< HEAD
+
 		Description: Populates the default graph with assets and liabilities. This method will take in a specific time range specified by the user in order to calculate the list of data points of assets and the list of data points of liabilities to be plotted on the main graph widget.
 
 		Returns: Array containing the data for the assets and the data for the liabilities. 
-=======
 		Description: Calculates the user's assets and liabilities
 
 		Returns: An array with the data for assets and liabilities
->>>>>>> master
+
 
 		Created By: Matt and Harshul
 
