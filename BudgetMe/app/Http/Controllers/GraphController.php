@@ -46,8 +46,10 @@ class GraphController extends Controller{
 
 			$prevBalanceAssets = 0;
 			$prevBalanceLiabilities = 0;
+			$prevBalanceNetWorth = 0;
 			$transactionBeforeStartExistsAssets = false;
 			$transactionBeforeStartExistsLiabilities = false;
+			$transactionBeforeStartExistsNetWorth = false;
 
 			if(empty($transactions)){
 				return array();
@@ -55,16 +57,21 @@ class GraphController extends Controller{
 
 			$assetsData = array();
 			$liabilitiesData = array();
+			$netWorthData = array();
 			foreach($transactions as $t){
 				/*if date is before startDate, skip this transaction*/
 				if($transactionManager->rawDateCompare($t['date'], $startDate) > 0){
 					if($t['amount'] > 0){
 						$prevBalanceAssets += $t['amount'];
 						$transactionBeforeStartExistsAssets = true;
+						$prevBalanceNetWorth += $t['amount'];
+						$transactionBeforeStartExistsNetWorth = true;
 					}
 					else{
 						$prevBalanceAssets += -1 * $t['amount'];
 						$transactionBeforeStartExistsLiabilities = true;
+						$prevBalanceNetWorth += $t['amount'];
+						$transactionBeforeStartExistsNetWorth = true;
 					}
 					continue;
 				}
@@ -77,19 +84,28 @@ class GraphController extends Controller{
 					if(!array_key_exists($t['date'], $assetsData)){
 						$assetsData[$t['date']] = 0;
 					}
+					if(!array_key_exists($t['date'], $netWorthData)){
+						$netWorthData[$t['date']] = 0;
+					}
 					$assetsData[$t['date']] += $t['amount'];
+					$netWorthData[$t['date']] += $t['amount'];
 				}
 				/*amount is less than zero, therefore a liability*/
 				else{
 					if(!array_key_exists($t['date'], $liabilitiesData)){
 						$liabilitiesData[$t['date']] = 0;
 					}
+					if(!array_key_exists($t['date'], $netWorthData)){
+						$netWorthData[$t['date']] = 0;
+					}
 					$liabilitiesData[$t['date']] += -1 * $t['amount'];
+					$netWorthData[$t['date']] += $t['amount'];
 				}
 			}
 			//cumulate each data point for assets and liabilities
 			$netAssets = $prevBalanceAssets;
 			$netLiabilities = $prevBalanceLiabilities;
+			$netNetWorth = $prevBalanceNetWorth;
 			foreach($assetsData as &$data){
 				$netAssets += $data;
 				$data = $netAssets;
@@ -99,12 +115,19 @@ class GraphController extends Controller{
 				$netLiabilities += $data;
 				$data = $netLiabilities;
 			}
+			foreach($netWorthData as &$data){
+				$netNetWorth += $data;
+				$data = $netNetWorth;
+			}
 
 			$paddingLeftAssets = array();
 			$paddingRightAssets = array();
 
 			$paddingLeftLiabilities = array();
 			$paddingRightLiabilities = array();
+
+			$paddingLeftNetWorth = array();
+			$paddingRightNetWorth = array();
 
 			if($transactionBeforeStartExistsAssets){
 				if(!array_key_exists($startDate, $assetsData)){
@@ -127,7 +150,19 @@ class GraphController extends Controller{
 			}
 
 			$fullLiabilitiesData = array_merge($paddingLeftLiabilities, $liabilitiesData, $paddingRightLiabilities);
-			$totalData = array("Assets" => $fullAssetsData, "Liabilities" => $fullLiabilitiesData);
+
+			if($transactionBeforeStartExistsNetWorth){
+				if(!array_key_exists($startDate, $netWorthData)){
+					$paddingLeftNetWorth[$startDate] = $prevBalanceNetWorth;
+				}
+			}
+			if(!array_key_exists($endDate, $netWorthData)){
+				$paddingRightNetWorth[$endDate] = $netNetWorth;
+			}
+
+			$fullNetWorthData = array_merge($paddingLeftNetWorth, $netWorthData, $paddingRightNetWorth);
+			
+			$totalData = array("Assets" => $fullAssetsData, "Liabilities" => $fullLiabilitiesData, "Net Worth" => $fullNetWorthData);
 
 			
 			return $totalData;
