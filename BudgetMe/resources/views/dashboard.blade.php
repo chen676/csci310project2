@@ -275,7 +275,22 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 	
 		<h1>Your Dashboard</h1>
 		<div id = "info" style = "display:none">
-			Hi
+		</div>
+		<div style = "display:none">
+			<table>
+				<tr>
+					<td><input type="checkbox" id="graphVisibleAssets"  style="margin-left:10px" value="Assets">
+					</td>
+				</tr>
+				<tr>
+					<td><input type="checkbox" id="graphVisibleLiabilities"  style="margin-left:10px" value="Liabilities">
+					</td>
+				</tr>
+				<tr>
+					<td><input type="checkbox" id="graphVisibleNetWorth"  style="margin-left:10px" value="Net Worth">
+					</td>
+				</tr>
+			</table>
 		</div>
 		<div id = "dashboard">
 
@@ -383,6 +398,9 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 						<?php	
 							}
 						?>
+
+						
+
 					</table>
 				</div> <!--end to legend_div-->
 			</div>	<!--end to graphLegend-->

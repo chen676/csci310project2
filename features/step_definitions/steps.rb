@@ -156,8 +156,8 @@ end
 
 Given(/^ a user is logged in with username $username and password $password$/) do |username, password|
 	visit('http://localhost')
-	find('#loginUserField').set(username)
-	find('#loginPasswordField').set(password)
+	page.find('#loginUserField').set(username)
+	page.find('#loginPasswordField').set(password)
 	browser.find_element(:id, 'loginSubmitButton').click
 end
 
@@ -287,23 +287,51 @@ end
 
 
 Then(/^the x axis by default should be a 3 month time frame$/) do
-   #pending
+   info = wait.until {browser.find_element(:id, 'info')}
+   time = Time.new
+   month = time.month.to_s
+   day = time.day.to_s
+   year = time.year.to_s
+   if(month.length < 2)
+      month = '0' + month
+   end
+   if(day.length < 2)
+      month = '0' + month
+   end
+   while(year.length < 4)
+      year = '0' + year
+   end
+   today = month + "/" + day + "/" + year
+   threeMonthsAgo = Date.today<<3
+   threeMonthsAgoString = threeMonthsAgo.to_s
+   array = threeMonthsAgoString.split('-')
+   threeMonthsAgoStringFormatted = array[1] + "/" + array[2] + "/" + array[0]
+   expectedString = threeMonthsAgoStringFormatted + " " + today
+   
+   expect(info['innerHTML']).to include(expectedString)
 end
 
-When(/^the user selects November 2015 for the start date and January 2016 for the end date$/) do
-   #pending
+When(/^the user selects March 1st 2016 for the start date and April 2nd 2016 for the end date$/) do
+   browser.find_element(:id, 'startDate').send_keys("03/01/2016")
+   browser.find_element(:id, 'endDate').send_keys("04/02/2016")
 end
 
 Then(/^the graph should reflect the desired time frame$/) do
-   #pending
+   info = wait.until {browser.find_element(:id, 'info')}
+
+   expect(info['innerHTML']).to include("03/01/2016 04/02/2016")
+
 end
 
-When(/^the user selects January 2016 for the start date and November 2015 for the end date$/) do
-   #pending
+When(/^the user selects January 1st 2016 for the start date and November 1st 2015 for the end date$/) do
+   browser.find_element(:id, 'startDate').send_keys("01/01/2016")
+   browser.find_element(:id, 'endDate').send_keys("11/01/2015")
 end
 
 Then(/^the graph should not change$/) do
-   #pending
+   info = wait.until {browser.find_element(:id, 'info')}
+
+   expect(info['innerHTML']).to include("01/17/2016 04/17/2016")
 end
 
 Then(/^the budget has the correct colors$/) do
