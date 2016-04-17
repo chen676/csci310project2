@@ -38,14 +38,16 @@ Scenario: the calendar should default to a 3 month time frame for the graph
 	Given the graph is blank
 	Then the x axis by default should be a 3 month time frame
 
+Scenario: the user shouldn't be able to change the time for the graph if the interval is invalid
+	Given the graph is blank
+	When the user selects January 1st 2016 for the start date and November 1st 2015 for the end date
+	When the user clicks the graph update button
+	Then the graph should not change
+
 Scenario: the user should be able to change the time for the graph for a valid interval
 	Given the graph is blank
-	When the user selects November 2015 for the start date and January 2016 for the end date
+	When the user selects March 1st 2016 for the start date and April 2nd 2016 for the end date
 	When the user clicks the graph update button
 	Then the graph should reflect the desired time frame
 
-Scenario: the user shouldn't be able to change the time for the graph if the interval is invalid
-	Given the graph is blank
-	When the user selects January 2016 for the start date and November 2015 for the end date
-	When the user clicks the graph update button
-	Then the graph should not change
+
