@@ -351,3 +351,27 @@ When(/^the user clicks the graph update button$/) do
    button = wait.until {browser.find_element(:id, 'submitDates')}
    button.click 
 end
+
+When(/^the user doesn't make an action for 2 minutes$/) do
+   pending
+end
+
+Then(/^the user is logged out$/) do
+   pending
+end
+
+When(/^the user makes an action$/) do
+   pending
+end
+
+Then(/^the timeout counter is reset$/) do
+   pending
+end
+
+When(/^the user selects the budget for January$/) do
+   pending
+end
+
+Then(/^the user should see the budget for January$/) do
+   pending
+end
