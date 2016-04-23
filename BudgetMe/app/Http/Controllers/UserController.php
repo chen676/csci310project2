@@ -34,11 +34,15 @@ class UserController extends Controller
     	if (count($user) == 1)
     	{
     		Session::put('user', $user);
+            Session::put('loginErrors', 0);
     		return redirect('/dashboard');
     	}
 
     	//user info is incorrect, display errors
-    	return redirect('/')->with('loginErrors', true);
+
+        Session::put('loginErrors', Session::get('loginErrors') + 1);
+
+    	return redirect('/');
     }
 
     /*
@@ -59,7 +63,7 @@ class UserController extends Controller
     	}
 
     	return view('dashboard', [
-    	   'user' => Session::get('user'),
+    	  'user' => Session::get('user'),
 		  'transactionSet' => Session::get('transactionSet'),
 		  'checkedAccounts' => Session::get('checkedAccounts')]);
     }

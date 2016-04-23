@@ -36,7 +36,7 @@ Then(/^I am rejected from the dashboard page$/) do
 end
 
 Given(/^I wait (\d+) minute$/) do |arg1|
-  pending # Write code here that turns the phrase above into concrete actions
+   sleep(65)
 end
 
 When(/^I do not successfully login 4 times$/) do
@@ -50,7 +50,7 @@ When(/^I do not successfully login 4 times$/) do
 end
 
 Then(/^I am blocked from logging in$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+   expect(browser.page_source.include?('please wait')).to eq(true)   
 end
 
 Given(/^I am on the dashboard$/) do
