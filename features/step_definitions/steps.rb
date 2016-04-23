@@ -374,19 +374,25 @@ When(/^the user clicks the graph update button$/) do
 end
 
 When(/^the user doesn't make an action for 2 minutes$/) do
-   pending
+   field = wait.until{browser.find_element(:id, 'budgetWidgetTextfield')}
+   sleep(140)
 end
 
 Then(/^the user is logged out$/) do
-   pending
+   expect(browser.page_source.include?('Login')).to eq(true)
 end
 
 When(/^the user makes an action$/) do
-   pending
+   field = wait.until{browser.find_element(:id, 'budgetWidgetTextfield')}
+   sleep(100)
+   field.send_keys("notidle")
 end
 
 Then(/^the timeout counter is reset$/) do
-   pending
+   sleep(50)
+   expect(browser.page_source.include?('Dashboard')).to eq(true)
+   sleep(100)
+   expect(browser.page_source.include?('Login')).to eq(true)
 end
 
 When(/^the user selects the budget for January$/) do

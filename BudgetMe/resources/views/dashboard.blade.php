@@ -18,6 +18,9 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
   		<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 		<script src="https://code.highcharts.com/highcharts.js"></script>
 		<script src="https://code.highcharts.com/modules/exporting.js"></script>
+		
+		<script src="https://raw.githubusercontent.com/JillElaine/jquery-idleTimeout/master/jquery-idleTimeout.min.js"></script>
+		<script src="https://raw.githubusercontent.com/marcuswestin/store.js/master/store.min.js"></script>script>
 
 		<script type="text/javascript">
 			/*Created by Harshul and Matt
@@ -580,13 +583,13 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 			$(document).ready(function () {
 			    $(document).idleTimeout({
 			   		// redirect (logout) on timeout
-				    redirectUrl:  "http://localhost/Frontend/logout.php",
+				    redirectUrl:  "/logout",
 				    // idle settings
-				    idleTimeLimit: 240,           // 'No activity' time limit in seconds. 240 = 4 Minutes (Total 5 minutes of inactivity for automatic logout)
+				    idleTimeLimit: 120,           // 'No activity' time limit in seconds. 240 = 2 Minutes (Total 5 minutes of inactivity for automatic logout)
 				    idleCheckHeartbeat: 2,       // Frequency to check for idle timeouts in seconds
 				    // warning dialog box configuration
 				    enableDialog: true,           // set to false for logout without warning dialog
-				    dialogDisplayLimit: 60,       // Time to display the warning dialog before logout (and optional callback) in seconds. 60 = 1 Minute (Total 5 minutes of inactivity for automatic logout)
+				    dialogDisplayLimit: 15,       // Time to display the warning dialog before logout (and optional callback) in seconds. 60 = 1 Minute (Total 5 minutes of inactivity for automatic logout)
 			    });
 			});
 		</script>
