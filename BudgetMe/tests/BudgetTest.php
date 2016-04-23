@@ -12,6 +12,33 @@ require_once 'app/Http/Controllers/BudgetController.php';
 
 class BudgetTest extends TestCase
 {
+	/*
+        Parameters: None
+
+        Description: Test if budgets for each month can be pulled
+
+        Returns: Asserts if true or not
+
+        Created By: Patrick and Harshul
+    */
+	public function testgetBudgetForEachMonthCanBePulled(){
+		/*ToDo*/
+		$this->assertEquals(false,true);
+	}
+
+	/*
+        Parameters: None
+
+        Description: Test if a month does not have a budget nothing is returned
+
+        Returns: Asserts if true or not
+
+        Created By: Patrick and Harshul
+    */
+	public function testgetBudgetForMonthWithoutBudget(){
+		/*ToDo*/
+		$this->assertEquals(false,true);
+	}
 
     /*
         Parameters: None

@@ -32,3 +32,8 @@ Scenario: When the user has transactions on his accounts, the budget should refl
 Scenario: The users budget numbers should be the correct colors
 	Given there is a budget
 	Then the budget has the correct colors
+
+Scenario: The user should be able to see the budget for a selected month
+	Given there is a budget
+	When the user selects the budget for January
+	Then the user should see the budget for January
