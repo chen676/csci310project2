@@ -4,6 +4,8 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
+use App\Models\User;
+
 class UserControllerTest extends TestCase
 {
 
@@ -78,5 +80,21 @@ class UserControllerTest extends TestCase
     	$this
     		->visit('/dashboard')
     		->seePageIs('/');
+    }
+
+    /*
+        Parameters: None
+
+        Description: Test that the password stored in SQL is not plain text, but the encrypted version of the password.
+
+        Returns: None
+
+        Created By: Brandon and Patrick
+    */
+    public function testEncryption()
+    {
+        $user = User::find(1);
+
+        $this->assertNotEquals('123456', $user->password);
     }
 }
