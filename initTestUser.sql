@@ -23,6 +23,7 @@ CREATE TABLE `budgets` (
   `category` varchar(45) NOT NULL,
   `amount` float(11) NOT NULL,
   `user_id` int(11) NOT NULL,
+  `month` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_budgets_users1_idx` (`user_id`),
   CONSTRAINT `fk_budgets_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -57,11 +58,11 @@ INSERT INTO `transactions` VALUES
 (3, 'Other', -80.11, 'Landlord', '04/01/2016', 2);
 
 INSERT INTO `budgets` VALUES
-(1, 'Food', 0, 1),
-(2, 'Rent', 0, 1),
-(3, 'Loans', 0, 1),
-(4, 'Bills', 0, 1),
-(5, 'Other', 0, 1);
+(1, 'Food', 0, 1, 'February'),
+(2, 'Rent', 0, 1, 'February'),
+(3, 'Loans', 0, 1, 'February'),
+(4, 'Bills', 0, 1, 'February'),
+(5, 'Other', 0, 1, 'February');
 
 INSERT INTO `users`(`id`, `email`, `password`) VALUES (2, 'guest@usc.edu', '123456');
 
@@ -78,11 +79,11 @@ INSERT INTO `transactions` VALUES
 (6, 'Rent', -80.11, 'Landlord', '04/01/2016', 7);
 
 INSERT INTO `budgets` VALUES
-(6, 'Food', 0, 2),
-(7, 'Rent', 0, 2),
-(8, 'Loans', 0, 2),
-(9, 'Bills', 0, 2),
-(10, 'Other', 0, 2);
+(6, 'Food', 0, 2, 'February'),
+(7, 'Rent', 0, 2, 'February'),
+(8, 'Loans', 0, 2, 'February'),
+(9, 'Bills', 0, 2, 'February'),
+(10, 'Other', 0, 2, 'February');
 
 INSERT INTO `users`(`id`, `email`, `password`) VALUES (3, 'admin2@usc.edu', '123456');
 
@@ -115,11 +116,41 @@ INSERT INTO `transactions` VALUES
 (22, 'Food', -1.25, 'Ramen', '03/25/2016', 13);
 
 INSERT INTO `budgets` VALUES
-(11, 'Food', 300, 4),
-(12, 'Rent', 500, 4),
-(13, 'Loans', 12, 4),
-(14, 'Bills', 50, 4),
-(15, 'Other', 5, 4);
+(11, 'Food', 0, 4, 'February'),
+(12, 'Rent', 0, 4, 'February'),
+(13, 'Loans', 0, 4, 'February'),
+(14, 'Bills', 0, 4, 'February'),
+(15, 'Other', 0, 4, 'February'),
+(16, 'Food', 0, 1, 'March'),
+(17, 'Rent', 0, 1, 'March'),
+(18, 'Loans', 0, 1, 'March'),
+(19, 'Bills', 0, 1, 'March'),
+(20, 'Other', 0, 1, 'March'),
+(21, 'Food', 0, 2, 'March'),
+(22, 'Rent', 0, 2, 'March'),
+(23, 'Loans', 0, 2, 'March'),
+(24, 'Bills', 0, 2, 'March'),
+(25, 'Other', 0, 2, 'March'),
+(26, 'Food', 0, 4, 'March'),
+(27, 'Rent', 0, 4, 'March'),
+(28, 'Loans', 0, 4, 'March'),
+(29, 'Bills', 0, 4, 'March'),
+(30, 'Other', 0, 4, 'March'),
+(31, 'Food', 0, 1, 'April'),
+(32, 'Rent', 0, 1, 'April'),
+(33, 'Loans', 0, 1, 'April'),
+(34, 'Bills', 0, 1, 'April'),
+(35, 'Other', 0, 1, 'April'),
+(36, 'Food', 0, 2, 'April'),
+(37, 'Rent', 0, 2, 'April'),
+(38, 'Loans', 0, 2, 'April'),
+(39, 'Bills', 0, 2, 'April'),
+(40, 'Other', 0, 2, 'April'),
+(41, 'Food', 300, 4, 'April'),
+(42, 'Rent', 500, 4, 'April'),
+(43, 'Loans', 12, 4, 'April'),
+(44, 'Bills', 50, 4, 'April'),
+(45, 'Other', 5, 4, 'April');
 
 
 
