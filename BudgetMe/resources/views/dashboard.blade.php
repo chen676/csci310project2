@@ -463,6 +463,13 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 				        <tr>
 					        <td>Category</td>
 					        <td>Budget</td>
+					        <td>
+					        	<select id="monthSelector">
+					        		<option value="February">February</option>
+					        		<option value="March">March</option>
+					        		<option value="April" selected>April</option>
+					        	</select>
+					        </td>
 				        </tr>
 				        <input type = "text" id = "budgetWidgetTextfield"/>
 				         
