@@ -27,6 +27,13 @@ class UserController extends Controller
     public function login(Request $request){
 
         $user = User::where('email', '=', $request->input('email'))->first();
+
+        if (is_null($user))
+        {
+            //user info is incorrect, display errors
+            return redirect('/')->with('loginErrors', true);
+        }
+
         $salt = $user->salt;
         $password = $request->input('password');
         $encrypted_password = hash('sha256', $password . '' . $salt);
@@ -42,8 +49,8 @@ class UserController extends Controller
     		return redirect('/dashboard');
     	}
 
-    	//user info is incorrect, display errors
-    	return redirect('/')->with('loginErrors', true);
+        //user info is incorrect, display errors
+        return redirect('/')->with('loginErrors', true);
     }
 
     /*

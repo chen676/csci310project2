@@ -16,7 +16,7 @@ class UserControllerTest extends TestCase
 
         Created By: Brandon and Patrick
     */
-    /*
+    
     public function testLoginWithCorrectInfo()
     {
     	$this
@@ -26,7 +26,7 @@ class UserControllerTest extends TestCase
     		->press('Login')
     		->seePageIs('/dashboard');
     }
-    */
+    
 
     /*
         Parameters: None
