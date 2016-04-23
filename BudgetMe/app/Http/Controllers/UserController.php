@@ -26,9 +26,14 @@ class UserController extends Controller
     */
     public function login(Request $request){
 
+        $user = User::where('email', '=', $request->input('email'))->first();
+        $salt = $user->salt;
+        $password = $request->input('password');
+        $encrypted_password = hash('sha256', $password . '' . $salt);
+
     	$user = User::with('accounts', 'budgets')
     	->where('email', '=', $request->input('email'))
-    	->where('password', '=', $request->input('password'))
+    	->where('password', '=', $encrypted_password)
     	->first();
 
     	if (count($user) == 1)
