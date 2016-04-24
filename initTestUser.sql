@@ -152,5 +152,56 @@ INSERT INTO `budgets` VALUES
 (44, 'Bills', 50, 4, 'April'),
 (45, 'Other', 5, 4, 'April');
 
+INSERT INTO `budgets` VALUES
+(46, 'Food', 0, 2, 'January'),
+(47, 'Rent', 0, 2, 'January'),
+(48, 'Loans', 0, 2, 'January'),
+(49, 'Bills', 0, 2, 'January'),
+(50, 'Other', 0, 2, 'January'),
+(51, 'Food', 0, 2, 'May'),
+(52, 'Rent', 0, 2, 'May'),
+(53, 'Loans', 0, 2, 'May'),
+(54, 'Bills', 0, 2, 'May'),
+(55, 'Other', 0, 2, 'May'),
+(56, 'Food', 0, 2, 'June'),
+(57, 'Rent', 0, 2, 'June'),
+(58, 'Loans', 0, 2, 'June'),
+(59, 'Bills', 0, 2, 'June'),
+(60, 'Other', 0, 2, 'June'),
+(61, 'Food', 0, 2, 'July'),
+(62, 'Rent', 0, 2, 'July'),
+(63, 'Loans', 0, 2, 'July'),
+(64, 'Bills', 0, 2, 'July'),
+(65, 'Other', 0, 2, 'July'),
+(66, 'Food', 0, 2, 'August'),
+(67, 'Rent', 0, 2, 'August'),
+(68, 'Loans', 0, 2, 'August'),
+(69, 'Bills', 0, 2, 'August'),
+(70, 'Other', 0, 2, 'August'),
+(71, 'Food', 0, 2, 'September'),
+(72, 'Rent', 0, 2, 'September'),
+(73, 'Loans', 0, 2, 'September'),
+(74, 'Bills', 0, 2, 'September'),
+(75, 'Other', 0, 2, 'September'),
+(76, 'Food', 0, 2, 'October'),
+(77, 'Rent', 0, 2, 'October'),
+(78, 'Loans', 0, 2, 'October'),
+(79, 'Bills', 0, 2, 'October'),
+(80, 'Other', 0, 2, 'October'),
+(81, 'Food', 0, 2, 'November'),
+(82, 'Rent', 0, 2, 'November'),
+(83, 'Loans', 0, 2, 'November'),
+(84, 'Bills', 0, 2, 'November'),
+(85, 'Other', 0, 2, 'November'),
+(86, 'Food', 0, 2, 'December'),
+(87, 'Rent', 0, 2, 'December'),
+(88, 'Loans', 0, 2, 'December'),
+(89, 'Bills', 0, 2, 'December'),
+(90, 'Other', 0, 2, 'December');
+
+
+
+
+
 
 

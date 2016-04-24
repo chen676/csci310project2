@@ -26,6 +26,8 @@ class BudgetController extends Controller
         Returns: JSON string of all budgets
 
         Created By: Matt and Harshul
+
+        Edited by Matt and Rebecca
     */
     public function getBudgets(Request $request){
 	   if($request->ajax()){
@@ -34,9 +36,10 @@ class BudgetController extends Controller
 
         $user_id = $user -> id;
 
-        $user_budgets = DB::select('select * from budgets where user_id = :user_id', ['user_id' => $user_id]);
+        $month = $_POST['month'];
+
+        $user_budgets = DB::select('select * from budgets where user_id = :user_id and month = :month', ['user_id' => $user_id, 'month' => $month]);
 		    //$user_list = DB::select('select * from users');
-       		
        	//echo ($request['data']);
 
        	//return $users;
@@ -71,7 +74,8 @@ class BudgetController extends Controller
         $user_id = $user -> id;
         $updated_amount = $request['updated_amount'];
         $category = $request['category'];
-        DB::update('update budgets set amount = :updated_amount where user_id = :user_id and category = :category', ['updated_amount' => $updated_amount, 'user_id' => $user_id, 'category' => $category ]);
+        $month = $request['month'];
+        DB::update('update budgets set amount = :updated_amount where user_id = :user_id and category = :category and month = :month', ['updated_amount' => $updated_amount, 'user_id' => $user_id, 'category' => $category, 'month' => $month ]);
         //get potential new color
 
         $newColor = $this->getColorForBudgetTransactions($category, $updated_amount);
