@@ -20,7 +20,7 @@ class AccountControllerTest extends TestCase
     
     public function testAddAccount()
     {
-    	/*
+    	
     	$this
     		->visit('/')
     		->type('admin2@usc.edu', 'email')
@@ -30,8 +30,7 @@ class AccountControllerTest extends TestCase
     		->type('Test Account', 'name')
     		->press('Add Account')
     		->see('Test Account');
-    		*/
-    	$this->assertEquals(true, true);
+    		
     }
     
 
@@ -46,7 +45,7 @@ class AccountControllerTest extends TestCase
         Created By: Patrick and Brandon
     */
 
-    /*
+    
     public function testRemoveAccount()
     {
     	$this
@@ -58,5 +57,5 @@ class AccountControllerTest extends TestCase
     		->press('Delete Account')
     		->dontSee('Test Account');
     }
-    */
+    
 }

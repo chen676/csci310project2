@@ -15,31 +15,37 @@ class BudgetTest extends TestCase
 	/*
         Parameters: None
 
-        Description: Test if budgets for each month can be pulled
+        Description: Test if budgets for current month is first displayed
 
         Returns: Asserts if true or not
 
         Created By: Patrick and Harshul
     */
-	public function testgetBudgetForEachMonthCanBePulled(){
+	public function testgetBudgetStartsWithCurrentMonth(){
 		/*ToDo*/
-		$this->assertEquals(false,true);
+		$this
+            ->visit('/')
+            ->type('admin2@usc.edu', 'email')
+            ->type('123456', 'password')
+            ->press('Login')
+            ->seePageIs('/dashboard')
+            ->select('April','monthSelector');
 	}
 
-	/*
-        Parameters: None
+    public function testGetAllPossibleMonths(){
+        $this
+            ->visit('/')
+            ->type('admin2@usc.edu', 'email')
+            ->type('123456', 'password')
+            ->press('Login')
+            ->seePageIs('/dashboard')
+            ->select('February','monthSelector')
+            ->select('March','monthSelector')
+            ->select('April','monthSelector');
 
-        Description: Test if a month does not have a budget nothing is returned
+    }
 
-        Returns: Asserts if true or not
-
-        Created By: Patrick and Harshul
-    */
-	public function testgetBudgetForMonthWithoutBudget(){
-		/*ToDo*/
-		$this->assertEquals(false,true);
-	}
-
+	
     /*
         Parameters: None
 

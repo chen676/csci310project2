@@ -5,7 +5,8 @@ USE BudgetMe;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(45) NOT NULL,
-  `password` varchar(45) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `salt` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
@@ -42,8 +43,7 @@ CREATE TABLE `transactions` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 
-
-INSERT INTO `users`(`id`, `email`, `password`) VALUES (1, 'admin@usc.edu', '123456');
+INSERT INTO `users`(`id`, `email`, `password`, `salt`) VALUES (1, 'admin@usc.edu', '2E8053F788FAA26A4515F99B4D1DFCB01CEF12AF127524C192D61AF3DAB55E38', 'dccbb06ca68d5017c443e914d4ebb96eb36a1cb6576e');
 
 INSERT INTO `accounts` VALUES
 (1, 'Credit Card', 1),
@@ -64,7 +64,7 @@ INSERT INTO `budgets` VALUES
 (4, 'Bills', 0, 1, 'February'),
 (5, 'Other', 0, 1, 'February');
 
-INSERT INTO `users`(`id`, `email`, `password`) VALUES (2, 'guest@usc.edu', '123456');
+INSERT INTO `users`(`id`, `email`, `password`, `salt`) VALUES (2, 'guest@usc.edu', 'A2D8A1452A900A8E724371F9C86CE7BB81D0368D061050381AC0F583D69120F8', '0159b5d3cadb594f9f95a114c3874f5dd43d78531265');
 
 INSERT INTO `accounts` VALUES
 (6, 'Credit Card2', 2),
@@ -85,7 +85,7 @@ INSERT INTO `budgets` VALUES
 (9, 'Bills', 0, 2, 'February'),
 (10, 'Other', 0, 2, 'February');
 
-INSERT INTO `users`(`id`, `email`, `password`) VALUES (3, 'admin2@usc.edu', '123456');
+INSERT INTO `users`(`id`, `email`, `password`, `salt`) VALUES (3, 'admin2@usc.edu', '969CC5F5E5B831FFB98A2F7759D8D880BC99CD7FE8D7586687F09645937F7CA6', '0e80852da55fe2a1e246b9a4e8cd5f08223fe41915f9');
 
 INSERT INTO `transactions` VALUES
 (7, 'Deposit', 123.23, 'Landlord', '03/28/2016', 3),
@@ -95,7 +95,7 @@ INSERT INTO `transactions` VALUES
 (11, 'Food', -200.00, 'Landlord', '04/01/2016', 3);
 
 
-INSERT INTO `users`(`id`, `email`, `password`) VALUES (4, 'budgetSpentTester@usc.edu', '123456');
+INSERT INTO `users`(`id`, `email`, `password`, `salt`) VALUES (4, 'budgetSpentTester@usc.edu', '87017137305455935E266BBCC157286C9F1A9F3F1F93B90C557DE433EB4B4A2E', '4caac23abdacd0fe9ef696d2eeb17efe954199d79811');
 
 INSERT INTO `accounts` VALUES
 (11, 'Credit Card', 4),
