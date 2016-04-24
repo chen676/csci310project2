@@ -9,9 +9,9 @@ require("header.php");
 			<?php if (session('loginErrors')) : ?>
 				<div class="alert alert-danger">
 					<p>Email or password is incorrect. Please try again.</p>
-					<?php //if (session('loginErrors') >= 4) : ?>
+					<?php if (session('loginErrors') >= 4) : ?>
 						<p id="timeLeft"></p>
-					<?php //endif ?>
+					<?php endif ?>
 				</div>
 			<?php endif ?>
 			<div class="form-group">
@@ -44,7 +44,7 @@ require("header.php");
 
     function incTimer(){
         setTimeout (function(){
-            if(countdownNum != 0){
+            if(countdownNum > 0){
 	            countdownNum--;
 	            document.getElementById('timeLeft').innerHTML = 'You have tried to login too many times, please wait ' + countdownNum + ' seconds.';
 	            incTimer();
@@ -52,9 +52,11 @@ require("header.php");
             else {
             	document.getElementById('timeLeft').innerHTML = '';
 				//after 60 seconds from loading the page, reset login attempts to 0
+				<?php Session::put('loginErrors', 0); ?>
             }
         },1000);
     }
+
 </script>
 
 

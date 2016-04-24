@@ -39,8 +39,26 @@ Given(/^I wait (\d+) minute$/) do |arg1|
    sleep(65)
 end
 
+When(/^I do not successfully login 1 times$/) do
+   input = browser.find_element(:id, 'loginUserField')
+   input.send_keys('eafea')
+   input = browser.find_element(:id, 'loginPasswordField')
+   input.send_keys('132323')
+   input.submit()
+end
+
+Given(/^I do not successfully login 3 times$/) do
+   for i in 0..2
+      input = browser.find_element(:id, 'loginUserField')
+      input.send_keys('eafea')
+      input = browser.find_element(:id, 'loginPasswordField')
+      input.send_keys('132323')
+      input.submit()
+   end
+end
+
 When(/^I do not successfully login 4 times$/) do
-   for i in 0..4
+   for i in 0..3
       input = browser.find_element(:id, 'loginUserField')
       input.send_keys('eafea')
       input = browser.find_element(:id, 'loginPasswordField')

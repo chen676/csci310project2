@@ -33,3 +33,11 @@ Scenario: The user is able to login 1 minute after being blocked
   Given I wait 1 minute
   When I successfully login
   Then I am taken to the dashboard page
+
+Scenario: The user's failed login attempts is refreshed after 1 minute passes in between attempts
+  Given I am on the login page
+  Given I do not successfully login 3 times
+  Given I wait 1 minute
+  When I do not successfully login 1 times
+  When I successfully login
+  Then I am taken to the dashboard page
