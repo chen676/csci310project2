@@ -465,9 +465,19 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 					        <td>Budget</td>
 					        <td>
 					        	<select id="monthSelector">
+					        		<option value="January">January</option>
 					        		<option value="February">February</option>
 					        		<option value="March">March</option>
 					        		<option value="April" selected>April</option>
+					        		<option value="May">May</option>
+					        		<option value="June">June</option>
+					        		<option value="July">July</option>
+					        		<option value="August">August</option>
+					        		<option value="September">September</option>
+					        		<option value="October">October</option>
+					        		<option value="November">November</option>
+					        		<option value="December">December</option>
+
 					        	</select>
 					        </td>
 				        </tr>
@@ -484,39 +494,84 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 			           				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 									}
 		        				});
+		        				var selector = document.getElementById("monthSelector");
+		        				
+		        				var month = selector.options[selector.selectedIndex].value;
+		        				console.log("BEFORE: " + month);
 								$.ajax({ type: "POST",
                       					url: '/loadBudgets',
-                      					data:"",
+                      					data: {'month': month},
                       					dataType:'JSON',
-        						success: function(data){
-           							var resultset = data.budgetData;
-           							var colorData = data.colorData;
-           							$.each( resultset, function (i, row){
-           								//console.log(resultset[i].category);
-           								//insert rows after headers
-           								var row = table.insertRow(1);
-           								var cell1 = row.insertCell(0);
-           								var cell2 = row.insertCell(1);
-           								var currentCategory = row.category;
-           								//var cell3 = row.insertCell(2);
-           								var cell3 = row.insertCell(2); 
+	        						success: function(data){
+	           							var resultset = data.budgetData;
+	           							var colorData = data.colorData;
+	           							resultset.reverse();
+		           							$.each( resultset, function (i, row){
+	           								//console.log(resultset[i].category);
+	           								//insert rows after headers
+	           								var row = table.insertRow(1);
+	           								var cell1 = row.insertCell(0);
+	           								var cell2 = row.insertCell(1);
+	           								var currentCategory = row.category;
+	           								//var cell3 = row.insertCell(2);
+	           								var cell3 = row.insertCell(2); 
 
-           								//console.log(resultset[i].category);
-           								
-           								cell1.innerHTML = resultset[i].category;
-           								cell1.id = cell1.innerHTML + "_label";
-           								cell2.innerHTML = "$" + resultset[i].amount;
-           								cell2.id = cell1.innerHTML + "_amount";
-           								//change color based on transactions
-          								cell2.style = "color:"+colorData[resultset[i].category];
+	           								//console.log(resultset[i].category);
+	           								
+	           								cell1.innerHTML = resultset[i].category;
+	           								cell1.id = cell1.innerHTML + "_label";
+	           								cell2.innerHTML = "$" + resultset[i].amount;
+	           								cell2.id = cell1.innerHTML + "_amount";
+	           								//change color based on transactions
+	          								cell2.style = "color:"+colorData[resultset[i].category];
 
-           								//cell3.innerHTML = '<input type="text" class = "updatedBudget"> ';
-           								
-           								var innerHTML = '<input class = "updateBtn" type = "button" value = "Update" id = ' + cell1.innerHTML + "_button >";
-           								cell3.innerHTML = innerHTML;
-           							});
-        						}
-        					});
+	           								//cell3.innerHTML = '<input type="text" class = "updatedBudget"> ';
+	           								
+	           								var innerHTML = '<input class = "updateBtn" type = "button" value = "Update" id = ' + cell1.innerHTML + "_button >";
+	           								cell3.innerHTML = innerHTML;
+	           							});
+	        						}
+        						});
+							//different month selected
+							$(document).on('change', '#monthSelector', function(){
+								var selector = document.getElementById("monthSelector");
+		        				
+		        				var month = selector.options[selector.selectedIndex].value;
+		        				console.log("CHANGED_TO: " + month);
+								$.ajax({ type: "POST",
+                      					url: '/loadBudgets',
+                      					data: {'month': month},
+                      					dataType:'JSON',
+	        						success: function(data){
+	           							var resultset = data.budgetData;
+	           							var colorData = data.colorData;
+	           							var table = document.getElementById("budgetTable");
+	           							var rows = table.getElementsByTagName("tr");
+	           							$.each( resultset, function (i, row){
+	           								//console.log(resultset[i].category);
+	           								//insert rows after headers
+	           								var row = rows[i+1];
+	           								var cell1 = row.cells[0];
+	           								var cell2 = row.cells[1];
+	           								
+	           								//var cell3 = row.insertCell(2);
+	           								
+
+	           								//console.log(resultset[i].category);
+	           								
+	           								
+	           								cell2.innerHTML = "$" + resultset[i].amount;
+	           								cell2.id = cell1.innerHTML + "_amount";
+	           								//change color based on transactions
+	          								cell2.style = "color:"+colorData[resultset[i].category];
+
+	           								//cell3.innerHTML = '<input type="text" class = "updatedBudget"> ';
+	           								
+	           								
+	           							});
+	        						}
+        						});
+							});
 
     						//update button clicked
     						$(document).on('click', '.updateBtn', function(e) {
@@ -529,11 +584,14 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 								}
 
 								var category = target.substr(0, target.indexOf('_'));
+								var selector = document.getElementById("monthSelector");
+		        				
+		        				var month = selector.options[selector.selectedIndex].value;
 								$.ajax({ 
 									type: "POST",
               						url: '/updateBudget',
 	              					dataType:'json',
-	              					data: {'updated_amount':updated_amount, 'category' : category},
+	              					data: {'updated_amount':updated_amount, 'category' : category, 'month' : month},
 									success: function(data){
 										document.getElementById("budgetWidgetTextfield").value = "";
 										var amount = data.data;

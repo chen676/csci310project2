@@ -219,7 +219,7 @@ end
 
 Then(/^the budget for Food should still be \$100$/) do
    table = wait.until {browser.find_element(:id, "budgetTable")}
-   expect(table.text).to eq("Category Budget\nOther $0\nBills $0\nLoans $0\nRent $0\nFood $100")   
+   expect(table.text).to eq("Category Budget\nJanuary\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember\nFood $100\nRent $0\nLoans $0\nBills $0\nOther $0")   
 end
 
 When(/^the user inserts (.*) into the budget widget's textfield$/) do |input|
@@ -253,7 +253,7 @@ end
 
 Then(/^the budget has the correct totals displayed$/) do
    table = wait.until {browser.find_element(:id, 'budget')}
-   expect(table.text).to eq("Budget\nCategory Budget\nOther $0\nBills $0\nLoans $0\nRent $0\nFood $0")
+   expect(table.text).to eq("Budget\nCategory Budget\nJanuary\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember\nFood $0\nRent $0\nLoans $0\nBills $0\nOther $0")
 end
 
 Given(/^the user has accounts$/) do
@@ -414,9 +414,31 @@ Then(/^the timeout counter is reset$/) do
 end
 
 When(/^the user selects the budget for January$/) do
-   pending
+   monthSelector = wait.until {browser.find_element(:id, 'monthSelector')}
+   months = monthSelector.find_elements(tag_name: 'option')
+   months.each{|option| option.click if option.text == 'January'}
 end
 
 Then(/^the user should see the budget for January$/) do
-   pending
+   table = wait.until {browser.find_element(:id, "budgetTable")}
+   expect(table.text).to eq("Category Budget\nJanuary\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember\nFood $500\nRent $400\nLoans $300\nBills $200\nOther $100")
+end
+
+Given(/^the budget is prepped for January$/) do
+   monthSelector = wait.until {browser.find_element(:id, 'monthSelector')}
+   months = monthSelector.find_elements(tag_name: 'option')
+   months.each{|option| option.click if option.text == 'January'}
+   field = wait.until {browser.find_element(:id, "budgetWidgetTextfield")}
+   field.send_keys('100')
+   wait.until{browser.find_element(:id, 'Other' + '_button').click}
+   field.send_keys('200')
+   wait.until{browser.find_element(:id, 'Bills' + '_button').click}
+   field.send_keys('300')
+   wait.until{browser.find_element(:id, 'Loans' + '_button').click}
+   field.send_keys('400')
+   wait.until{browser.find_element(:id, 'Rent' + '_button').click}
+   field.send_keys('500')
+   wait.until{browser.find_element(:id, 'Food' + '_button').click}
+   months.each{|option| option.click if option.text == 'April'}
+
 end
