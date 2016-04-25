@@ -52,7 +52,7 @@ require("header.php");
             else {
             	document.getElementById('timeLeft').innerHTML = '';
 				//after 60 seconds from loading the page, reset login attempts to 0
-				<?php Session::put('loginErrors', 0); ?>
+				<?php //Session::put('loginErrors', 0); ?>
             }
         },1000);
     }
