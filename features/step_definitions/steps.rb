@@ -206,6 +206,7 @@ end
 
 When(/^the user inserts (.*) into the budget widget's textfield$/) do |input|
 	field = wait.until{browser.find_element(:id, 'budgetWidgetTextfield')}
+   field.clear();
    field.send_keys(input) 
 end
 
@@ -215,20 +216,26 @@ end
 
 Given(/^the (.*) budget is set to (.*)$/) do |category, amount|
    field = wait.until {browser.find_element(:id, "budgetWidgetTextfield")}
+   field.clear();
    field.send_keys(amount)
 	wait.until{browser.find_element(:id, category + '_button').click}
 end
 
 Given(/^the budget is cleared$/) do
    field = wait.until {browser.find_element(:id, "budgetWidgetTextfield")}
+   field.clear();
    field.send_keys('0')
 	wait.until{browser.find_element(:id, 'Other' + '_button').click}
+   field.clear();
 	field.send_keys('0')
 	wait.until{browser.find_element(:id, 'Bills' + '_button').click}
+   field.clear();
 	field.send_keys('0')
 	wait.until{browser.find_element(:id, 'Loans' + '_button').click}
+   field.clear();
 	field.send_keys('0')
 	wait.until{browser.find_element(:id, 'Rent' + '_button').click}
+   field.clear();
 	field.send_keys('0')
 	wait.until{browser.find_element(:id, 'Food' + '_button').click}
 end
@@ -356,9 +363,11 @@ Then(/^the graph should not change$/) do
 end
 
 Then(/^the budget has the correct colors$/) do
-   field = wait.until{browser.find_element(:id, 'budgetWidgetTextfield')}   
+   field = wait.until{browser.find_element(:id, 'budgetWidgetTextfield')}
+   field.clear();   
    field.send_keys('400.54')
    wait.until{browser.find_element(:id, 'Food' + '_button').click}
+   field.clear();
    field.send_keys('9999')
    wait.until{browser.find_element(:id, 'Other' + '_button').click}
 
@@ -405,14 +414,19 @@ Given(/^the budget is prepped for January$/) do
    months = monthSelector.find_elements(tag_name: 'option')
    months.each{|option| option.click if option.text == 'January'}
    field = wait.until {browser.find_element(:id, "budgetWidgetTextfield")}
+   field.clear();
    field.send_keys('100')
    wait.until{browser.find_element(:id, 'Other' + '_button').click}
+   field.clear();
    field.send_keys('200')
    wait.until{browser.find_element(:id, 'Bills' + '_button').click}
+   field.clear();
    field.send_keys('300')
    wait.until{browser.find_element(:id, 'Loans' + '_button').click}
+   field.clear();
    field.send_keys('400')
    wait.until{browser.find_element(:id, 'Rent' + '_button').click}
+   field.clear();
    field.send_keys('500')
    wait.until{browser.find_element(:id, 'Food' + '_button').click}
    months.each{|option| option.click if option.text == 'April'}
