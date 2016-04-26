@@ -543,6 +543,8 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 	          								cell3.innerHTML = "$" + sum;
 	           								var innerHTML = '<input class = "updateBtn" type = "button" value = "Update" id = ' + cell1.innerHTML + "_button >";
 	           								cell4.innerHTML = innerHTML;
+	           								cell3.id = cell1.innerHTML + "_spent";
+
 	           							});
 	        						}
         						});
@@ -562,12 +564,24 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 	           							var table = document.getElementById("budgetTable");
 	           							var rows = table.getElementsByTagName("tr");
 	           							$.each( resultset, function (i, row){
+
+		           							var tt = data.colorData[resultset[i].category];
+		           							var sum = tt.substring(1);
+		           							tt = tt[0];
+		           							var colorString = "Red";
+		           							if(tt == "R")
+		           								colorString = "Red";
+		           							if(tt == "G")
+		           								colorString = "Green";
+		           							if(tt == "Y")
+		           								colorString = "Yellow"; 
+
 	           								//console.log(resultset[i].category);
 	           								//insert rows after headers
 	           								var row = rows[i+1];
 	           								var cell1 = row.cells[0];
 	           								var cell2 = row.cells[1];
-	           								
+	           								var cell3 = row.cells[2];
 	           								//var cell3 = row.insertCell(2);
 	           								
 
@@ -577,11 +591,10 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 	           								cell2.innerHTML = "$" + resultset[i].amount;
 	           								cell2.id = cell1.innerHTML + "_amount";
 	           								//change color based on transactions
-	          								cell2.style = "color:"+colorData[resultset[i].category];
+	          								cell2.style = "color:"+colorString;
 
 	           								//cell3.innerHTML = '<input type="text" class = "updatedBudget"> ';
-	           								
-	           								
+	           								cell3.innerHTML = "$" + sum;
 	           							});
 	        						}
         						});
@@ -638,7 +651,21 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 										var element =category + "_amount";
 										//console.log("element:" + element);
 										document.getElementById(element).innerHTML = "$" + amount;
-										document.getElementById(element).style = "color:" + data.color;
+
+										var tt = data.color;
+		           						var sum = tt.substring(1);
+		           						var tt = data.color[0];
+		           						var colorString = "Red";
+	           							if(tt == "R")
+	           								colorString = "Red";
+	           							if(tt == "G")
+	           								colorString = "Green";
+	           							if(tt == "Y")
+	           								colorString = "Yellow"; 
+
+										document.getElementById(element).style = "color:" + colorString;
+										alert(sum);
+										document.getElementById(category + "_spent").innerHTML = "$" + sum;
 									}	
     							});
 								
