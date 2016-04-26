@@ -39,10 +39,6 @@ class BudgetController extends Controller
         $month = $_POST['month'];
 
         $user_budgets = DB::select('select * from budgets where user_id = :user_id and month = :month', ['user_id' => $user_id, 'month' => $month]);
-		    //$user_list = DB::select('select * from users');
-       	//echo ($request['data']);
-
-       	//return $users;
 
         $categoryColors = ["Other" => "Green",
                            "Bills" => "Green",
@@ -50,7 +46,7 @@ class BudgetController extends Controller
                            "Rent" => "Green",
                            "Food" => "Green"];
         foreach($user_budgets as $budget){
-          $categoryColors[$budget->category] = $this->getColorForBudgetTransactions($budget->category, $budget->amount);
+          $categoryColors[$budget->category] = $this->getColorForBudgetTransactions($budget->category, $budget->amount, $month);
         }
 
         $returnVal = ['budgetData' => $user_budgets,
@@ -78,7 +74,7 @@ class BudgetController extends Controller
         DB::update('update budgets set amount = :updated_amount where user_id = :user_id and category = :category and month = :month', ['updated_amount' => $updated_amount, 'user_id' => $user_id, 'category' => $category, 'month' => $month ]);
         //get potential new color
 
-        $newColor = $this->getColorForBudgetTransactions($category, $updated_amount);
+        $newColor = $this->getColorForBudgetTransactions($category, $updated_amount, $month);
         $returnVal = ["data" => $updated_amount, "color" => $newColor];
         return json_encode($returnVal);
       }
@@ -94,16 +90,16 @@ class BudgetController extends Controller
         
         Created By: Rebecca and Paul
     */
-    public function getColorForBudgetTransactions($categoryName, $currentBudget){
+    public function getColorForBudgetTransactions($categoryName, $currentBudget, $budgetMonth){
         $user = Session::get('user');
         $user_id = $user -> id;  
-        $sum = $this->sumCategoryTransaction($user_id, $categoryName);
+        $sum = $this->sumCategoryTransaction($user_id, $categoryName, $budgetMonth);
         if($sum > $currentBudget)
-          return "Red";
+          return "R" . $sum;
         else if($sum == $currentBudget)
-          return "Yellow";
+          return "Y" . $sum;
         else
-          return "Green";
+          return "G" . $sum;
     }
 
     /*
@@ -114,7 +110,7 @@ class BudgetController extends Controller
         return: returns a float, the total sum of transactions
         written by: Rebecca/Paul
     */
-    public function sumCategoryTransaction($id, $cat){
+    public function sumCategoryTransaction($id, $cat, $budgetMonth){
         //need to build a list of all accounts tied to the user
         $sum = 0.00;
         $accounts = Account::where('user_id', '=', $id)->get();
@@ -124,12 +120,44 @@ class BudgetController extends Controller
             ->where('account_id', '=', $acc['id'])->get();
 
             foreach($transactions as $trans){
-                if($trans['amount'] <= 0) //only negative numbers count as spending
-                  $sum += $trans['amount'];
+                if($trans['amount'] <= 0){ //only negative numbers count as spending
+                    $date = $trans['date'];
+                    $newDate = explode('/', $date);
+                    $budgetNewDate = '0';
+                    if($budgetMonth == 'January')
+                        $budgetNewDate = '01';
+                    if($budgetMonth == 'February')
+                        $budgetNewDate = '02';
+                    if($budgetMonth == 'March')
+                        $budgetNewDate = '03';
+                    if($budgetMonth == 'April')
+                        $budgetNewDate = '04';
+                    if($budgetMonth == 'May')
+                        $budgetNewDate = '05';
+                    if($budgetMonth == 'June')
+                        $budgetNewDate = '06';
+                    if($budgetMonth == 'July')
+                        $budgetNewDate = '07';
+                    if($budgetMonth == 'August')
+                        $budgetNewDate = '08';
+                    if($budgetMonth == 'September')
+                        $budgetNewDate = '09';
+                    if($budgetMonth == 'October')
+                        $budgetNewDate = '10';
+                    if($budgetMonth == 'November')
+                        $budgetNewDate = '11';
+                    if($budgetMonth == 'December')
+                        $budgetNewDate = '12';
+                    if($newDate[0] == $budgetNewDate){
+                        $sum += $trans['amount'];
+                    }
+                }
             }
         }
         $sum = round( $sum, 2, PHP_ROUND_HALF_UP);
-        return -1 * $sum;
+        if($sum != 0)
+            $sum = -1 * $sum;
+        return $sum;
     }
 }
 

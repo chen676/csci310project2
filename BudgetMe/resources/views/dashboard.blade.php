@@ -463,6 +463,7 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 				        <tr>
 					        <td>Category</td>
 					        <td>Budget</td>
+					        <td>Spent</td>
 					        <td>
 					        	<select id="monthSelector">
 					        		<option value="January">January</option>
@@ -505,8 +506,21 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 	        						success: function(data){
 	           							var resultset = data.budgetData;
 	           							var colorData = data.colorData;
+
 	           							resultset.reverse();
 		           							$.each( resultset, function (i, row){
+
+		           							var tt = data.colorData[resultset[i].category];
+		           							var sum = tt.substring(1);
+		           							tt = tt[0];
+		           							var colorString = "Red";
+		           							if(tt == "R")
+		           								colorString = "Red";
+		           							if(tt == "G")
+		           								colorString = "Green";
+		           							if(tt == "Y")
+		           								colorString = "Yellow"; 
+
 	           								//console.log(resultset[i].category);
 	           								//insert rows after headers
 	           								var row = table.insertRow(1);
@@ -514,7 +528,8 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 	           								var cell2 = row.insertCell(1);
 	           								var currentCategory = row.category;
 	           								//var cell3 = row.insertCell(2);
-	           								var cell3 = row.insertCell(2); 
+	           								var cell3 = row.insertCell(2);
+	           								var cell4 = row.insertCell(3); 
 
 	           								//console.log(resultset[i].category);
 	           								
@@ -523,12 +538,11 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 	           								cell2.innerHTML = "$" + resultset[i].amount;
 	           								cell2.id = cell1.innerHTML + "_amount";
 	           								//change color based on transactions
-	          								cell2.style = "color:"+colorData[resultset[i].category];
-
-	           								//cell3.innerHTML = '<input type="text" class = "updatedBudget"> ';
+	          								cell2.style = "color:"+colorString;
 	           								
+	          								cell3.innerHTML = "$" + sum;
 	           								var innerHTML = '<input class = "updateBtn" type = "button" value = "Update" id = ' + cell1.innerHTML + "_button >";
-	           								cell3.innerHTML = innerHTML;
+	           								cell4.innerHTML = innerHTML;
 	           							});
 	        						}
         						});
