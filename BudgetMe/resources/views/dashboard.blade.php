@@ -575,6 +575,31 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 
     						//update button clicked
     						$(document).on('click', '.updateBtn', function(e) {
+    							var selector = document.getElementById("monthSelector");
+		        				var month = selector.options[selector.selectedIndex].value;
+		        				var selectedMonth = month + '';
+
+		        				var date = new Date();
+		        				var currMonth = date.getMonth();
+		        				var months = new Array();
+		        				months[0] = "January";
+		        				months[1] = "February";
+		        				months[2] = "March";
+		        				months[3] = "April";
+		        				months[4] = "May";
+		        				months[5] = "June";
+		        				months[6] = "July";
+		        				months[7] = "August";
+		        				months[8] = "September";
+		        				months[9] = "October";
+		        				months[10] = "November";
+		        				months[11] = "December";
+		        				console.log("Selected Month: "+ selectedMonth + " Current Month: "+ months[currMonth]);
+		        				
+		        				if(selectedMonth !== months[currMonth]){
+		        					console.log("Selected is not current!");
+		        					return;
+		        				}
     							var target = e.target.id;
     							//console.log( target);
     							var updated_amount = document.getElementById("budgetWidgetTextfield").value;
