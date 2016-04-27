@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'selenium-webdriver'
 browser = Selenium::WebDriver.for(:firefox)
-wait = Selenium::WebDriver::Wait.new(:timeout => 300)
+wait = Selenium::WebDriver::Wait.new(:timeout => 200)
 
 Given(/^I am on the login page$/) do
    browser.get('http://localhost')
