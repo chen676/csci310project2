@@ -219,7 +219,7 @@ end
 
 Then(/^the budget for Food should still be \$100$/) do
    table = wait.until {browser.find_element(:id, "budgetTable")}
-   expect(table.text).to eq("Category Budget\nJanuary\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember\nFood $100\nRent $0\nLoans $0\nBills $0\nOther $0")   
+   expect(table.text).to eq("Category Budget Spent\nJanuary\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember\nFood $100 $200\nRent $0 $1020.57\nLoans $0 $50.11\nBills $0 $0\nOther $0 $80.11")   
 end
 
 When(/^the user inserts (.*) into the budget widget's textfield$/) do |input|
@@ -260,7 +260,7 @@ end
 
 Then(/^the budget has the correct totals displayed$/) do
    table = wait.until {browser.find_element(:id, 'budget')}
-   expect(table.text).to eq("Budget\nCategory Budget\nJanuary\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember\nFood $0\nRent $0\nLoans $0\nBills $0\nOther $0")
+   expect(table.text).to eq("Budget\nCategory Budget Spent\nJanuary\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember\nFood $0 $200\nRent $0 $1020.57\nLoans $0 $50.11\nBills $0 $0\nOther $0 $80.11")
 end
 
 Given(/^the user has accounts$/) do
@@ -392,7 +392,7 @@ Then(/^the budget has the correct colors$/) do
    amount = wait.until{browser.find_element(:id, 'Other_amount')}
    expect(amount.attribute("style")).to eq("color: Green;");
    amount = wait.until{browser.find_element(:id, 'Food_amount')}
-   expect(amount.attribute("style")).to eq("color: Yellow;");
+   expect(amount.attribute("style")).to eq("color: Green;");
 end
 
 When(/^the user clicks the graph update button$/) do
@@ -430,7 +430,8 @@ end
 
 Then(/^the user should see the budget for January$/) do
    table = wait.until {browser.find_element(:id, "budgetTable")}
-   expect(table.text).to eq("Category Budget\nJanuary\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember\nFood $500\nRent $400\nLoans $300\nBills $200\nOther $100")
+   expect(table.text).to eq("Category Budget Spent\nJanuary\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember\nFood $0 $0\nRent $0 $0\nLoans $0 $0\nBills $0 $0\nOther $0 $0"
+)
 end
 
 Given(/^the budget is prepped for January$/) do
@@ -456,3 +457,8 @@ Given(/^the budget is prepped for January$/) do
    months.each{|option| option.click if option.text == 'April'}
 
 end
+
+Then(/^there is no negative zero$/) do
+   table = wait.until {browser.find_element(:id, "budgetTable")}
+   expect(table.text).to eq("Category Budget Spent\nJanuary\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember\nFood $0 $0\nRent $0 $0\nLoans $0 $0\nBills $0 $0\nOther $0 $0")
+   end

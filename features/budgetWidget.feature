@@ -38,3 +38,9 @@ Scenario: The user should be able to see the budget for a selected month
 	Given the budget is prepped for January
 	When the user selects the budget for January
 	Then the user should see the budget for January
+
+Scenario: There should be no negative zero when the budget displays 0
+	Given there is a budget
+	Given the budget is prepped for January
+	When the user selects the budget for January
+	Then there is no negative zero
