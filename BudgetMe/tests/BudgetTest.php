@@ -93,11 +93,11 @@ class BudgetTest extends TestCase
         $budgetController = new BudgetController();
 
         //pull these with the function
-        $otherSpending = $budgetController -> sumCategoryTransaction(4, 'Other');
-        $billSpending = $budgetController -> sumCategoryTransaction(4, 'Bills');
-        $loansSpending =  $budgetController -> sumCategoryTransaction(4, 'Loans');
-        $rentSpending =  $budgetController -> sumCategoryTransaction(4, 'Rent');
-        $foodSpending =  $budgetController -> sumCategoryTransaction(4, 'Food');
+        $otherSpending = $budgetController -> sumCategoryTransaction(4, 'Other', 'March');
+        $billSpending = $budgetController -> sumCategoryTransaction(4, 'Bills', 'March');
+        $loansSpending =  $budgetController -> sumCategoryTransaction(4, 'Loans', 'March');
+        $rentSpending =  $budgetController -> sumCategoryTransaction(4, 'Rent', 'March');
+        $foodSpending =  $budgetController -> sumCategoryTransaction(4, 'Food', 'March');
 
 
         //these values will be fixed in sql for the test user

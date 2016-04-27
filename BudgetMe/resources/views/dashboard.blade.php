@@ -664,7 +664,7 @@ Edited by: Brandon and Patrick, Matt and Harhsul (aka all team members)
 	           								colorString = "Yellow"; 
 
 										document.getElementById(element).style = "color:" + colorString;
-										alert(sum);
+										// alert(sum);
 										document.getElementById(category + "_spent").innerHTML = "$" + sum;
 									}	
     							});
